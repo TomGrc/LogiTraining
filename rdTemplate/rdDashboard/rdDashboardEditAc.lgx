@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report ID="rdDashboardEditAc" Class="rdAcBackground" >
+  <StyleSheet StyleSheet="rdTemplate/rdDashboard/rdDashboard2.css"/>
+  <DefinitionModifierFile DefinitionModifierFile="@Session.rdEditAgVizTemplateModifierFile~" />
+  <Body>
+    <DashboardEditAgViz >
+    </DashboardEditAgViz>
+    <Division Class="rdDoneAlignRight">
+      <LineBreak />
+      <Label ID="lblSave" Caption="Save" Class="ThemeLinkButton" >
+        <Action Type="Javascript" ID="actSaveEditedAgViz" Javascript="rdSaveEditedAgViz('--ReportID--','AnalysisChart','--PanelID--','--InstanceID--','--BookmarkID--');"></Action>
+      </Label>
+      <InputHidden ID="rdDefInDataCache" DefaultValue="True" />
+    </Division>
+    <AnalysisChart ID="rdDashboardEditAc" AllowControlHiding="False" ControlPanelLocation="Top" >
+      <DataForecast/>
+    </AnalysisChart>
+
+  </Body>
+</Report>

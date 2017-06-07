@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ID="rdAg101010dataHelpCalc" SavedBy="LOGIXML\clifton" SavedAt="3/4/2016 7:48:16 PM" EngineVersion="12.1.132-T">
+  <StyleSheet StyleSheet="rdTemplate/rdAnalysisGrid/rdAg10Style.css" />
+  <StyleSheet StyleSheet="@Request.rdAgStyleSheet~" />
+  <Body Class="rdAg">
+    <Rows ID="rowsAnalysisGrid" CellSpacing="4">
+      <Row ID="rowTitle" Class="rdAgCaptionRow">
+        <Column ID="colTitle">
+          <Label ID="lblTitle" Caption="Formula Help - MySQL" />
+        </Column>
+      </Row>
+      <Row ID="rowInstruct">
+        <Column ID="colInstruct">
+          <Label ID="lblInstruct" Caption="Formulas are expressions made up of data columns, constants, functions, and operators.&#xD;&#xA;						   &#xD;&#xA;Columns are values that come from the data.  Their names are are enclosed in square brackets, like [ShippedDate].  Depending on their data type, they may be used as text strings, numbers, and date/time values.&#xD;&#xA;&#xD;&#xA;Constants are simply specific fixed values that you enter into a Formula.&#xD;&#xA;&#xD;&#xA;Functions return values, usually computations based on columns and constants.&#xD;&#xA;&#xD;&#xA;Operators do arithmetic and logical comparisons. Logical comparisons must be used with Case statements.&#xD;&#xA;&#xD;&#xA;Here are some examples:&#xD;&#xA;&#xD;&#xA;[UnitPrice] * [Quantity]&#xD;&#xA;Multiply two data columns, UnitPrice and Quantity, to make an ExtendedPrice column.&#xD;&#xA;&#xD;&#xA;[UnitPrice] * .04&#xD;&#xA;Multiply a data column by an constant value to calculate the tax applied to the price.&#xD;&#xA;&#xD;&#xA;Days([OrderDate], [ShippedDate] )&#xD;&#xA;Get the number of days from the order to the shipment.&#xD;&#xA;&#xD;&#xA;Splice('[LastName] , [FirstName]','')&#xD;&#xA;Concatenate columns and strings together.  This might return: Smith, John&#xD;&#xA;&#xD;&#xA;UpperCase( Splice('[LastName] , ', ', [FirstName]','') )&#xD;&#xA;Convert to upper case.  This might return: SMITH, JOHN" Format="Preserve Line Feeds" />
+          <LineBreak LineCount="2" />
+        </Column>
+      </Row>
+      <Row ID="rowFunctions" Class="rdAgCaptionRow">
+        <Column ID="colFunctions">
+          <Label ID="lblFunctions" Caption="Functions" />
+        </Column>
+      </Row>
+      <Row ID="rowFunctionsDetail">
+        <Column ID="colFunctions">
+          <Label ID="lblFunctions" Caption="Functions accept some number of values and return a single value." Format="Preserve Line Feeds" />
+          <LineBreak LineCount="2" />
+          <DataTable ID="dtFunctions" CellSpacing="0" TableBorder="1">
+            <DataLayer Type="Static" ID="dlFunctions">
+              <StaticDataRow Name="Abs" Description="Returns the absolute value of a number." Syntax="Abs(number)" Notes="The absolute value of -5 is 5." />
+              <StaticDataRow Name="ColUnion" Description="Returns a string consisting of the union of values from a given set of columns concatenated together using the specified separator, sorted in ascending order." Syntax="ColUnion('column1 column2 column3',delimiter)" Notes="Numeric values are automatically converted to text." />
+              <StaticDataRow Name="Day" Description="Returns the day of the month.  Possible return values are from 1-31." Syntax="Day(date1)" Notes="" />
+              <StaticDataRow Name="DayOfWk" Description="Returns the integer value corresponding to the day of the week of a date-related value. Possible return values are 0-6." Syntax="DayOfWk(date)" Notes="0 = Monday" />
+              <StaticDataRow Name="Days" Description="Returns the number of days between two date-related values." Syntax="Days(date1,date2)" Notes="" />
+              <StaticDataRow Name="Firstdate" Description="Returns the date of the first day of the period specified by a date-related value." Syntax="Firstdate(date)" Notes="A value in the form month, quarter or year" />
+              <Remark>
+                <StaticDataRow Name="FormatPercent" Description="Formats a number as a percentage." Syntax="Splice('Round(number,2),'%')" Notes="" />
+              </Remark>
+              <StaticDataRow Name="Hour" Description="Returns the hour of the day.  Possible return values are 0-23." Syntax="Hour(date)" Notes="" />
+              <StaticDataRow Name="Int" Description="Returns the largest integer less than or equal to the given value, expressed as an integer number." Notes="" Syntax="Int(floatValue)" />
+              <StaticDataRow Name="Julian" Description="Compute the number of days until the Julian epoch date of 2035" Syntax="Julian(date)" Notes="Only dates considered  See the following for more information https://www2.1010data.com/documentationcenter/prod/1010dataReferenceManual/index_frames.html" />
+              <StaticDataRow Name="Lastdate" Description="Returns the date of the last day of the period specified by a date-related value." Syntax="Lastdate(date)" Notes="A value in the form month, quarter or year" />
+              <StaticDataRow Name="LowerCase" Description="Converts all characters to lower case." Syntax="LowerCase(text)" Notes="" />
+              <StaticDataRow Name="Left" Description="Returns the &quot;length&quot; number of characters from the left side of the input text." Syntax="Left(text,length)" Notes="" />
+              <StaticDataRow Name="Max" Description="Max returns the maximum value of column" Syntax="Max(val1)" Notes="Returns an integer or decimal number" />
+              <StaticDataRow Name="Min" Description="Min returns the minimum value of column" Syntax="Min(val1)" Notes="Returns an integer or decimal number" />
+              <StaticDataRow Name="Minute" Description="Returns the minute of the hour.  Possible return values are 0-59." Syntax="Minute(date)" Notes="" />
+              <Remark>
+                <StaticDataRow Name="Mod" Description="Returns the modulo of two given values." Syntax="Mod(val1,val2)" Notes="Returns an integer or decimal number" />
+              </Remark>
+              <StaticDataRow Name="Month" Description="Returns month portion of a date" Syntax="Month(date)" Notes="" />
+              <StaticDataRow Name="Periods" Description="Returns the number of days, months, quarters, or years between two date-related values, depending on the types of those values." Syntax="Periods(date1,date2)" Notes="A date, month, quarter, year or datetime can be specified" />
+              <StaticDataRow Name="Quarter" Description="Returns the quarter corresponding to a date-related value." Syntax="Quarter(date)" Notes="" />
+              <StaticDataRow Name="Real" Description="Returns the given value expressed as a decimal number." Syntax="Real(value)" Notes="" />
+              <StaticDataRow Name="Repstr" Description="Returns the given string with substrings replaced based on a given list of string pairs." Syntax="Repstr(column,'value1 value2')" Notes="The values to be replaced have to be enclosed in single quotes. If a string literal is used then two single quotes have to enclose the string on both sides(i.e. '''oldval'' ''newval''')." />
+              <StaticDataRow Name="Right" Description="Returns the &quot;length&quot; number of characters from the right side of the input text." Syntax="RIGHT(text,length)" Notes="" />
+              <StaticDataRow Name="Round" Description="Round X to nearest multiple of Y" Syntax="Round(numeric_expression, multiple)" Notes="X=149.456, Y=.01, Result=149.46    149.456, Y=5,   Result=150" />
+              <StaticDataRow Name="sDayofWk" Description="Returns the abbreviated name of the day corresponding to the weekday number." Syntax="sDayOfWk(date)" Notes="" />
+              <StaticDataRow Name="Second" Description="Returns the seconds portion of a time-related value." Syntax="Second(time)" Notes="Possible values are 0-59" />
+              <StaticDataRow Name="Shift" Description="Adds or subtracts the number of days from a date or datetime" Syntax="Shift(date,number of days)" Notes="More help available at https://www2.1010data.com/documentationcenter/prod/1010dataReferenceManual/index_frames.html" />
+              <StaticDataRow Name="Splice" Description="Returns a string consisting of the list of given values concatenated together using the specified separator." Syntax="Splice('value1 value2',delimiter)" Notes="The values to be concatenated have to be enclosed in single quotes. If no delimeter is desired then supply an empty string with two single quotes" />
+              <StaticDataRow Name="Sqrt" Description="Returns the square root of a number." Syntax="Sqrt(number)" Notes="" />
+              <StaticDataRow Name="StrReverse" Description="Returns the characters, or the elements delimited by a particular value, of a given string in reverse." Syntax="StrReverse(text, delimiter)" Notes="value 'apple,banana,cherimoya  delimiter ',' strreverse(value, delimiter)  'cherimoya,banana,apple'" />
+              <StaticDataRow Name="StrSplitPos" Description="Returns the position of a certain element delimited by a particular value within a given string." Syntax="strsplitpos(text,text_to_search,instance)" Notes="To get the first instance specify -1 in the instance field." />
+              <StaticDataRow Name="StrTrim" Description="Returns the given string with certain characters trimmed from either or both ends." Syntax="StrTrim(X;Y;C;D)" Notes="A simple example to remove leading and trailing spaces would be strtrim(text,' ',0,0)" />
+              <StaticDataRow Name="UpperCase" Description="Converts all characters to upper case." Syntax="UpperCase(text)" Notes="" />
+              <StaticDataRow Name="Width" Description="Returns the string length of the input value." Syntax="Width(text)" Notes="" />
+              <StaticDataRow Name="Year" Description="Return the year portion of a date" Syntax="Year(date)" Notes="" />
+            </DataLayer>
+            <DataTableColumn ID="colName" Header="Function Name" Class="cell" Width="100">
+              <Label ID="lblName" Caption="@Data.Name~" />
+              <Label ID="lblSpace" Caption="&amp;nbsp;" Format="HTML" />
+            </DataTableColumn>
+            <DataTableColumn ID="colDescription" Header="Description" Class="cell" Width="300">
+              <Label ID="lblDescription" Caption="@Data.Description~" Format="Preserve Line Feeds" />
+              <Label ID="lblSpace" Caption="&amp;nbsp;" Format="HTML" />
+            </DataTableColumn>
+            <DataTableColumn ID="colSyntax" Header="Syntax" Class="cell" Width="300">
+              <Label ID="lblSyntax" Caption="@Data.Syntax~" Format="Preserve Line Feeds" />
+              <Label ID="lblSpace" Caption="&amp;nbsp;" Format="HTML" />
+            </DataTableColumn>
+            <DataTableColumn ID="colNotes" Header="Notes" Class="cell">
+              <Label ID="lblNotes" Caption="@Data.Notes~" Format="Preserve Line Feeds" />
+              <Label ID="lblSpace" Caption="&amp;nbsp;" Format="HTML" />
+            </DataTableColumn>
+          </DataTable>
+          <LineBreak LineCount="2" />
+          <Label ID="lblFunctions" Caption="In the Syntax column, parameters in square brackets are optional." />
+          <LineBreak LineCount="2" />
+        </Column>
+      </Row>
+      <Row ID="rowOperators" Class="rdAgCaptionRow">
+        <Column ID="colOperators">
+          <Label ID="lblOperators" Caption="Operators" />
+        </Column>
+      </Row>
+      <Row ID="rowOperatorsDetail">
+        <Column ID="colOperators">
+          <Label ID="lblIntro" Caption="Operators do arithmetic and logical comparisons." />
+          <LineBreak LineCount="2" />
+          <DataTable ID="dtOperators" CellSpacing="0" TableBorder="1">
+            <DataLayer Type="Static" ID="dlFunctions">
+              <StaticDataRow Operator="-" Description="Negation" />
+              <StaticDataRow Description="Exponentiation" Operator="^" />
+              <StaticDataRow Operator="*" Description="Multiplication" />
+              <StaticDataRow Operator="/" Description="Division" />
+              <StaticDataRow Operator="Mod" Description="Modulus: Mod( m, n )" />
+              <StaticDataRow Operator="+" Description="Addition" />
+              <StaticDataRow Operator="-" Description="Subtraction" />
+              <StaticDataRow Operator="=" Description="Equals" />
+              <StaticDataRow Operator="&lt;&gt;" Description="Not Equals" />
+              <StaticDataRow Operator="&lt;" Description="Less Than" />
+              <StaticDataRow Operator="&gt;" Description="Greater Than" />
+              <StaticDataRow Operator="&lt;=" Description="Less Than or Equal To" />
+              <StaticDataRow Operator="&gt;=" Description="Greater Than or Equal To" />
+            </DataLayer>
+            <DataTableColumn ID="colOperator" Header="Operator" Class="cell">
+              <Label ID="lblOperator" Caption="@Data.Operator~" />
+              <Label ID="lblSpace" Caption="&amp;nbsp;" Format="HTML" />
+            </DataTableColumn>
+            <DataTableColumn ID="colDescription" Header="Description" Class="cell">
+              <Label ID="lblDescription" Caption="@Data.Description~" />
+              <Label ID="lblSpace" Caption="&amp;nbsp;" Format="HTML" />
+            </DataTableColumn>
+          </DataTable>
+          <LineBreak LineCount="2" />
+        </Column>
+      </Row>
+      <Row ID="rowOtherNotes" Class="rdAgCaptionRow">
+        <Column ID="colOtherNotes">
+          <Label ID="lblOtherNotes" Caption="Other Notes of Interest" />
+        </Column>
+      </Row>
+      <Row ID="rowOtherNotes">
+        <Column ID="colOtherNotes">
+          <Label ID="lblInstruct" Caption="You may represent true and false values as True and False." Format="Preserve Line Feeds" />
+          <LineBreak LineCount="2" />
+        </Column>
+      </Row>
+    </Rows>
+  </Body>
+  <ideTestParams rdAgStyleSheet="" />
+</Report>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	ID="SharedElements"
+	>
+	<Note
+		Note="Report to keep all shared elements in one place."
+	/>
+	<SharedElement
+		ID="shareMenu"
+		>
+		<MasterReport
+			Report="SideMenu"
+		/>
+	</SharedElement>
+	<SharedElement
+		ID="sharedPinDown"
+		>
+		<Action
+			ElementID="HeatmapChartCanvas2"
+			ID="refreshKPI"
+			Type="RefreshElement"
+			>
+			<LinkParams
+				KPIdimension="@Chart.dimension~"
+				KPIselection="@Chart.id~"
+			/>
+			<WaitPage/>
+		</Action>
+	</SharedElement>
+	<ideTestParams/>
+</Report>

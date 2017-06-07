@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	ID="ModalWindow"
+	>
+	<IncludeSharedElement
+		DefinitionFile="SharedElements"
+		ID="sharedMenu"
+		SharedElementID="shareMenu"
+	/>
+	<Body/>
+</Report>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report ID="rdDashboardEditTable" Class="rdAgBackground" >
+  <StyleSheet StyleSheet="rdTemplate/rdDashboard/rdDashboard2.css"/>
+  <DefinitionModifierFile DefinitionModifierFile="@Session.rdEditAgVizTemplateModifierFile~" />
+  <Body>
+    <DashboardEditAgViz >
+    </DashboardEditAgViz>
+    <Division Class="rdDoneAlignRight">
+      <LineBreak />
+      <Label ID="lblSave" Caption="Save" Class="ThemeLinkButton" >
+        <Action Type="Javascript" ID="actSaveEditedAgViz" Javascript="rdSaveEditedAgViz('--ReportID--','AgTable','--PanelID--','--InstanceID--','--BookmarkID--');"></Action>
+      </Label>
+      <InputHidden ID="rdDefInDataCache" DefaultValue="True" />
+    </Division>
+    <AnalysisGrid ID="rdDashboardEditAgTable" HideAgCalc="True" HideAgChart="True" HideAgCrosstab="True" HideAgExport="True" HideAgFilter="True" >
+    </AnalysisGrid>
+    
+    <IncludeHtml Html="&lt;STYLE&gt;&#xD;&#xA;#rowsAnalysisGrid {&#xD;&#xA;  display: none; &#xD;&#xA;}&#xD;&#xA;&lt;/STYLE&gt;" />
+    <Note Note="Hide the heading, and show the table editing controls." />
+    <IncludeScript IncludedScript="document.getElementById(&quot;rowContentTableHeading&quot;).style.display=&quot;none&quot;&#xD;&#xA;document.getElementById(&quot;rowTableMenu&quot;).style.display=&quot;&quot;&#xD;&#xA;document.getElementById(&quot;rowsTable&quot;).style.padding=&quot;0px&quot;&#xD;&#xA;document.getElementById(&quot;rowsTable&quot;).style.border=&quot;0px&quot;" />
+  </Body>
+</Report>

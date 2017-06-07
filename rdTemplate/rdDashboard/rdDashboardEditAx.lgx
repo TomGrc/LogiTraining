@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report ID="rdDashboardEditAx" Class="rdAcBackground">
+  <StyleSheet StyleSheet="rdTemplate/rdDashboard/rdDashboard2.css"/>
+  <DefinitionModifierFile DefinitionModifierFile="@Session.rdEditAgVizTemplateModifierFile~" />
+  <Body >
+    <DashboardEditAgViz >
+    </DashboardEditAgViz>
+    <Division Class="rdDoneAlignRight">
+      <LineBreak />
+      <Label ID="lblSave" Caption="Save" Class="ThemeLinkButton" >
+        <Action Type="Javascript" ID="actSaveEditedAgViz" Javascript="rdSaveEditedAgViz('--ReportID--','AxTable','--PanelID--','--InstanceID--','--BookmarkID--');"></Action>
+      </Label>
+      <LineBreak LineCount="2" />
+      <InputHidden ID="rdDefInDataCache" DefaultValue="True" />
+    </Division>
+    <AnalysisCrosstab ID="rdDashboardEditAx" AllowControlHiding="False" ControlPanelLocation="Top">
+      <CrosstabComparison ComparisonStyle="ColorSpectrum" />
+    </AnalysisCrosstab>
+
+    <Note Note="Hide table caption." />
+    <IncludeScript IncludedScript="document.getElementById(&quot;axTable_rdDashboardEditAx&quot;).caption.textContent = &quot;&quot;" />
+  </Body>
+</Report>

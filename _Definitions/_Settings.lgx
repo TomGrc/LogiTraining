@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Setting
+	ID="_settings"
+	>
+	<GlobalCSS
+		ID="themeBlackPearl"
+		Theme="BlackPearl"
+	/>
+	<Application/>
+	<Path
+		AppPath="http://localhost/LogiTraining"
+	/>
+	<General
+		rdDebuggerStyle="DebuggerLinks"
+		RepoFriendly="True"
+	/>
+	<Connections>
+		<Connection
+			ID="LabConnectionRest"
+			Password="tnd1234"
+			Type="REST"
+			UrlHost="http://vp-testlab52-portal.pplab.jdsu.net/viewport-ui/"
+			Username="tndadmin"
+		/>
+		<Connection
+			ID="PostgressCinnection"
+			PostgreSQLDatabase="postgres"
+			PostgreSQLPassword="postgres"
+			PostgreSQLPort="5029"
+			PostgreSQLServer="vp-testlab52-portal.pplab.jdsu.net"
+			PostgreSQLUser="postgres"
+			Type="PostgreSQL"
+		/>
+	</Connections>
+	<TeamDevelopment/>
+	<Globalization
+		DefaultInputDateFormat="ddd MMM dd yyyy"
+		DefaultInputDateReformat="MM/dd/yyyy"
+		DefaultInputTimeFormat="hh:mm"
+		UserCulture="en-US"
+	/>
+</Setting>

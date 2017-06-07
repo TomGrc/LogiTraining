@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	ID="Default"
+	>
+	<Body>
+		<Label
+			Caption="Project for training"
+		/>
+	</Body>
+	<IncludeSharedElement
+		DefinitionFile="SharedElements"
+		ID="sharedMenu"
+		SharedElementID="shareMenu"
+	/>
+</Report>
