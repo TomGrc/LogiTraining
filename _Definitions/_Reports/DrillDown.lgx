@@ -221,7 +221,6 @@
 										<Remark>
 											<ExtraCrosstabValueColumn
 												CrosstabValueColumn="Value2"
-												CrosstabValueFunction="=1+1"
 												ID="ecvcValue"
 											/>
 										</Remark>
@@ -230,7 +229,7 @@
 							</DataLayer>
 						</Remark>
 						<Series
-							ChartXDataColumn="ValueT"
+							ChartXDataColumn="(ValueT / 100)"
 							ChartYDataColumn="ValueD"
 							Type="Line"
 						/>
@@ -262,7 +261,7 @@
 							>
 							<HttpBody
 								ContentType="application/json"
-								HttpBodyContent="{&quot;dataSource&quot;:&quot;explorer&quot;,&quot;protocol&quot;:&quot;-1:GTP-U&quot;,&quot;metric&quot;:&quot;S1U_TCPATTEMPTS&quot;,&quot;fromTime&quot;:1496832300000,&quot;toTime&quot;:1496839500000,&quot;granularity&quot;:5,&quot;dimension&quot;:&quot;kpi&quot;,&quot;chartReqName&quot;:&quot;KPIANALYSIS_KPI_LINE&quot;,&quot;chartFormat&quot;:&quot;line&quot;,&quot;workflowId&quot;:&quot;explorer&quot;,&quot;dashboardId&quot;:&quot;details-pe&quot;}"
+								HttpBodyContent="{&quot;dataSource&quot;:&quot;explorer&quot;,&quot;protocol&quot;:&quot;-1:GTP-U&quot;,&quot;metric&quot;:&quot;S1U_TCPATTEMPTS&quot;,&quot;fromTime&quot;:@Request.fromEpochTime~,&quot;toTime&quot;:@Request.toEpochTime~,&quot;granularity&quot;:5,&quot;dimension&quot;:&quot;kpi&quot;,&quot;chartReqName&quot;:&quot;KPIANALYSIS_KPI_LINE&quot;,&quot;chartFormat&quot;:&quot;line&quot;,&quot;workflowId&quot;:&quot;explorer&quot;,&quot;dashboardId&quot;:&quot;details-pe&quot;}"
 							/>
 							<Flattener
 								DataRowElementNames="Value"

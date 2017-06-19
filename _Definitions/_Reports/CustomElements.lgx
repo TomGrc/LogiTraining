@@ -7,5 +7,40 @@
 		ID="sharedMenu"
 		SharedElementID="shareMenu"
 	/>
-	<Body/>
+	<StyleSheet
+		ID="sStylesheet"
+		StyleSheet="css.customElementStylesheet.css"
+	/>
+	<IncludeScriptFile
+		ID="incLoadJQueryEngine"
+		IncludedScriptFile="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"
+	/>
+	<IncludeScriptFile
+		ID="incLoadJQueryUI"
+		IncludedScriptFile="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"
+	/>
+	<Body>
+		<Remark>
+			<IncludeScriptFile
+				ID="customElement"
+				IncludedScriptFile="customSlider.js"
+			/>
+		</Remark>
+		<IncludeHtmlFile
+			ID="HTMLcustomElement"
+			IncludedHtmlFile="Html.customElement.htm"
+		/>
+		<Remark>
+			<IncludeScript
+				IncludedScript="$(document).ready(function() {
+    $(&quot;#divDatePicker&quot;).datepicker();
+ });
+"
+			/>
+		</Remark>
+		<Division
+			HtmlDiv="True"
+			ID="divDatePicker"
+		/>
+	</Body>
 </Report>

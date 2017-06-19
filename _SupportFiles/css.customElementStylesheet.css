@@ -1,0 +1,95 @@
+.slider-cont{
+  width:75%;
+  border-bottom: 1px solid white;
+  margin:5em auto 0;
+  padding:0 1em;
+}
+.sliders{
+  background:transparent;
+  border-radius:0;
+  width:92%;
+  margin:0 auto;
+  padding:0;
+  height:10px;
+  border:none;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default{
+  background:transparent;
+  border:none;
+}
+
+.ui-slider-handle{
+  border-radius:0;
+  background:transparent;
+  border:none;
+  position:relative;
+  text-decoration:none;
+}
+
+.ui-slider-handle:before{
+  content:"\25BC";
+  color:white;
+  font-size:1.1em;
+  display:block;
+  margin-top:-12px;
+}
+
+.ui-widget-header{
+  background:none;
+}
+
+.budget-amount, .time-amount{
+  content:"";
+  position:absolute;
+  top:-2em;
+  left:-45px;
+  width:95px;
+  height:1em;
+  padding:0.5em;
+  background:#e1e1e1;
+  text-align:center; 
+  color: #4a4a4a;
+  text-transform: uppercase;
+  background:white;
+}
+
+#budget-slider:before, #budget-slider:after, #time-slider:before, #time-slider:after{
+  color:#4a4a4a;
+  margin-top:-30px;
+  text-transform:uppercase;
+}
+
+#budget-slider:before{
+  content:'$2,000';
+  float:left;
+  margin-left:-31px;
+}
+#budget-slider:after{
+  content:'$100,000';
+  float:right;
+  margin-right:-45px;
+}
+
+#time-slider:before{
+  content:'3 Days';
+  margin-left:-31px;
+  float:left;
+}
+#time-slider:after{
+  content:'12 Weeks';
+  float:right;
+  margin-right:-45px;
+}
+
+.label{
+  text-align:center;
+  color:white;
+  text-transform:uppercase;
+  
+  margin:0.8em 0 5em;
+}
+
+*:focus {
+    outline: none;
+}

@@ -2,7 +2,9 @@
 <Report
 	ID="Default"
 	>
-	<Body>
+	<Body
+		Class="ContentFrame"
+		>
 		<Label
 			Caption="Project for training"
 		/>

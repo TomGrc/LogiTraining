@@ -7,7 +7,7 @@
 	/>
 	<StyleSheet
 		ID="sStylesheet"
-		StyleSheet="style.css"
+		StyleSheet="css.style.css"
 	/>
 	<DefaultRequestParams
 		idFromDate="@Date.Today~"
@@ -27,11 +27,11 @@
 	/>
 	<FormulaScriptFile
 		ID="jsScript"
-		ScriptFile="main.js"
+		ScriptFile="js.main.js"
 	/>
 	<FormulaScriptFile
 		ID="jsPinDownScript"
-		ScriptFile="pinDown.js"
+		ScriptFile="js.pinDown.js"
 	/>
 	<Body>
 		<Rows
