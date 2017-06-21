@@ -1,13 +1,13 @@
 <rdSavedDashboard>
-  <Tabs ID="rdDashboardTabs" ActiveTabID="0229c8fac43641c1bcd8dfcc2e82cc17" DashboardColumnCount="3">
-    <Tab ID="0229c8fac43641c1bcd8dfcc2e82cc17" Caption="New Tab" ColumnCount="3" rdFreeformLayoutStyle="Width:1704px;">
-      <Column Width="43.77" />
-      <Column Width="42.23" />
-      <Column Width="13.21" />
+  <Tabs ID="rdDashboardTabs" ActiveTabID="7f8c3b3442fc4a3ea2536cc026a97706" DashboardColumnCount="3">
+    <Tab ID="7f8c3b3442fc4a3ea2536cc026a97706" Caption="New Tab" ColumnCount="3" rdFreeformLayoutStyle="Width:1150px;">
+      <Column Width="42.9" />
+      <Column Width="42.08" />
+      <Column Width="14.23" />
     </Tab>
   </Tabs>
-  <Panel ID="pnl1" InstanceID="9624ae0783644e21ad1f68d32d853c53" TabID="0229c8fac43641c1bcd8dfcc2e82cc17" DashboardColumn="0" />
-  <Panel ID="pnl3" InstanceID="20d23715f67f4942a1c48aa6b3e3a42e" TabID="0229c8fac43641c1bcd8dfcc2e82cc17" DashboardColumn="0" />
-  <Panel ID="pnl2" InstanceID="bfeab4ed065e45208704cdb3bee7d0f4" TabID="0229c8fac43641c1bcd8dfcc2e82cc17" DashboardColumn="1" />
-  <Panel ID="pnl4" InstanceID="98ef89e749ea4608b0bb74675f457f05" TabID="0229c8fac43641c1bcd8dfcc2e82cc17" DashboardColumn="1" />
+  <Panel ID="pnl4" InstanceID="38593bad20d04871b9b9e7e3c8e7400b" TabID="7f8c3b3442fc4a3ea2536cc026a97706" DashboardColumn="0" />
+  <Panel ID="pnl2" InstanceID="68363caec7c84ead9a96e0fb8b011745" TabID="7f8c3b3442fc4a3ea2536cc026a97706" DashboardColumn="0" />
+  <Panel ID="pnl3" InstanceID="7e3bd74a9e7e41cdb3102f938df4183b" TabID="7f8c3b3442fc4a3ea2536cc026a97706" DashboardColumn="1" />
+  <Panel ID="pnl1" InstanceID="c23c3bfeb04d43ea9919b0e215d76c24" TabID="7f8c3b3442fc4a3ea2536cc026a97706" DashboardColumn="1" />
 </rdSavedDashboard>

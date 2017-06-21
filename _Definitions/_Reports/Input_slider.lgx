@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	ID="Input_slider"
+	>
+	<Body>
+		<InputSlider
+			ID="inputSlider"
+			SecondSliderID="inputSlider2"
+		/>
+	</Body>
+</Report>

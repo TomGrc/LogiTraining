@@ -229,7 +229,7 @@
 							</DataLayer>
 						</Remark>
 						<Series
-							ChartXDataColumn="(ValueT / 100)"
+							ChartXDataColumn="ValueT"
 							ChartYDataColumn="ValueD"
 							Type="Line"
 						/>

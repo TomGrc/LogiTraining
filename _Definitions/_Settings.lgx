@@ -31,6 +31,11 @@
 			PostgreSQLUser="postgres"
 			Type="PostgreSQL"
 		/>
+		<Connection
+			GoogleMapsApiKey="AIzaSyBL7DkRA7BR_szRSMp5tbM7XaI6cON351E"
+			ID="cgmApi"
+			Type="GoogleMaps"
+		/>
 	</Connections>
 	<TeamDevelopment/>
 	<Globalization

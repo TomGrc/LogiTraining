@@ -1,0 +1,367 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	ID="PopupWithRefresh"
+	>
+	<StyleSheet
+		ID="Bootstrap-3_3_6"
+		StyleSheet="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+		Theme="Transit"
+	/>
+	<StyleSheet
+		StyleSheet="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+	/>
+	<IncludeScriptFile
+		ID="jQuery-3_1_0"
+		IncludedScriptFile="https://code.jquery.com/jquery-3.1.0.min.js"
+	/>
+	<LocalData
+		ID="ldChartData"
+		>
+		<DataLayer
+			ID="StaticDataLayer1"
+			Type="Static"
+			>
+			<StaticDataRow
+				COMMENTS_L2=""
+				Date="2013/07/23"
+				ID="1"
+				ProdName="Shoes"
+				UnitPrice="45"
+				UnitQty="10"
+			/>
+			<StaticDataRow
+				COMMENTS_L2="Test comments"
+				Date="2013/07/14"
+				ID="2"
+				ProdName="Trousers"
+				UnitPrice="26"
+				UnitQty="5"
+			/>
+			<StaticDataRow
+				COMMENTS_L2=""
+				Date="2013/08/13"
+				ID="3"
+				ProdName="Shoes"
+				UnitPrice="45"
+				UnitQty="8"
+			/>
+			<StaticDataRow
+				COMMENTS_L2=""
+				Date="2013/08/08"
+				ID="4"
+				ProdName="Shirts"
+				UnitPrice="18"
+				UnitQty="33"
+			/>
+			<StaticDataRow
+				COMMENTS_L2=""
+				Date="2013/07/13"
+				ID="5"
+				ProdName="Shirts"
+				UnitPrice="18"
+				UnitQty="16"
+			/>
+			<StaticDataRow
+				COMMENTS_L2="Something different in here"
+				Date="2013/08/14"
+				ID="6"
+				ProdName="Trousers"
+				UnitPrice="26"
+				UnitQty="34"
+			/>
+			<StaticDataRow
+				COMMENTS_L2=""
+				Date="2013/08/24"
+				ID="7"
+				ProdName="Shoes"
+				UnitPrice="45"
+				UnitQty="3"
+			/>
+			<StaticDataRow
+				COMMENTS_L2=""
+				Date="2013/09/14"
+				ID="8"
+				ProdName="Trousers"
+				UnitPrice="26"
+				UnitQty="23"
+			/>
+			<StaticDataRow
+				COMMENTS_L2=""
+				Date="2013/09/12"
+				ID="9"
+				ProdName="Shirts"
+				UnitPrice="18"
+				UnitQty="11"
+			/>
+			<StaticDataRow
+				COMMENTS_L2=""
+				Date="2013/10/03"
+				ID="10"
+				ProdName="Shirts"
+				UnitPrice="18"
+				UnitQty="18"
+			/>
+			<StaticDataRow
+				COMMENTS_L2=""
+				Date="2013/10/15"
+				ID="11"
+				ProdName="Shoes"
+				UnitPrice="45"
+				UnitQty="8"
+			/>
+			<StaticDataRow
+				COMMENTS_L2=""
+				Date="2013/10/07"
+				ID="12"
+				ProdName="Trousers"
+				UnitPrice="26"
+				UnitQty="12"
+			/>
+			<StaticDataRow
+				COMMENTS_L2=""
+				Date="2013/09/11"
+				ID="13"
+				ProdName="Shoes"
+				UnitPrice="45"
+				UnitQty="5"
+			/>
+			<StaticDataRow
+				COMMENTS_L2=""
+				Date="2013/11/07"
+				ID="14"
+				ProdName="Trousers"
+				UnitPrice="26"
+				UnitQty="4"
+			/>
+			<StaticDataRow
+				COMMENTS_L2=""
+				Date="2013/11/07"
+				ID="15"
+				ProdName="Shirts"
+				UnitPrice="18"
+				UnitQty="24"
+			/>
+			<DataLayerLink
+				ID="dllChartData"
+			/>
+		</DataLayer>
+	</LocalData>
+	<Body>
+		<PopupPanel
+			Caption="Add Comments"
+			Class="popup"
+			Draggable="True"
+			Height="150"
+			HeightScale="px"
+			ID="popComments"
+			PopupModal="True"
+			PopupPanelLocation="Center"
+			ShowOnPageLoad="False"
+			Width="500"
+			WidthScale="px"
+			>
+			<InputTextArea
+				Class="form-control"
+				ID="inpCOMMENTS2"
+				InputRows="6"
+			/>
+			<Label
+				Class="fa fa-save fa-2x pull-right"
+				ID="btnSave"
+				Tooltip="Vista"
+				>
+				<EventHandler
+					DhtmlEvent="onclick"
+					>
+					<Action
+						Javascript="e = $(&apos;#ihRowNo&apos;).val();
+
+var xComments = $(&apos;#inpCOMMENTS2&apos;).val();
+$(&apos;#lblComments2_Row&apos; + e).text(xComments);
+
+//fnUpdateDb(cCode, dCode, pCode, ejCode, xComments, &apos;True&apos;);
+
+ShowElement(this.id,&apos;popComments&apos;,&apos;Hide&apos;,&apos;&apos;);
+"
+						Type="Javascript"
+					/>
+				</EventHandler>
+			</Label>
+			<InputHidden
+				ID="ihRowNo"
+			/>
+			<InputHidden
+				ID="ihID"
+			/>
+			<InputHidden
+				ID="ihProductName"
+			/>
+			<InputHidden
+				ID="ihUnitPce"
+			/>
+			<InputHidden
+				ID="ihUnitQty"
+			/>
+		</PopupPanel>
+		<PopupPanel
+			Caption="Comments"
+			Class="popup"
+			Draggable="True"
+			Height="150"
+			HeightScale="px"
+			ID="popCommentsView"
+			PopupModal="True"
+			PopupPanelLocation="Center"
+			ShowOnPageLoad="False"
+			Width="500"
+			WidthScale="px"
+			>
+			<Division
+				Class="panel panel-default"
+				HtmlDiv="True"
+				ID="divCommView"
+				>
+				<Label
+					HtmlTag="p"
+					ID="lblZoomComments"
+				/>
+			</Division>
+		</PopupPanel>
+		<DataTable
+			AjaxPaging="True"
+			ID="dtPopupTest"
+			>
+			<DataLayer
+				LinkedDataLayerID="dllChartData"
+				Type="Linked"
+			/>
+			<DataTableColumn
+				Header="ID"
+				ID="colID"
+				>
+				<Label
+					Caption="@Data.ID~"
+				/>
+			</DataTableColumn>
+			<DataTableColumn
+				Header="Date"
+				ID="colDate"
+				>
+				<Label
+					Caption="@Data.Date~"
+				/>
+			</DataTableColumn>
+			<DataTableColumn
+				Header="Product"
+				ID="colProdName"
+				>
+				<Label
+					Caption="@Data.ProdName~"
+					ID="lblProdName"
+				/>
+			</DataTableColumn>
+			<DataTableColumn
+				Header="Unit Price"
+				ID="colUntPce"
+				>
+				<Label
+					Caption="@Data.UnitPrice~"
+				/>
+			</DataTableColumn>
+			<DataTableColumn
+				Header="Unit Qty"
+				ID="colUntQty"
+				>
+				<Label
+					Caption="@Data.UnitQty~"
+				/>
+			</DataTableColumn>
+			<DataTableColumn
+				Class="ThemeAlignLeft cursorExpand"
+				Header="Comments"
+				ID="colComments"
+				Width="400"
+				WidthScale="px"
+				>
+				<Division
+					Class="nooverflow"
+					Condition=""
+					HtmlDiv="True"
+					ID="divView2"
+					>
+					<Label
+						Caption="@Data.COMMENTS_L2~"
+						Class="nooverflow"
+						ID="lblComments2"
+					/>
+					<EventHandler
+						DhtmlEvent="onclick"
+						>
+						<Action
+							Javascript="var x = $(this).closest(&apos;td&apos;).children(&apos;div&apos;).attr(&apos;id&apos;);
+x = x.substr(12,x.length);
+
+/* jQuery has a problem with selecting ID&apos;s that contain . */
+e = x.replace(&apos;.&apos;,&apos;\\.&apos;);
+
+/*get the label value */
+var xComments = $(&apos;#lblComments2_Row&apos; + e).text();
+var xProdName = &apos;Add comments for &apos; + $(&apos;#lblProdName_Row&apos; + e).text();
+
+/* set the zoom label value in the view comments popup */
+$(&apos;#popCommentsView #rdPopupPanelCaption&apos;).text(xProdName);
+$(&quot;#lblZoomComments&quot;).text(xComments);
+
+ShowElement(this.id,&apos;popCommentsView&apos;,&apos;&apos;,&apos;FadeIn&apos;);"
+							Type="Javascript"
+						/>
+					</EventHandler>
+				</Division>
+			</DataTableColumn>
+			<DataTableColumn
+				ID="colEditDel"
+				Width="60"
+				WidthScale="px"
+				>
+				<Division
+					HtmlDiv="True"
+					ID="divViewBtn2"
+					>
+					<Label
+						Class="fa fa-pencil-square-o"
+						ID="btnEdit"
+						Tooltip="Breyta"
+						>
+						<Action
+							Javascript="var x = $(this).closest(&apos;div&apos;).attr(&apos;id&apos;);
+x = x.substr(15,x.length);
+/* jQuery has a problem with selecting ID&apos;s that contain . */
+e = x.replace(&apos;.&apos;,&apos;\\.&apos;);
+
+
+
+var xComments = $(&apos;#lblComments2_Row&apos; + e).text();
+var xProdName = &apos;Add comments for &apos; + $(&apos;#lblProdName_Row&apos; + e).text();
+
+/* set the zoom label value in the add comments popup */
+$(&apos;#popComments #rdPopupPanelCaption&apos;).text(xProdName);
+
+$(&quot;#inpCOMMENTS2&quot;).val(xComments);
+$(&quot;#ihRowNo&quot;).val(e);
+$(&quot;#ihID&quot;).val(&apos;@Data.ID~&apos;);
+$(&quot;#ihProdName&quot;).val(&apos;@Data.ProdName~&apos;); 
+$(&quot;#ihUnitPce&quot;).val(&apos;@Data.UnitPrice~&apos;);
+$(&quot;#ihUnitQty&quot;).val(&apos;@Data.UnitQty~&apos;);
+
+ShowElement(this.id,&apos;popComments&apos;,&apos;&apos;,&apos;FadeIn&apos;);
+$(&quot;#inpCOMMENTS2&quot;).focus();
+"
+							Type="Javascript"
+						/>
+					</Label>
+				</Division>
+			</DataTableColumn>
+		</DataTable>
+	</Body>
+	<ideTestParams/>
+</Report>

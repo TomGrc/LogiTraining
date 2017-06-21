@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	ID="GMapsSampleAPI"
+	>
+	<StyleSheet
+		ID="Bootstrap-3_3_6"
+		StyleSheet="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+		Theme="Transit"
+	/>
+	<IncludeScriptFile
+		ID="jQuery-3_1_0"
+		IncludedScriptFile="https://code.jquery.com/jquery-3.1.0.min.js"
+	/>
+	<DefaultRequestParams
+		pfilt1="All"
+		pfilt2="All"
+	/>
+	<Body>
+		<IncludeHtml
+			Html="&lt;style&gt;
+
+	.lblPad {
+		padding-right: 3px;
+	}
+	
+	.legend {
+		background: rgba(255,255,255,0.5);
+		border: 1px solid #000;
+		border-radius: 4px;
+		position: relative;
+		top: 30px;
+		right: 30px;
+	}
+	
+&lt;/style&gt;"
+		/>
+		<Division
+			HtmlDiv="True"
+			ID="divFilters"
+			>
+			<InputSelectList
+				Caption="Filter One:"
+				DefaultValue="@Request.pfilt1~"
+				ID="pfilt1"
+				IncludeBlank="True"
+				IncludeBlankCaption="All"
+				IncludeBlankValue="All"
+				OptionCaptionColumn="title"
+				OptionValueColumn="title"
+				>
+				<DataLayer
+					ID="StaticDataLayer1"
+					Type="Static"
+					>
+					<StaticDataRow
+						title="Title One"
+					/>
+					<StaticDataRow
+						title="Title Two"
+					/>
+					<StaticDataRow
+						title="Title Three"
+					/>
+				</DataLayer>
+				<EventHandler
+					DhtmlEvent="onchange"
+					>
+					<Action
+						ID="actUpdateMarkers"
+						Javascript="(function(){updateMarkers();})();"
+						Type="Javascript"
+					/>
+				</EventHandler>
+			</InputSelectList>
+			<InputSelectList
+				Caption="Filter Two:"
+				DefaultValue="@Request.pfilt2~"
+				ID="pfilt2"
+				IncludeBlank="True"
+				IncludeBlankCaption="All"
+				IncludeBlankValue="All"
+				OptionCaptionColumn="icon"
+				OptionValueColumn="icon"
+				>
+				<DataLayer
+					ID="StaticDataLayer2"
+					Type="Static"
+					>
+					<StaticDataRow
+						icon="blue"
+					/>
+					<StaticDataRow
+						icon="yellow"
+					/>
+					<StaticDataRow
+						icon="green"
+					/>
+				</DataLayer>
+				<EventHandler
+					DhtmlEvent="onchange"
+					>
+					<Action
+						ID="actUpdateMarkers"
+						Javascript="(function(){updateMarkers();})();"
+						Type="Javascript"
+					/>
+				</EventHandler>
+			</InputSelectList>
+		</Division>
+		<Division
+			HtmlDiv="True"
+			ID="gMap"
+			>
+			<Division
+				Class="legend"
+				HtmlDiv="True"
+				ID="legend"
+				>
+				<Label
+					Caption="Legend"
+					HtmlTag="H3"
+				/>
+			</Division>
+			<GoogleMap
+				ConnectionID="cgmApi"
+				GoogleMapPanControl="True"
+				GoogleMapShowTraffic="False"
+				GoogleMapStreetView="True"
+				GoogleMapTypeControl="False"
+				GoogleMapTypes="Map"
+				GoogleMapZoomControl="True"
+				Height="600"
+				ID="gmUK"
+				MapScale="True"
+				Width="100%"
+				>
+				<GoogleMapInitialView
+					Latitude="45.477608"
+					Longitude="-75.772346"
+				/>
+			</GoogleMap>
+		</Division>
+		<IncludeScript
+			IncludedScript="/***********************************************/
+/* This function get the data from a Logi      */
+/* data definition and returns the data as     */
+/* a json object variable I&apos;ve called jsonData */
+/***********************************************/
+function getMarkerData(filt1, filt2) {
+	
+	var ServerName = &quot;@Request.ServerName~&quot;;
+	if (ServerName == &quot;&quot;) {
+		ServerName = &quot;localhost&quot;;
+	}
+	
+	var WebAppAddress = &quot;@Function.AppVirtualPath~&quot;;
+	WebAppAddress = WebAppAddress.substring(0,WebAppAddress.length -11);
+	
+	
+	var ajaxUrl = &apos;&apos;;
+	
+	ajaxUrl = &quot;http://&quot; + ServerName + WebAppAddress + &quot;rdTemplate/rdData.aspx?rdData=MapMarkers&amp;rdDataID=jsonMarkers&quot; 
+				+ &quot;&amp;filt1=&quot; + filt1
+				+ &quot;&amp;filt2=&quot; + filt2;
+		
+	console.log(ajaxUrl);
+	var jsonData = $.ajax({
+					url: ajaxUrl,
+					dataType:&quot;json&quot;,
+					async: false
+				}).responseJSON.data;
+				
+	return  jsonData;
+
+} 
+
+/******* End getMarkerData() function *********/
+
+function addMarkers(jsonData) {
+
+	//Empty the array
+	gmarkers = [];
+	
+	//Get the map object
+	var gMap = rdGetGMapObject(&apos;gmUK&apos;);
+	
+	//Loop through JSON map marker data rows
+	jsonData.forEach(function(d){
+		//add Marker &amp; Listener
+		
+		//for each row of data (d) add a new latng variable
+		var LatLng = new google.maps.LatLng( d.Lat,d.Long);
+		//add a new marker using the latlng variable
+		var marker = new google.maps.Marker({
+			position: LatLng,
+			title: d.title,
+			map: gMap,
+			icon: d.icon
+		}); 
+		
+		// Push your newly created marker into the array:
+		gmarkers.push(marker);
+		
+		//create some content for the marker info window concatenating in 
+		//columns from the marker data to give it context
+		var markerInfo = &apos;&lt;div id=&quot;content&quot;&gt;&apos;+
+			&apos;&lt;div id=&quot;divMarkerInfo&quot;&gt;&apos;+
+			&apos;&lt;/div&gt;&apos;+
+			&apos;&lt;h1 id=&quot;mInfoTitle&quot; style=&quot;font-weight: bold; font-size: 24px;&quot;&gt;&apos; + d.title + &apos;&lt;/h1&gt;&apos;+
+			&apos;&lt;div id=&quot;mInfoBody&quot;&gt;&apos;+
+			&apos;&lt;p&gt;&lt;b&gt;&apos; + d.title + &apos;&lt;/b&gt;, is a map marker. &apos; +
+			&apos;Its location is &apos;+ d.Lat +&apos; Latitude &apos; + &apos;and &apos; + d.Long + &apos; Longitude. &apos; +
+			&apos;It uses this map marker image: &apos; +
+			&apos;&lt;a href=&quot;&apos;+ d.icon +&apos;&quot;&gt;&apos;+
+			d.icon + &apos;&lt;/a&gt; &apos;+
+			&apos;&lt;/p&gt;&apos;+
+			&apos;&lt;/div&gt;&apos;+
+			&apos;&lt;/div&gt;&apos;;
+			
+		var infoWindow = new google.maps.InfoWindow({
+				content: markerInfo
+		});
+		
+		//add a click event to each marker with the info window content
+		//and change the icon using the icon in the data
+		google.maps.event.addListener(marker, &apos;click&apos;, function () {
+			infoWindow.open(gMap, marker);
+			//this.setIcon(d.icon);
+			gMap.panTo(marker.getPosition())
+		});
+
+	});
+}
+
+function addLegend(e){
+	var icons = {
+			Yellow: {
+				name: &apos;Up to 1 M&apos;,
+				icon: &apos;http://maps.google.com/mapfiles/ms/icons/yellow-dot.png&apos;
+			},
+			Orange: {
+				name: &apos;1 M to 10 M&apos;,
+				icon: &apos;http://maps.google.com/mapfiles/ms/icons/orange-dot.png&apos;
+			},
+				Green: {
+				name: &apos;10 M to 50 M&apos;,
+				icon: &apos;http://maps.google.com/mapfiles/ms/icons/green-dot.png&apos;
+			},
+				Purple: {
+				name: &apos;50 M to 100 M&apos;,
+				icon: &apos;http://maps.google.com/mapfiles/ms/icons/purple-dot.png&apos;
+			},
+				Blue: {
+				name: &apos;100 M to 250 M&apos;,
+				icon: &apos;http://maps.google.com/mapfiles/ms/icons/blue-dot.png&apos;
+			},
+				Pink: {
+				name: &apos;250 M to 1 B&apos;,
+				icon: &apos;http://maps.google.com/mapfiles/ms/icons/pink-dot.png&apos;
+			},
+				Red: {
+				name: &apos;Over 1 B&apos;,
+				icon: &apos;http://maps.google.com/mapfiles/ms/icons/red-dot.png&apos;
+			}
+		};
+	
+		var legend = document.getElementById(&apos;legend&apos;);
+	
+		for (var key in icons) {
+			var type = icons[key];
+			var name = type.name;
+			var icon = type.icon;
+			var div = document.createElement(&apos;div&apos;);
+			//div.style.backgroundColor = &quot;rgba(255, 255, 255,0.5)&quot;;
+	
+			div.innerHTML = &apos;&lt;img src=&quot;&apos; + icon + &apos;&quot;&gt; &apos; + name;
+			legend.appendChild(div);    
+			}
+		
+		e.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(legend);
+}
+
+
+//Add function to add markers on map load/reload
+function addMarkersOnLoad() {
+	
+	//get filter values to pass to data def
+	var filt1 = document.getElementById(&apos;pfilt1&apos;).value;
+	var filt2 = document.getElementById(&apos;pfilt2&apos;).value;
+	
+	//alert(&quot;filt1=&quot; + filt1 + &quot;, filt2=&quot; + filt2);
+	
+	//call the getMarkerData function and return JSON data into the global variable jsonData
+	jsonData = getMarkerData(filt1,filt2);
+	
+	//get the map object
+	mapDiv = Y.one(&apos;#gmUK&apos;);  
+	
+	//add an event listener for the rdCreated event
+	mapDiv.on(&apos;rdCreated&apos;, function(e) {
+	
+		addMarkers(jsonData);
+		addLegend(e);	
+							
+	});
+}
+
+//Add a function to just update the current markers
+function updateMarkers(){
+
+	//remove existing markers
+	removeMarkers()
+	
+	//get filter values to pass to data def
+	var filt1 = document.getElementById(&apos;pfilt1&apos;).value;
+	var filt2 = document.getElementById(&apos;pfilt2&apos;).value;
+	
+	jsonData = getMarkerData(filt1,filt2);
+	addMarkers(jsonData);
+	
+}
+
+//Add function to remove markers
+function removeMarkers(){
+    for(i=0; i&lt;gmarkers.length; i++){
+        gmarkers[i].setMap(null);
+    }
+}
+
+//Run addMarkersOnLoad
+(function(){addMarkersOnLoad();})();
+
+"
+		/>
+		<Button
+			Caption="Remove Markers"
+			ID="btnRemove"
+			>
+			<Action
+				ID="actRemoveMarkers"
+				Javascript="(function(){removeMarkers();})();"
+				Type="Javascript"
+			/>
+		</Button>
+		<Button
+			Caption="Add Markers"
+			ID="btnAdd"
+			>
+			<Action
+				ID="actUpdateMarkers"
+				Javascript="(function(){updateMarkers();})();"
+				Type="Javascript"
+			/>
+		</Button>
+	</Body>
+	<ideTestParams
+		pfilt1=""
+		pfilt2=""
+		ServerName=""
+	/>
+</Report>

@@ -1,0 +1,1310 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	ID="Responsive_sample"
+	>
+	<StyleSheet
+		StyleSheet="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+		Theme="Signal"
+	/>
+	<Body>
+		<IncludeHtml
+			Html="&lt;style&gt;
+
+/***** Set HTML font-size and use rem to make typography etc more &quot;Responsive&quot; *****/
+	#divSizes {
+		display: inline-block;
+		}
+	/*Display viewport size range */
+	.divVP1,.divVP2,.divVP3,.divVP4,.divVP5,.divVP6,.divVP7,.divVP8,.divVP9,.divVP10,.divVP11 {
+		display:none;
+	}
+	
+	h1,.h1{
+		font-size: 1.5rem;
+	}
+	
+	h2,.h2{
+		font-size: 1rem;
+	}
+	
+	h3,.h3{
+		font-size: 0.6rem;
+	}
+	
+	h4,.h4{
+		font-size: 0.6rem;
+	}
+	
+	h5,.h5{
+		font-size: 0.4rem;
+	}
+	
+	@media screen and (max-width: 340px){
+		html {
+			font-size: 60px;
+		}
+		.divVP1 {
+			display: inline-block;
+		}
+		divLogoWrapper img {
+			text-align: center;
+			vertical-align: middle;
+			height: 50%;
+			width: 50%;
+			position: relative;
+			margin: auto;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+		}
+	}
+	@media screen and (min-width: 341px)
+		and (max-width: 500px){
+		html {
+			font-size: 60px;
+		}
+		.divVP2 {
+			display: inline-block;
+		}
+		divLogoWrapper img {
+			text-align: center;
+			vertical-align: middle;
+			height: 50%;
+			width: 50%;
+			position: relative;
+			margin: auto;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+		}
+	}
+	@media screen and (min-width: 501px)
+		and (max-width: 700px){
+		html {
+			font-size: 60px;
+		}
+		.divVP3 {
+			display: inline-block;
+		}
+		divLogoWrapper img {
+			text-align: center;
+			vertical-align: middle;
+			height: 50%;
+			width: 50%;
+			position: relative;
+			margin: auto;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+		}
+	}
+	@media screen and (min-width: 701px)
+		and (max-width: 900px){
+		html {
+			font-size: 50px;
+		}
+		.divVP4 {
+			display: inline-block;
+		}
+		divLogoWrapper img {
+			text-align: center;
+			vertical-align: middle;
+			height: 50%;
+			width: 50%;
+			position: relative;
+			margin: auto;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+		}
+	}
+	@media screen and (min-width: 901px)
+		and (max-width: 1000px){
+		html {
+			font-size: 50px;
+		}
+		.divVP5 {
+			display: inline-block;
+		}
+	}
+	
+	@media screen and (min-width: 1001px)
+		and (max-width: 1200px){
+		html {
+			font-size: 32px;
+		}
+		.divVP6 {
+			display: inline-block;
+		}
+	}
+	
+	@media screen and (min-width: 1201px)
+		and (max-width: 1400px){
+		html {
+			font-size: 35px;
+		}
+		.divVP7 {
+			display: inline-block;
+		}
+	}
+	
+	@media screen and (min-width: 1401px)
+		and (max-width: 1600px){
+		html {
+			font-size: 38px;
+		}
+		.divVP8 {
+			display: inline-block;
+		}
+	}
+	
+	@media screen and (min-width: 1601px)
+		and (max-width: 1800px){
+		html {
+			font-size: 45px;
+		}
+		.divVP9 {
+			display: inline-block;
+		}
+	}
+	
+	@media screen and (min-width: 1801px)
+		and (max-width: 2000px){
+		html {
+			font-size: 50px;
+		}
+		.divVP10 {
+			display: inline-block;
+		}
+	}
+	
+	@media screen and (min-width: 2001px)
+		{
+		html {
+			font-size: 60px;
+		}
+		.divVP11 {
+			display: inline-block;
+		}
+	}
+	/***** End typography *****/
+	
+.highcharts-legend-item rect {
+	border-radius: 30px;
+}
+
+#colKPILabel, #colKPIValue, #colKPIIcon {
+	padding: 0 5px 0 5px;
+}
+#divHeader {
+	position: fixed;
+	left: 0;
+	top: 0;
+	height: 100px;
+	width: 100%;
+	z-index:9999;
+	}
+#divMain {
+	position: relative;
+	top: 100px;
+}
+	
+#divGrid {
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+div.centered 
+{
+    text-align: center;
+}
+
+div.centered table, div.centered div
+{
+    margin: 0 auto; 
+    text-align: left;
+}
+
+.chartIcon {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+#lblHGTop .fa-stack-1x i, #lblHGTop .fa-stack-2x i {
+	top: -0.5em;
+}
+
+.text-centered {
+    text-align:center;
+	vertical-align: middle;
+}
+
+body a, 
+body i, 
+body span {
+	font-family: Arial, FontAwesome;
+}
+
+#divChartFilter,
+#divChartType {
+	padding-top: 15px;
+}
+
+#divChartFilter {
+	padding-bottom: 75px;
+}
+
+#divChartType {
+	padding-bottom: 70px;
+}
+
+.noWrap{
+	white-space: no-wrap;
+}
+
+/* Expansion boxes */
+.expander .container{
+	padding-top: 1em;
+	position: relative;
+}
+	
+.Expansion-Caret{
+	position: relative;
+	top: -.42em;
+	left: 40px;
+	color: #FFF !important;
+	font-size: 5em;
+	text-shadow: 0px .06em .05em #B6B5B5;
+}
+
+.Expansion-Close{
+	position: relative;
+	top: .16em;
+	right: .8em;
+	color: #000;
+	font-size: 2em;
+}	
+
+/* Background Patterns*/
+.pattern-60-deg-lines {
+	background: url(&apos;background-textures.60-lines.png&apos;) repeat left top;
+}
+
+.pattern-asfalt {
+	background: url(&apos;background-textures.asfalt-dark.png&apos;) repeat left top;
+}
+
+.pattern-checkered {
+	background: url(&apos;background-textures.checkered.png&apos;) repeat left top;
+}
+
+.pattern-squares {
+	background: url(&apos;background-textures.squares.png&apos;) repeat left top;
+}	
+
+/* Billboard */	
+
+.billboard-navy{
+	background-color: #0C3D56;
+	color: #FFF;
+}
+
+.billboard-black{
+	background-color: #000;
+	color: #FFF;
+}
+
+.billboard-light-grey{
+	background-color: #f5f5f5;
+}
+
+.billboard-shadow{
+	box-shadow: inset  0  8px 8px -8px #696868, 
+                inset  0 -8px 8px -8px #696868;
+}
+
+/* KPIs */
+	.kpi{
+		padding: 1em;
+		border: 1px solid;
+		border-radius: 20px;
+		vertical-align: middle;
+		margin-top: 3px;
+	}
+	
+	/*.kpi-label{
+		color: #fff;
+	}
+	
+	.kpi-value{
+		color: #fff;
+	}*/
+	
+	#kpi-icon {
+		display: inline-block;
+		position:relative;
+		float: right;
+		margin: .1em;
+		font-size: 1em;
+		padding: 0.3em;
+	}
+	
+	
+	/*KPI green*/
+	.kpi-green{
+		border-color: #67E25C;
+		background: #67E25C;
+	}
+
+	/*KPI red*/
+	.kpi-red{
+		border-color: #FF2C2D;
+		background: #FF2C2D;
+	}	
+	
+	/*KPI blue*/
+	.kpi-blue{
+		border-color: #4DA8EF;
+		background: #4DA8EF;
+	}
+	
+	/*KPI yellow*/
+	.kpi-yellow{
+		border-color: #FFEB0A;
+		background: #FFEB0A;
+	}
+	
+	/*KPI grey*/
+	.kpi-grey{
+		border-color: #CBCBCB;
+		background: #CBCBCB;
+	}
+	
+	.kpi-green span, .kpi-red span, .kpi-blue span, .kpi-grey span{
+		color: #fff !important;
+	}
+
+	.kpi-yellow span, .kpi-yellow i {
+		color: #6f767f !important;
+	}
+
+/* ******************  Bootstrap Overrides ************** */
+
+.panel {
+	border-width: 1px;
+	border-color: #ddd;
+	padding: 0 0 10px 0;
+	}
+	
+.panel .panel-heading {
+    color: #6f767f;
+	background-color: #f5f5f5;
+    border-color: #ddd;
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+/*.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9
+{
+	padding-right: 10px;
+	padding-left: 10px;
+*/
+}
+.colwrap {
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
+
+.bg-blue {
+	background-color: DarkBlue;
+	
+}
+
+/* ******************  Font Awesome Overrides ************** 
+.fa {
+	color: #FFF;
+}*/
+
+.highcharts-legend-item rect {
+	border-radius: 30px;
+}
+
+#colKPILabel, #colKPIValue, #colKPIIcon {
+	padding: 0 5px 0 5px;
+}
+#divHeader {
+	position: fixed;
+	left: 0;
+	top: 0;
+	height: 100px;
+	width: 100%;
+	z-index:9999;
+	}
+#divMain {
+	position: relative;
+	top: 100px;
+}
+	
+#divGrid {
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+div.centered 
+{
+    text-align: center;
+}
+
+div.centered table, div.centered div
+{
+    margin: 0 auto; 
+    text-align: left;
+}
+
+.chartIcon {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+#lblHGTop .fa-stack-1x i, #lblHGTop .fa-stack-2x i {
+	top: -0.5em;
+}
+
+.text-centered {
+    text-align:center;
+	vertical-align: middle;
+}
+
+body a, 
+body i, 
+body span {
+	font-family: Arial, FontAwesome;
+}
+
+#divChartFilter,
+#divChartType {
+	padding-top: 15px;
+}
+
+#divChartFilter {
+	padding-bottom: 75px;
+}
+
+#divChartType {
+	padding-bottom: 70px;
+}
+
+.noWrap{
+	white-space: no-wrap;
+}
+
+/* Expansion boxes */
+.expander .container{
+	padding-top: 1em;
+	position: relative;
+}
+	
+.Expansion-Caret{
+	position: relative;
+	top: -.42em;
+	left: 40px;
+	color: #FFF !important;
+	font-size: 5em;
+	text-shadow: 0px .06em .05em #B6B5B5;
+}
+
+.Expansion-Close{
+	position: relative;
+	top: .16em;
+	right: .8em;
+	color: #000;
+	font-size: 2em;
+}	
+
+/* Background Patterns*/
+.pattern-60-deg-lines {
+	background: url(&apos;background-textures.60-lines.png&apos;) repeat left top;
+}
+
+.pattern-asfalt {
+	background: url(&apos;background-textures.asfalt-dark.png&apos;) repeat left top;
+}
+
+.pattern-checkered {
+	background: url(&apos;background-textures.checkered.png&apos;) repeat left top;
+}
+
+.pattern-squares {
+	background: url(&apos;background-textures.squares.png&apos;) repeat left top;
+}	
+
+/* Billboard */	
+
+.billboard-navy{
+	background-color: #0C3D56;
+	color: #FFF;
+}
+
+.billboard-black{
+	background-color: #000;
+	color: #FFF;
+}
+
+.billboard-light-grey{
+	background-color: #f5f5f5;
+}
+
+.billboard-shadow{
+	box-shadow: inset  0  8px 8px -8px #696868, 
+                inset  0 -8px 8px -8px #696868;
+}
+
+/* KPIs */
+	.kpi{
+		padding: 1em;
+		border: 1px solid;
+		border-radius: 20px;
+		vertical-align: middle;
+		margin-top: 3px;
+	}
+	
+	/*.kpi-label{
+		color: #fff;
+	}
+	
+	.kpi-value{
+		color: #fff;
+	}*/
+	
+	#kpi-icon {
+		display: inline-block;
+		position:relative;
+		float: right;
+		margin: .1em;
+		font-size: 1em;
+		padding: 0.3em;
+	}
+	
+	
+	/*KPI green*/
+	.kpi-green{
+		border-color: #67E25C;
+		background: #67E25C;
+	}
+
+	/*KPI red*/
+	.kpi-red{
+		border-color: #FF2C2D;
+		background: #FF2C2D;
+	}	
+	
+	/*KPI blue*/
+	.kpi-blue{
+		border-color: #4DA8EF;
+		background: #4DA8EF;
+	}
+	
+	/*KPI yellow*/
+	.kpi-yellow{
+		border-color: #FFEB0A;
+		background: #FFEB0A;
+	}
+	
+	/*KPI grey*/
+	.kpi-grey{
+		border-color: #CBCBCB;
+		background: #CBCBCB;
+	}
+	
+	.kpi-green span, .kpi-red span, .kpi-blue span, .kpi-grey span{
+		color: #fff !important;
+	}
+
+	.kpi-yellow span, .kpi-yellow i {
+		color: #6f767f !important;
+	}
+
+/* ******************  Bootstrap Overrides ************** */
+
+.panel {
+	border-width: 1px;
+	border-color: #ddd;
+	padding: 0 0 10px 0;
+	}
+	
+.panel .panel-heading {
+    color: #6f767f;
+	background-color: #f5f5f5;
+    border-color: #ddd;
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+/*.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9
+{
+	padding-right: 10px;
+	padding-left: 10px;
+*/
+}
+.colwrap {
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
+
+.bg-blue {
+	background-color: DarkBlue;
+	
+}
+
+/* ******************  Font Awesome Overrides ************** 
+.fa {
+	color: #FFF;
+}*/
+
+
+&lt;/style&gt;"
+			ID="ssApp"
+		/>
+		<Division
+			HtmlDiv="True"
+			ID="divSizes"
+			>
+			<Rows>
+				<Row>
+					<Column>
+						<Division
+							HtmlDiv="True"
+							ID="divSize"
+							>
+							<Label
+								Caption="LARGE  -  "
+								HtmlTag="h3"
+							/>
+							<ResponsiveVisibility
+								HideForExtraSmallScreen="True"
+								HideForLargeScreen="False"
+								HideForMediumScreen="True"
+								HideForSmallScreen="True"
+							/>
+						</Division>
+						<Division
+							HtmlDiv="True"
+							ID="divSize"
+							>
+							<Label
+								Caption="MEDIUM  -  "
+								HtmlTag="h3"
+							/>
+							<ResponsiveVisibility
+								HideForExtraSmallScreen="True"
+								HideForLargeScreen="True"
+								HideForMediumScreen="False"
+								HideForSmallScreen="True"
+							/>
+						</Division>
+						<Division
+							HtmlDiv="True"
+							ID="divSize"
+							>
+							<Label
+								Caption="SMALL  -  "
+								HtmlTag="h3"
+							/>
+							<ResponsiveVisibility
+								HideForExtraSmallScreen="True"
+								HideForLargeScreen="True"
+								HideForMediumScreen="True"
+								HideForSmallScreen="False"
+							/>
+						</Division>
+						<Division
+							HtmlDiv="True"
+							ID="divSize"
+							>
+							<Label
+								Caption="X-SMALL  -  "
+								HtmlTag="h3"
+							/>
+							<ResponsiveVisibility
+								HideForExtraSmallScreen="False"
+								HideForLargeScreen="True"
+								HideForMediumScreen="True"
+								HideForSmallScreen="True"
+							/>
+						</Division>
+					</Column>
+					<Column>
+						<Division
+							Class="divVP1"
+							HtmlDiv="True"
+							ID="divVP"
+							>
+							<Label
+								Caption="Max: 340px"
+								HtmlTag="h3"
+							/>
+						</Division>
+						<Division
+							Class="divVP2"
+							HtmlDiv="True"
+							ID="divVP"
+							>
+							<Label
+								Caption="Min: 341px - Max: 500px"
+								HtmlTag="h3"
+							/>
+						</Division>
+						<Division
+							Class="divVP3"
+							HtmlDiv="True"
+							ID="divVP"
+							>
+							<Label
+								Caption="Min: 501px - Max: 700px"
+								HtmlTag="h3"
+							/>
+						</Division>
+						<Division
+							Class="divVP4"
+							HtmlDiv="True"
+							ID="divVP"
+							>
+							<Label
+								Caption="Min: 701px - Max: 900px"
+								HtmlTag="h3"
+							/>
+						</Division>
+						<Division
+							Class="divVP5"
+							HtmlDiv="True"
+							ID="divVP"
+							>
+							<Label
+								Caption="Min: 901px - Max: 1000px"
+								HtmlTag="h3"
+							/>
+						</Division>
+						<Division
+							Class="divVP6"
+							HtmlDiv="True"
+							ID="divVP"
+							>
+							<Label
+								Caption="Min: 1001px - Max: 1200px"
+								HtmlTag="h3"
+							/>
+						</Division>
+						<Division
+							Class="divVP7"
+							HtmlDiv="True"
+							ID="divVP"
+							>
+							<Label
+								Caption="Min: 1201px - Max: 1400px"
+								HtmlTag="h3"
+							/>
+						</Division>
+						<Division
+							Class="divVP8"
+							HtmlDiv="True"
+							ID="divVP"
+							>
+							<Label
+								Caption="Min: 1401px - Max: 1600px"
+								HtmlTag="h3"
+							/>
+						</Division>
+						<Division
+							Class="divVP9"
+							HtmlDiv="True"
+							ID="divVP"
+							>
+							<Label
+								Caption="Min: 1601px - Max: 1800px"
+								HtmlTag="h3"
+							/>
+						</Division>
+						<Division
+							Class="divVP10"
+							HtmlDiv="True"
+							ID="divVP"
+							>
+							<Label
+								Caption="Min: 1801px - Max: 2000px"
+								HtmlTag="h3"
+							/>
+						</Division>
+						<Division
+							Class="divVP11"
+							HtmlDiv="True"
+							ID="divVP"
+							>
+							<Label
+								Caption="Min: 2001px "
+								HtmlTag="h3"
+							/>
+						</Division>
+					</Column>
+				</Row>
+			</Rows>
+		</Division>
+		<Division
+			Class="container-fluid"
+			HtmlDiv="True"
+			ID="divCont"
+			>
+			<ResponsiveRow
+				CollisionBehavior="Wrap"
+				>
+				<ResponsiveColumn
+					ColspanExtraSmallScreen="12"
+					ColspanLargeScreen="12"
+					ColspanMediumScreen="12"
+					ColspanSmallScreen="12"
+					>
+					<Division
+						Class="panel panel-default"
+						HtmlDiv="True"
+						ID="divPanel"
+						>
+						<Division
+							Class="panel-heading"
+							HtmlDiv="True"
+							ID="divHeading"
+							>
+							<Label
+								Caption="KPI&apos;s"
+								Class="h2"
+							/>
+						</Division>
+						<Division
+							Class="panel-body"
+							HtmlDiv="True"
+							ID="divBody"
+							>
+							<ResponsiveRow>
+								<ResponsiveColumn
+									ColspanExtraSmallScreen="12"
+									ColspanLargeScreen="2"
+									ColspanMediumScreen="4"
+									ColspanSmallScreen="6"
+									>
+									<Division
+										Class="panel panel-default"
+										HtmlDiv="True"
+										ID="divPanel"
+										>
+										<Division
+											Class="panel-body"
+											HtmlDiv="True"
+											ID="divBody"
+											>
+											<LineBreak
+												LineCount="5"
+											/>
+										</Division>
+									</Division>
+								</ResponsiveColumn>
+								<ResponsiveColumn
+									ColspanExtraSmallScreen="12"
+									ColspanLargeScreen="2"
+									ColspanMediumScreen="4"
+									ColspanSmallScreen="6"
+									>
+									<Division
+										Class="panel panel-default"
+										HtmlDiv="True"
+										ID="divPanel"
+										>
+										<Division
+											Class="panel-body"
+											HtmlDiv="True"
+											ID="divBody"
+											>
+											<LineBreak
+												LineCount="5"
+											/>
+										</Division>
+									</Division>
+								</ResponsiveColumn>
+								<ResponsiveColumn
+									ColspanExtraSmallScreen="12"
+									ColspanLargeScreen="2"
+									ColspanMediumScreen="4"
+									ColspanSmallScreen="12"
+									>
+									<Division
+										Class="panel panel-default"
+										HtmlDiv="True"
+										ID="divPanel"
+										>
+										<Division
+											Class="panel-body"
+											HtmlDiv="True"
+											ID="divBody"
+											>
+											<LineBreak
+												LineCount="5"
+											/>
+										</Division>
+									</Division>
+								</ResponsiveColumn>
+								<ResponsiveColumn
+									ColspanExtraSmallScreen="12"
+									ColspanLargeScreen="2"
+									ColspanMediumScreen="4"
+									ColspanSmallScreen="6"
+									>
+									<Division
+										Class="panel panel-default"
+										HtmlDiv="True"
+										ID="divPanel"
+										>
+										<Division
+											Class="panel-body"
+											HtmlDiv="True"
+											ID="divBody"
+											>
+											<LineBreak
+												LineCount="5"
+											/>
+										</Division>
+									</Division>
+								</ResponsiveColumn>
+								<ResponsiveColumn
+									ColspanExtraSmallScreen="12"
+									ColspanLargeScreen="2"
+									ColspanMediumScreen="4"
+									ColspanSmallScreen="6"
+									>
+									<Division
+										Class="panel panel-default"
+										HtmlDiv="True"
+										ID="divPanel"
+										>
+										<Division
+											Class="panel-body"
+											HtmlDiv="True"
+											ID="divBody"
+											>
+											<LineBreak
+												LineCount="5"
+											/>
+										</Division>
+									</Division>
+								</ResponsiveColumn>
+								<ResponsiveColumn
+									ColspanExtraSmallScreen="12"
+									ColspanLargeScreen="2"
+									ColspanMediumScreen="4"
+									ColspanSmallScreen="12"
+									>
+									<Division
+										Class="panel panel-default"
+										HtmlDiv="True"
+										ID="divPanel"
+										>
+										<Division
+											Class="panel-body"
+											HtmlDiv="True"
+											ID="divBody"
+											>
+											<LineBreak
+												LineCount="5"
+											/>
+										</Division>
+									</Division>
+								</ResponsiveColumn>
+							</ResponsiveRow>
+						</Division>
+					</Division>
+				</ResponsiveColumn>
+				<ResponsiveColumn
+					ColspanExtraSmallScreen="12"
+					ColspanLargeScreen="8"
+					ColspanMediumScreen="4"
+					ColspanSmallScreen="6"
+					>
+					<Division
+						Class="panel panel-default"
+						HtmlDiv="True"
+						ID="divPanel"
+						>
+						<Division
+							Class="panel-heading"
+							HtmlDiv="True"
+							ID="divHeading"
+							>
+							<Label
+								Caption="Heading 2"
+								Class="h2"
+							/>
+						</Division>
+						<Division
+							Class="panel-body"
+							HtmlDiv="True"
+							ID="divBody"
+							>
+							<LineBreak
+								LineCount="10"
+							/>
+						</Division>
+					</Division>
+				</ResponsiveColumn>
+				<ResponsiveColumn
+					ColspanExtraSmallScreen="12"
+					ColspanLargeScreen="4"
+					ColspanMediumScreen="4"
+					ColspanSmallScreen="6"
+					>
+					<Division
+						Class="panel panel-default"
+						HtmlDiv="True"
+						ID="divPanel"
+						>
+						<Division
+							Class="panel-heading"
+							HtmlDiv="True"
+							ID="divHeading"
+							>
+							<Label
+								Caption="Heading 3"
+								Class="h2"
+							/>
+						</Division>
+						<Division
+							Class="panel-body"
+							HtmlDiv="True"
+							ID="divBody"
+							>
+							<LineBreak
+								LineCount="10"
+							/>
+						</Division>
+					</Division>
+				</ResponsiveColumn>
+				<ResponsiveColumn
+					ColspanExtraSmallScreen="12"
+					ColspanLargeScreen="3"
+					ColspanMediumScreen="4"
+					ColspanSmallScreen="12"
+					>
+					<Division
+						Class="panel panel-default"
+						HtmlDiv="True"
+						ID="divPanel"
+						>
+						<Division
+							Class="panel-heading"
+							HtmlDiv="True"
+							ID="divHeading"
+							>
+							<Label
+								Caption="Heading 4"
+								Class="h2"
+							/>
+						</Division>
+						<Division
+							Class="panel-body"
+							HtmlDiv="True"
+							ID="divBody"
+							>
+							<LineBreak
+								LineCount="10"
+							/>
+						</Division>
+					</Division>
+				</ResponsiveColumn>
+				<ResponsiveColumn
+					ColspanExtraSmallScreen="12"
+					ColspanLargeScreen="3"
+					ColspanMediumScreen="4"
+					ColspanSmallScreen="6"
+					>
+					<Division
+						Class="panel panel-default"
+						HtmlDiv="True"
+						ID="divPanel"
+						>
+						<Division
+							Class="panel-heading"
+							HtmlDiv="True"
+							ID="divHeading"
+							>
+							<Label
+								Caption="Heading 5"
+								Class="h2"
+							/>
+						</Division>
+						<Division
+							Class="panel-body"
+							HtmlDiv="True"
+							ID="divBody"
+							>
+							<LineBreak
+								LineCount="10"
+							/>
+						</Division>
+					</Division>
+				</ResponsiveColumn>
+				<ResponsiveColumn
+					ColspanExtraSmallScreen="12"
+					ColspanLargeScreen="3"
+					ColspanMediumScreen="4"
+					ColspanSmallScreen="6"
+					>
+					<Division
+						Class="panel panel-default"
+						HtmlDiv="True"
+						ID="divPanel"
+						>
+						<Division
+							Class="panel-heading"
+							HtmlDiv="True"
+							ID="divHeading"
+							>
+							<Label
+								Caption="Heading 6"
+								Class="h2"
+							/>
+						</Division>
+						<Division
+							Class="panel-body"
+							HtmlDiv="True"
+							ID="divBody"
+							>
+							<LineBreak
+								LineCount="10"
+							/>
+						</Division>
+					</Division>
+				</ResponsiveColumn>
+				<ResponsiveColumn
+					ColspanExtraSmallScreen="12"
+					ColspanLargeScreen="3"
+					ColspanMediumScreen="4"
+					ColspanSmallScreen="12"
+					>
+					<Division
+						Class="panel panel-default"
+						HtmlDiv="True"
+						ID="divPanel"
+						>
+						<Division
+							Class="panel-heading"
+							HtmlDiv="True"
+							ID="divHeading"
+							>
+							<Label
+								Caption="Heading 7"
+								Class="h2"
+							/>
+						</Division>
+						<Division
+							Class="panel-body"
+							HtmlDiv="True"
+							ID="divBody"
+							>
+							<LineBreak
+								LineCount="10"
+							/>
+						</Division>
+					</Division>
+				</ResponsiveColumn>
+				<ResponsiveColumn
+					Class="col-sm-push-6"
+					ColspanExtraSmallScreen="12"
+					ColspanLargeScreen="6"
+					ColspanMediumScreen="6"
+					ColspanSmallScreen="12"
+					>
+					<Division
+						Class="panel panel-default"
+						HtmlDiv="True"
+						ID="divPanel"
+						>
+						<Division
+							Class="panel-heading"
+							HtmlDiv="True"
+							ID="divHeading"
+							>
+							<Label
+								Caption="Heading 8"
+								Class="h2"
+							/>
+						</Division>
+						<Division
+							Class="panel-body"
+							HtmlDiv="True"
+							ID="divBody"
+							>
+							<LineBreak
+								LineCount="10"
+							/>
+						</Division>
+					</Division>
+				</ResponsiveColumn>
+				<ResponsiveColumn
+					Class="col-sm-pull-6"
+					ColspanExtraSmallScreen="12"
+					ColspanLargeScreen="6"
+					ColspanMediumScreen="6"
+					ColspanSmallScreen="6"
+					>
+					<Division
+						Class="panel panel-default"
+						HtmlDiv="True"
+						ID="divPanel"
+						>
+						<Division
+							Class="panel-heading"
+							HtmlDiv="True"
+							ID="divHeading"
+							>
+							<Label
+								Caption="Heading 9"
+								Class="h2"
+							/>
+						</Division>
+						<Division
+							Class="panel-body"
+							HtmlDiv="True"
+							ID="divBody"
+							>
+							<LineBreak
+								LineCount="10"
+							/>
+						</Division>
+						<ResponsiveVisibility
+							HideForExtraSmallScreen="False"
+							HideForLargeScreen="False"
+							HideForMediumScreen="False"
+							HideForSmallScreen="True"
+						/>
+					</Division>
+				</ResponsiveColumn>
+			</ResponsiveRow>
+		</Division>
+	</Body>
+	<ideTestParams/>
+</Report>

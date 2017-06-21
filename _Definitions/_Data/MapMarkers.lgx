@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Data
+	ID="MapMarkers"
+	>
+	<DefaultRequestParams
+		filt1="All"
+	/>
+	<JsonData
+		ID="jsonMarkers"
+		JsonOutput="Inline"
+		JsonStyle="RowsToObjects"
+		JsonVarName="Exclude"
+		>
+		<DataLayer
+			ID="dlSamples"
+			Type="Static"
+			>
+			<StaticDataRow
+				icon="http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+				Lat="45"
+				Long="-76.5"
+				title="Title One"
+			/>
+			<StaticDataRow
+				icon="http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
+				Lat="45"
+				Long="-76"
+				title="Title Two"
+			/>
+			<StaticDataRow
+				icon="http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+				Lat="45"
+				Long="-75.5"
+				title="Title Three"
+			/>
+			<ConditionFilter
+				Condition="@Compare.cfTitle~ or &quot;@Request.filt1~&quot;==&quot;All&quot;"
+				ID="conTitle"
+				>
+				<CompareFilter
+					CaseSensitive="False"
+					CompareType="="
+					CompareValue="@Request.filt1~"
+					DataColumn="title"
+					DataType="Text"
+					ID="cfTitle"
+				/>
+			</ConditionFilter>
+			<ConditionFilter
+				Condition="@Compare.cfIcon~ or &quot;@Request.filt2~&quot;==&quot;All&quot;"
+				ID="conIcon"
+				>
+				<CompareFilter
+					CaseSensitive="False"
+					CompareType="Contains"
+					CompareValue="@Request.filt2~"
+					DataColumn="icon"
+					DataType="Text"
+					ID="cfIcon"
+				/>
+			</ConditionFilter>
+		</DataLayer>
+	</JsonData>
+	<ideTestParams
+		filt1=""
+		filt2=""
+		rdDataID="jsonMarkers"
+	/>
+</Data>
