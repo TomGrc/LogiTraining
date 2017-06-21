@@ -6,7 +6,9 @@
 		ID="themeBlackPearl"
 		Theme="BlackPearl"
 	/>
-	<Application/>
+	<Application
+		DefaultReport="Default"
+	/>
 	<Path
 		AppPath="http://localhost/LogiTraining"
 	/>

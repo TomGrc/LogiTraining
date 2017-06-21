@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Data
+	ID="New"
+	>
+	<JsonData
+		ID="test"
+		JsonHumanReadable="True"
+		JsonOutput="Inline"
+		JsonStyle="RowsToValueArrays"
+		JsonVarName="Exclude"
+		>
+		<DataLayer
+			HttpMethod="POST"
+			JsonFile="http://vp-testlab52-portal.pplab.jdsu.net:9696/v1/query"
+			Type="JsonFile"
+			XPath="/"
+			>
+			<HttpBody
+				ContentType="application/json"
+				HttpBodyContent="{
+      &quot;startTime&quot; : 1492560000000,
+      &quot;endTime&quot; : 1497881705000,
+      &quot;queryParameters&quot; :
+      {
+        &quot;type&quot;:&quot;fts&quot;,
+        &quot;source&quot;:&quot;e_gtpu_up_cause&quot;,
+        &quot;columns&quot;:[&quot;*&quot;],
+        &quot;recordNamespace&quot;:&quot;avro&quot;,
+        &quot;recordName&quot;:&quot;e_gtpu_up_cause&quot;,
+        &quot;limit&quot;:0
+      }
+ }"
+			/>
+		</DataLayer>
+	</JsonData>
+	<ideTestParams
+		rdDataID="test"
+	/>
+</Data>

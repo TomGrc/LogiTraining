@@ -1306,5 +1306,10 @@ body span {
 			</ResponsiveRow>
 		</Division>
 	</Body>
+	<IncludeSharedElement
+		DefinitionFile="SharedElements"
+		ID="sharedMenu"
+		SharedElementID="shareMenu"
+	/>
 	<ideTestParams/>
 </Report>

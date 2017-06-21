@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	ID="Vision"
+	>
+	<Remark>
+		<LocalData>
+			<DataLayer
+				HttpMethod="POST"
+				JsonFile="http://10.44.18.22:9080/job/query"
+				Type="JsonFile"
+				XPath="/"
+				>
+				<HttpBody
+					ContentType="application/json"
+					HttpBodyContent="{
+      &quot;startTime&quot; : 1496315996000,
+      &quot;endTime&quot; : 1527851996000,
+      &quot;queryParameters&quot; :
+      {
+        &quot;type&quot;:&quot;fts&quot;,
+        &quot;source&quot;:&quot; person &quot;,
+        &quot;columns&quot;:[&quot;*&quot;],
+        &quot;recordNamespace&quot;:&quot;avro&quot;,
+        &quot;recordName&quot;:&quot; person &quot;,
+        &quot;limit&quot;:3
+      }
+ }
+"
+				/>
+			</DataLayer>
+		</LocalData>
+	</Remark>
+	<Body>
+		<DataTable
+			ID="dtVision"
+			>
+			<AutoColumns/>
+			<Remark>
+				<DataLayer
+					HttpMethod="GET"
+					JsonFile="http://10.44.18.22:9080/job/@Local.jobId~"
+					Type="JsonFile"
+					XPath="/"
+				/>
+			</Remark>
+			<DataLayer
+				HttpMethod="POST"
+				JsonFile="http://vp-testlab52-portal.pplab.jdsu.net:9696/v1/query"
+				Type="JsonFile"
+				XPath="/"
+				>
+				<HttpBody
+					ContentType="application/json"
+					HttpBodyContent="{
+      &quot;startTime&quot; : 1492560000000,
+      &quot;endTime&quot; : 1497881705000,
+      &quot;queryParameters&quot; :
+      {
+        &quot;type&quot;:&quot;fts&quot;,
+        &quot;source&quot;:&quot;e_gtpu_up_cause&quot;,
+        &quot;columns&quot;:[&quot;*&quot;],
+        &quot;recordNamespace&quot;:&quot;avro&quot;,
+        &quot;recordName&quot;:&quot;e_gtpu_up_cause&quot;,
+        &quot;limit&quot;:0
+      }
+ }"
+				/>
+				<Flattener/>
+			</DataLayer>
+		</DataTable>
+	</Body>
+	<ideTestParams/>
+</Report>

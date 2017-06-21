@@ -353,6 +353,11 @@ function removeMarkers(){
 			/>
 		</Button>
 	</Body>
+	<IncludeSharedElement
+		DefinitionFile="SharedElements"
+		ID="sharedMenu"
+		SharedElementID="shareMenu"
+	/>
 	<ideTestParams
 		pfilt1=""
 		pfilt2=""
