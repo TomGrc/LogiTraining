@@ -14,14 +14,42 @@
 		ID="jQuery-3_1_0"
 		IncludedScriptFile="https://code.jquery.com/jquery-3.1.0.min.js"
 	/>
+	<DefaultRequestParams
+		islCategory="1"
+	/>
 	<LocalData
 		ID="ldChartData"
 		>
 		<DataLayer
-			ID="StaticDataLayer1"
+			ID="dlCategories"
 			Type="Static"
 			>
 			<StaticDataRow
+				id="1"
+				name="Closes"
+			/>
+			<StaticDataRow
+				id="2"
+				name="Food"
+			/>
+			<StaticDataRow
+				id="3"
+				name="Electronic"
+			/>
+			<DataLayerLink
+				ID="dllCategories"
+			/>
+			<SortFilter
+				DataType="Text"
+				SortColumn="name"
+			/>
+		</DataLayer>
+		<DataLayer
+			ID="dlsProducts"
+			Type="Static"
+			>
+			<StaticDataRow
+				categoryId="1"
 				COMMENTS_L2=""
 				Date="2013/07/23"
 				ID="1"
@@ -30,6 +58,7 @@
 				UnitQty="10"
 			/>
 			<StaticDataRow
+				categoryId="1"
 				COMMENTS_L2="Test comments"
 				Date="2013/07/14"
 				ID="2"
@@ -38,6 +67,7 @@
 				UnitQty="5"
 			/>
 			<StaticDataRow
+				categoryId="1"
 				COMMENTS_L2=""
 				Date="2013/08/13"
 				ID="3"
@@ -46,6 +76,7 @@
 				UnitQty="8"
 			/>
 			<StaticDataRow
+				categoryId="1"
 				COMMENTS_L2=""
 				Date="2013/08/08"
 				ID="4"
@@ -54,6 +85,7 @@
 				UnitQty="33"
 			/>
 			<StaticDataRow
+				categoryId="1"
 				COMMENTS_L2=""
 				Date="2013/07/13"
 				ID="5"
@@ -62,38 +94,43 @@
 				UnitQty="16"
 			/>
 			<StaticDataRow
+				categoryId="3"
 				COMMENTS_L2="Something different in here"
 				Date="2013/08/14"
 				ID="6"
-				ProdName="Trousers"
+				ProdName="Notebook"
 				UnitPrice="26"
 				UnitQty="34"
 			/>
 			<StaticDataRow
+				categoryId="3"
 				COMMENTS_L2=""
 				Date="2013/08/24"
 				ID="7"
-				ProdName="Shoes"
+				ProdName="Earphones"
 				UnitPrice="45"
 				UnitQty="3"
 			/>
 			<StaticDataRow
+				categoryId="2"
 				COMMENTS_L2=""
 				Date="2013/09/14"
 				ID="8"
-				ProdName="Trousers"
+				ProdName="Apple"
 				UnitPrice="26"
 				UnitQty="23"
 			/>
 			<StaticDataRow
+				categoryId="2"
 				COMMENTS_L2=""
 				Date="2013/09/12"
 				ID="9"
-				ProdName="Shirts"
+				ProdName="Orange"
 				UnitPrice="18"
 				UnitQty="11"
 			/>
 			<StaticDataRow
+				categoryId="1"
 				COMMENTS_L2=""
 				Date="2013/10/03"
 				ID="10"
@@ -102,6 +139,7 @@
 				UnitQty="18"
 			/>
 			<StaticDataRow
+				categoryId="1"
 				COMMENTS_L2=""
 				Date="2013/10/15"
 				ID="11"
@@ -110,6 +148,7 @@
 				UnitQty="8"
 			/>
 			<StaticDataRow
+				categoryId="1"
 				COMMENTS_L2=""
 				Date="2013/10/07"
 				ID="12"
@@ -118,6 +157,7 @@
 				UnitQty="12"
 			/>
 			<StaticDataRow
+				categoryId="1"
 				COMMENTS_L2=""
 				Date="2013/09/11"
 				ID="13"
@@ -126,6 +166,7 @@
 				UnitQty="5"
 			/>
 			<StaticDataRow
+				categoryId="1"
 				COMMENTS_L2=""
 				Date="2013/11/07"
 				ID="14"
@@ -134,6 +175,7 @@
 				UnitQty="4"
 			/>
 			<StaticDataRow
+				categoryId="1"
 				COMMENTS_L2=""
 				Date="2013/11/07"
 				ID="15"
@@ -141,6 +183,20 @@
 				UnitPrice="18"
 				UnitQty="24"
 			/>
+			<Join
+				ID="jCategories"
+				JoinType="InnerJoin"
+				>
+				<MatchCondition
+					DataType="Number"
+					LeftDataColumn="categoryId"
+					RightDataColumn="id"
+				/>
+				<DataLayer
+					LinkedDataLayerID="dllCategories"
+					Type="Linked"
+				/>
+			</Join>
 			<DataLayerLink
 				ID="dllChartData"
 			/>
@@ -202,6 +258,80 @@ ShowElement(this.id,&apos;popComments&apos;,&apos;Hide&apos;,&apos;&apos;);
 			<InputHidden
 				ID="ihUnitQty"
 			/>
+			<Button
+				Caption="Refresh products"
+				>
+				<EventHandler
+					DhtmlEvent="onClick"
+					>
+					<Action
+						ElementID="divItem"
+						ID="areProducts"
+						Type="RefreshElement"
+					/>
+				</EventHandler>
+			</Button>
+			<Division
+				HtmlDiv="True"
+				ID="divCategory"
+				>
+				<InputSelectList
+					ID="islCategory"
+					OptionCaptionColumn="name"
+					OptionValueColumn="id"
+					>
+					<DataLayer
+						ID="dlCategoryInput"
+						LinkedDataLayerID="dllCategories"
+						Type="Linked"
+					/>
+					<EventHandler
+						DhtmlEvent="onChange"
+						>
+						<Action
+							ElementID="islItem"
+							ID="areEditAlarmFieldByTech"
+							RequestForwarding="True"
+							Type="RefreshElement"
+							>
+							<WaitPage/>
+						</Action>
+					</EventHandler>
+				</InputSelectList>
+			</Division>
+			<Division
+				HtmlDiv="True"
+				ID="divItem"
+				>
+				<InputSelectList
+					ID="islItem"
+					OptionCaptionColumn="ProdName"
+					OptionValueColumn="ID"
+					>
+					<DataLayer
+						ID="dlProducts"
+						LinkedDataLayerID="dllChartData"
+						Type="Linked"
+						>
+						<ConditionFilter
+							Condition="@Data.categoryId~ = @Request.islCategory~"
+							ID="cfGroup"
+						/>
+					</DataLayer>
+					<EventHandler
+						DhtmlEvent="onChange"
+						>
+						<Action
+							ElementID="af_id"
+							ID="areEditAlarmFieldByTech"
+							RequestForwarding="True"
+							Type="RefreshElement"
+							>
+							<WaitPage/>
+						</Action>
+					</EventHandler>
+				</InputSelectList>
+			</Division>
 		</PopupPanel>
 		<PopupPanel
 			Caption="Comments"
@@ -232,6 +362,7 @@ ShowElement(this.id,&apos;popComments&apos;,&apos;Hide&apos;,&apos;&apos;);
 			ID="dtPopupTest"
 			>
 			<DataLayer
+				ID="dlChart"
 				LinkedDataLayerID="dllChartData"
 				Type="Linked"
 			/>
@@ -249,6 +380,15 @@ ShowElement(this.id,&apos;popComments&apos;,&apos;Hide&apos;,&apos;&apos;);
 				>
 				<Label
 					Caption="@Data.Date~"
+				/>
+			</DataTableColumn>
+			<DataTableColumn
+				Header="Category"
+				ID="colCategory"
+				>
+				<Label
+					Caption="@Data.name~"
+					ID="lblProdName"
 				/>
 			</DataTableColumn>
 			<DataTableColumn
@@ -352,9 +492,16 @@ $(&quot;#ihID&quot;).val(&apos;@Data.ID~&apos;);
 $(&quot;#ihProdName&quot;).val(&apos;@Data.ProdName~&apos;); 
 $(&quot;#ihUnitPce&quot;).val(&apos;@Data.UnitPrice~&apos;);
 $(&quot;#ihUnitQty&quot;).val(&apos;@Data.UnitQty~&apos;);
+$(&quot;#islCategory&quot;).val(&apos;@Data.categoryId~&apos;);
 
+
+rdAjaxRequestWithFormVars(&apos;rdAjaxCommand=RefreshElement&amp;rdRefreshElementID=divItem&amp;rdReport=PopupWithRefresh&apos;,&apos;false&apos;,&apos;&apos;,true,null,null,null,true);
 ShowElement(this.id,&apos;popComments&apos;,&apos;&apos;,&apos;FadeIn&apos;);
+$(&quot;#islItem&quot;).val(&apos;@Data.ID~&apos;);
+
 $(&quot;#inpCOMMENTS2&quot;).focus();
+
+
 "
 							Type="Javascript"
 						/>
@@ -368,5 +515,7 @@ $(&quot;#inpCOMMENTS2&quot;).focus();
 		ID="sharedMenu"
 		SharedElementID="shareMenu"
 	/>
-	<ideTestParams/>
+	<ideTestParams
+		islCategory=""
+	/>
 </Report>
