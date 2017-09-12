@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	ID="Tabs"
+	>
+	<DefaultRequestParams
+		tabsControl="tab2"
+	/>
+	<IncludeSharedElement
+		DefinitionFile="SharedElements"
+		ID="sharedMenu"
+		SharedElementID="shareMenu"
+	/>
+	<Body>
+		<Tabs
+			ID="tabsControl"
+			>
+			<TabPanel
+				Caption="Tab 1"
+				ID="tab1"
+				>
+				<Division
+					ID="tab1Content"
+					>
+					<Spaces/>
+					<Label
+						Caption="Hello world 1.     &quot;tabsControl&quot; = @Request.tabsControl~"
+					/>
+					<Spaces/>
+				</Division>
+			</TabPanel>
+			<TabPanel
+				Caption="Tab 2"
+				ID="tab2"
+				>
+				<Division
+					ID="tab2Content"
+					>
+					<Spaces/>
+					<Label
+						Caption="Hello world 2.     &quot;tabsControl&quot; = @Request.tabsControl~"
+					/>
+					<Spaces/>
+				</Division>
+			</TabPanel>
+		</Tabs>
+		<Button
+			Caption="Refresh Tab 1"
+			ID="bRefreshTab1"
+			>
+			<EventHandler
+				DhtmlEvent="onclick"
+				>
+				<Action
+					ElementID="tab1Content"
+					ID="are1"
+					RequestForwarding="True"
+					Type="RefreshElement"
+					>
+					<WaitPage
+						Caption="Loading"
+					/>
+				</Action>
+			</EventHandler>
+		</Button>
+		<Button
+			Caption="Refresh Tab 2"
+			ID="bRefreshTab2"
+			>
+			<EventHandler
+				DhtmlEvent="onclick"
+				>
+				<Action
+					ElementID="tab2Content"
+					ID="are2"
+					RequestForwarding="True"
+					Type="RefreshElement"
+					>
+					<WaitPage
+						Caption="Loading"
+					/>
+				</Action>
+			</EventHandler>
+		</Button>
+	</Body>
+	<ideTestParams
+		tabsControl=""
+	/>
+</Report>

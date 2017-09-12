@@ -226,6 +226,19 @@
 								/>
 							</Action>
 						</MenuLeaf>
+						<MenuLeaf
+							Caption="Tabs"
+							>
+							<Action
+								ID="Tabs"
+								Type="Report"
+								>
+								<Target
+									Report="Tabs"
+									Type="Report"
+								/>
+							</Action>
+						</MenuLeaf>
 					</MenuTree>
 				</Column>
 				<Column

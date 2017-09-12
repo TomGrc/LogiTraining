@@ -304,6 +304,7 @@ ShowElement(this.id,&apos;popComments&apos;,&apos;Hide&apos;,&apos;&apos;);
 				ID="divItem"
 				>
 				<InputSelectList
+					DefaultValue="@Request.ihID~"
 					ID="islItem"
 					OptionCaptionColumn="ProdName"
 					OptionValueColumn="ID"
@@ -516,6 +517,7 @@ $(&quot;#inpCOMMENTS2&quot;).focus();
 		SharedElementID="shareMenu"
 	/>
 	<ideTestParams
+		ihID=""
 		islCategory=""
 	/>
 </Report>
