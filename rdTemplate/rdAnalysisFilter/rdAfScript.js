@@ -95,7 +95,7 @@ function rdAfUpdateUi(bRefresh, sAfId, sCommand, sFilterID, sAddFilterColumnID, 
     //Update the Dashboard panel's filter caption.
     var sCaptionElementID = document.getElementById("rdAfCaptionElementID_" + sAfId).textContent
     if (sCaptionElementID!="") {
-        if (sCaptionElementID == "rdPanelFilterCaption") {
+        if (sCaptionElementID == "rdPanelFilterCaption" || sAfId.lastIndexOf("_") > 0 ) {
             //Add the panel's InstanceID
             sCaptionElementID += sAfId.substring(sAfId.lastIndexOf("_"))
         }
@@ -124,7 +124,7 @@ function rdAfUpdateCaptionElement(sAfId, bCalledOnLoad) {
     // Function gets called to update the AF caption element (if specified)
     var sCaptionElementID = document.getElementById("rdAfCaptionElementID_" + sAfId).textContent
     if (sCaptionElementID != "") {
-        if (sCaptionElementID == "rdPanelFilterCaption") {
+        if (sCaptionElementID == "rdPanelFilterCaption" || sAfId.lastIndexOf("_") > 0 ) {
             //Add the panel's InstanceID
             sCaptionElementID += sAfId.substring(sAfId.lastIndexOf("_"))
         }
@@ -195,7 +195,7 @@ function rdAfUpdateEditControls(sAfId) {
             var aAllowedOperators
             if (sColumnDataType == "Date" || sColumnDataType == "DateTime") {
                 if (document.getElementById("rdAfPickDistinctColumns_" + sAfId).textContent.indexOf(eleFilterColumn.value + ",") != -1) {
-                    aAllowedOperators = ["=", "<", "<=", ">=", ">", "<>"]   //Don't allow DateRange for Dates selected by list instead of calendar.
+                    aAllowedOperators = ["=", "<", "<=", ">=", ">", "<>", "In List", "Not In List"]   //Don't allow DateRange for Dates selected by list instead of calendar.
                 } else {
                     aAllowedOperators = ["=", "<", "<=", ">=", ">", "<>", "Date Range"]
                 }
@@ -374,7 +374,7 @@ function rdAfSetPickedFilterValues(sAfId, sValues) {
 
 
 
-function rdAfRestoreClickedFilter(sAfId, sFilterColumnID, sFilterOperator, sFilterValue, sDateType, sSlidingDateName) {
+function rdAfRestoreClickedFilter(sAfId, sFilterColumnID, sFilterOperator, sFilterValue, sDateType, sSlidingDateName, sFormat) {
     // Function gets called when a filter link (with the filter info displayed the table) is clicked. 
 
    //Set the column name.
@@ -411,6 +411,11 @@ function rdAfRestoreClickedFilter(sAfId, sFilterColumnID, sFilterOperator, sFilt
     if (sColumnDataType.indexOf("Date")!=-1) {
 
         var sInputElementValue = sFilterValue.split('|')[0];
+        //Format ?
+        if (sFormat) {
+            var dInputElementValue = new Date(sInputElementValue)
+            sInputElementValue = LogiXML.HighchartsFormatters.format(dInputElementValue, sFormat)
+        } 
         document.getElementById("rdAfFilterStartDate_" + sAfId).value = sInputElementValue;
         document.getElementById("rdAfFilterValue_" + sAfId).value = sInputElementValue; 
         document.getElementById("rdAfFilterEndDate_" + sAfId).value = '';
@@ -431,6 +436,11 @@ function rdAfRestoreClickedFilter(sAfId, sFilterColumnID, sFilterOperator, sFilt
         }  
         if(sFilterValue.split('|')[1]){
             sInputElementValue = sFilterValue.split('|')[1];
+            //Format ?
+            if (sFormat) {
+                var dInputElementValue = new Date(sInputElementValue)
+                sInputElementValue = LogiXML.HighchartsFormatters.format(dInputElementValue, sFormat)
+            }
             document.getElementById("rdAfFilterEndDate_" + sAfId).value = sInputElementValue;
             if(sDateType){
                 var sDateTypeOperator = sDateType.split(',')[1];

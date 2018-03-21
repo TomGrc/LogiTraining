@@ -39,7 +39,7 @@
           <Column ID="rdMenuColumn_rdDataMenuTreeID">
             <Label ID="rdMenuColumn_rdMenuBranchCaption">
               <Action ID="agColumnHeaderPopupMenu" Class="rdThemePopupMenu" Type="Popup" >
-                <PopupOption Caption="MenuLeafCaption">
+                <PopupOption >
                 </PopupOption>
               </Action>
             </Label>

@@ -8,7 +8,7 @@
         </Column>
       </Row>
 
-      <Row ID="rowMenu" Class="rdOgContentRow">
+      <Row ID="rowMenu" Class="rdOgContentRow" ShowModes="rdBrowser">
         <Column ID="colMenu">
           <Rows Class="rdOgPanel" Width="100" WidthScale="%" CellSpacing="4px">
             <Row >
@@ -415,7 +415,7 @@
               <Column ID="colCalc" >
 
                 <Rows Class="rdOgContentHeadingRow">
-                  <Row>
+                  <Row ShowModes="rdBrowser">
                     <Column>
                       <Image Class="rdOgContentHeading" Caption="rdTemplate/rdOlapGrid/rdOgCalculatedMeasure.gif" ID="imgCalculatedMeasureOG" />
                       <Spaces Size="1"/>
@@ -545,14 +545,14 @@
                     </DataTableColumn>
                     <DataTableColumn ID="colCalcColumnReplaceRemove">
                       <Label Caption="Replace..." ID="lblCalcReplace" Class="rdOgCommand">
-                        <Action Type="Report" ConfirmMessage="Replace?  Are you sure?">
+                        <Action Type="Report" ConfirmMessage="Replace?  Are you sure?" ID="actReplaceForSure">
                           <Target Type="Report" KeepScrollPosition="True" KeepShowElements="True"/>
                           <LinkParams rdOgCommand="CalcReplace" rdOgCalcID="@Data.ID~" rdOgCommandID="@Function.FUID~"/>
                         </Action>
                       </Label>
 					  <Spaces Size="2"/>
                       <Label Caption="Remove..." ID="lblCalcRemove" Class="rdOgCommand">
-                        <Action Type="Report" ConfirmMessage="Remove?  Are you sure?">
+                        <Action Type="Report" ConfirmMessage="Remove?  Are you sure?" ID="actRemoveForSure">
                           <Target Type="Report" KeepScrollPosition="True" KeepShowElements="True"/>
                           <LinkParams rdOgCommand="CalcRemove" rdOgCalcID="@Data.ID~" rdOgCommandID="@Function.FUID~"/>
                         </Action>
@@ -698,7 +698,7 @@
               <Column ID="colTable">
 
                 <Rows Class="rdOgContentHeadingRow">
-                  <Row>
+                  <Row ShowModes="rdBrowser">
                     <Column>
                       <Image Class="rdOgContentHeading" Caption="rdTemplate/rdOlapGrid/rdOgTableHeading.gif" ID="imgTableOG" />
                       <Spaces Size="1"/>
@@ -729,7 +729,7 @@
                       <Division Condition="@Session.ogEmptyTable~">
                         <Image Caption="rdTemplate/rdAddToDBoard.png" Tooltip="Add to dashboard." ID="lblAddToDashboardDataTable">
                           <Action ID="actAddToDashboardOlapTable" Type="AddDashboardPanel" DashboardSaveFile="@Request.DashboardSaveFile~" AddPanelContentElementID="otOlapGrid" AddPanelPopupCaption="Add Panel" AddPanelButtonCaption="Done" AddPanelTitle="Enter a Panel Title" AddPanelDescription="" Image="../rdTemplate/rdAnalysisGrid/rdAgCrosstab.png" MultipleInstances="False" OgAddToDashboard="True" OgDataTable="True" AddPanelSkipLocalData="False">
-                            <BookmarkLinkback Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
+                            <BookmarkLinkback ID="blTableRunOriginal" Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
                           </Action>
                         </Image>
                       </Division>
@@ -738,7 +738,7 @@
           </Rows>
 
 				  <Rows Class="rdOgContentHeadingRow"  Width="100" WidthScale="%">
-					  <Row>
+					  <Row ShowModes="rdBrowser">
 						  <Column>
 							  <Division ID="divShowEmpty" Condition="@Session.ogEmptyTable~">
 								  <InputCheckbox CheckedValue="True" ID="ogShowEmpty">
@@ -787,7 +787,7 @@
                   <LinkParams rdOgCommand="ShowProps" rdOlapTableID="otOlapGrid" rdDimension="" rdProp="rdShowAll" rdOgCommandID="@Function.FUID~" />
                 </Action>
               </PopupOption>
-              <PopupOption Caption="Hide All Member Properties" Class="rdOgPopupItem">
+              <PopupOption ID="lblHideProps" Caption="Hide All Member Properties" Class="rdOgPopupItem">
                 <Action Type="Report">
                   <Target Type="Report" KeepScrollPosition="True" KeepShowElements="True" />
                   <LinkParams rdOgCommand="ShowProps" rdOlapTableID="otOlapGrid" rdDimension="" rdProp="rdHideAll" rdOgCommandID="@Function.FUID~" />
@@ -820,7 +820,7 @@
                 <Division Condition="@Session.ogEmptyTable~">
                   <Image Caption="rdTemplate/rdAddToDBoard.png" Tooltip="Add to dashboard." ID="lblAddToDashboardChart">
                     <Action ID="actAddToDashboardOlapChart" Type="AddDashboardPanel" DashboardSaveFile="@Request.DashboardSaveFile~" AddPanelContentElementID="ogChart" AddPanelPopupCaption="Add Panel" AddPanelButtonCaption="Done" AddPanelTitle="Enter a Panel Title" AddPanelDescription="" MultipleInstances="False" OgAddToDashboard="True" OgChart="True" AddPanelSkipLocalData="False">
-                      <BookmarkLinkback Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
+                      <BookmarkLinkback ID="blChartRunOriginal" Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
                     </Action>
                   </Image>
                 </Division>
@@ -934,7 +934,7 @@
                       <Division Condition="@Session.ogEmptyTable~">
                         <Image Caption="rdTemplate/rdAddToDBoard.png" Tooltip="Add to dashboard." ID="lblAddToDashboardHeatmap">
                           <Action ID="actAddToDashboardOlapHeatmap" Type="AddDashboardPanel" DashboardSaveFile="@Request.DashboardSaveFile~" AddPanelContentElementID="heatmapGrid" AddPanelPopupCaption="Add Panel" AddPanelButtonCaption="Done" AddPanelTitle="Enter a Panel Title" AddPanelDescription="" MultipleInstances="False" Image="../rdTemplate/rdOlapGrid/rdOgHeatmap.png" OgAddToDashboard="True" OgHeatmap="True" AddPanelSkipLocalData="False">
-                            <BookmarkLinkback Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
+                            <BookmarkLinkback ID="blHeatmapRunOriginal" Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
                           </Action>
                         </Image>
                       </Division>

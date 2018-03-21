@@ -33,6 +33,7 @@
 		<Label
 			Caption="Metadata Join Details"
 			Class="ThemeHeaderLarger"
+      ID="lblTitle"
 		/>
 		<LineBreak
 			LineCount="2"
@@ -40,6 +41,7 @@
 		<Label
 			Caption="Join relations represent a linking between two tables. The linkage is based on one or more pairs of columns which have matching values in both tables."
 			Format="Preserve Line Feeds"
+      ID="lblInstruct"
 		/>
 		<LineBreak
 			LineCount="3"
@@ -56,6 +58,7 @@
 						>
 						<Label
 							Caption="From Table"
+              ID="lblFromTable"
 						/>
 					</Column>
 					<Column>
@@ -68,6 +71,7 @@
 						>
 						<Label
 							Caption="To Table"
+              ID="lblToTable"
 						/>
 					</Column>
 				</Row>
@@ -163,6 +167,7 @@ rdMetadataSetValue(this,&apos;JoinRelationSetValue&apos;,&apos;MetadataID=@Reque
 						>
 						<Label
 							Caption="From Columns"
+              ID="lblFromColumns"
 						/>
 					</Column>
 					<Column/>
@@ -171,6 +176,7 @@ rdMetadataSetValue(this,&apos;JoinRelationSetValue&apos;,&apos;MetadataID=@Reque
 						>
 						<Label
 							Caption="To Columns"
+              ID="lblToColumns"
 						/>
 					</Column>
 				</Row>
@@ -269,7 +275,10 @@ rdMetadataSetValue(this,&apos;JoinRelationSetValue&apos;,&apos;MetadataID=@Reque
 								>
 								<Image
 									Caption="rdTemplate/rdDelete2.png"
+                  Height="20"
+                  ID="imgRemove"
 									Tooltip="Remove..."
+                  Width="20"
 									>
 									<Action
 										ConfirmMessage="Remove?"
@@ -288,6 +297,7 @@ rdMetadataSetValue(this,&apos;JoinRelationSetValue&apos;,&apos;MetadataID=@Reque
 					<Column>
 						<Label
 							Caption="Add Join Columns"
+              ID="lblAddColumns"
 							>
 							<Action
 								ID="jsAddNewJoinDetails"
@@ -314,12 +324,14 @@ rdMetadataSetValue(this,&apos;JoinRelationSetValue&apos;,&apos;MetadataID=@Reque
 						<Label
 							Caption="Join Type"
 							Class="ThemeHeader"
+              ID="lblJoinType"
 						/>
 						<LineBreak/>
 						<Label
 							Caption="&quot;Inner Join&quot; returns all rows from both the tables, as long as there is a match on the &quot;From&quot; column and the &quot;To&quot; column.
 &quot;Left Outer Join&quot; returns all rows from the &quot;From&quot; table, even if there are no matches in the &quot;To&quot; table, with NULL values in the right side when there is no match."
 							Format="Preserve Line Feeds"
+              ID="lblJoinTypeInstruct"
 						/>
 					</Column>
 				</Row>
@@ -368,9 +380,10 @@ rdMetadataSetValue(this,&apos;JoinRelationSetValue&apos;,&apos;MetadataID=@Reque
 						<Label
 							Caption="Done"
 							Class="ThemeLinkButton"
+              ID="lblDone"
 							>
 							<Action
-								Javascript="history.go(-1);return false;"
+								Javascript="if(window.location.href.indexOf('rdForWizard=True') > -1){ if(window.external){ try { return window.external.CloseWizardWindow(); } catch(err) {return true;} } } else { history.go(-1);return false; }"
 								Type="Javascript"
 							/>
 						</Label>

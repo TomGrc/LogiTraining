@@ -39,6 +39,7 @@ rdMetadataCheckBackButtonRefresh(&quot;Joins&quot;);
 		<Label
 			Caption="Metadata Joins"
 			Class="ThemeHeaderLarger"
+			ID="lblTitle"
 		/>
 		<LineBreak
 			LineCount="2"
@@ -46,6 +47,7 @@ rdMetadataCheckBackButtonRefresh(&quot;Joins&quot;);
 		<Label
 			Caption="Set the relationships between tables so users may join them together. Add new joins, and edit existing joins."
 			Format="Preserve Line Feeds"
+			ID="lblInstruct"
 		/>
 		<LineBreak
 			LineCount="2"
@@ -58,6 +60,7 @@ rdMetadataCheckBackButtonRefresh(&quot;Joins&quot;);
 					<Label
 						Caption="Actions:"
 						Class="ThemeHeader"
+						ID="lblActions"
 					/>
 					<Spaces
 						Size="2"
@@ -65,9 +68,11 @@ rdMetadataCheckBackButtonRefresh(&quot;Joins&quot;);
 					<Label
 						Caption="Add New Join"
 						Class="ThemeLinkButton"
+						ID="lblAddNewJoin"
 						>
 						<Action
 							ConfirmMessage="Add a new Join?"
+							ID="jsNewJoin"
 							Javascript="rdMetadataSetBackButtonRefresh(&quot;Joins&quot;);
 rdMetadataAddNewJoin(&apos;@Request.MetadataID~&apos;,&apos;@Request.TableName~&apos;);
 return false;"
@@ -80,9 +85,10 @@ return false;"
 					<Label
 						Caption="Done"
 						Class="ThemeLinkButton"
+						ID="lblDone"
 						>
 						<Action
-							Javascript="history.go(-1);return false;"
+							Javascript="if(window.location.href.indexOf('rdForWizard=True') > -1){ if(window.external){ try { return window.external.CloseWizardWindow(); } catch(err) {return true;} } } else { history.go(-1);return false; }"
 							Type="Javascript"
 						/>
 					</Label>
@@ -107,6 +113,7 @@ return false;"
 			<Label
 				Caption="Filter Joins"
 				Class="ThemeLinkButtonSmall"
+				ID="lblFilterJoins"
 			/>
 			<Spaces
 				Size="3"
@@ -178,6 +185,7 @@ return false;"
 			AjaxPaging="True"
 			Caption="Joins"
 			ID="dt"
+			RememberSort="True"
 			SortArrows="True"
 			>
 			<InteractivePaging
@@ -273,12 +281,13 @@ return false;"
 				</DataTableColumn>
 			</Remark>
 			<DataTableColumn
-				Class="ThemeAlignCenter"
+				Class="ThemeAlignCenter ThemeNoWrap"
 				Header="Actions"
 				ID="colActions"
 				>
 				<Image
 					Caption="rdTemplate/rdMetadata/EditJoins.png"
+					ID="imgEdit"
 					Tooltip="Edit Join"
 					>
 					<Action
@@ -300,7 +309,10 @@ return false;"
 				/>
 				<Image
 					Caption="rdTemplate/rdDelete2.png"
+          Height="20"
+					ID="imgRemove"
 					Tooltip="Remove..."
+          Width="20"
 					>
 					<Action
 						ConfirmMessage="Remove?"

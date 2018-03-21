@@ -119,6 +119,9 @@ YUI.add('chartCanvas', function (Y) {
             if (!refreshType || refreshType == '') {
                 refreshType = "UpdateData";
             }
+            if (chartNode.getAttribute('bookmark-migration-finished')) {
+                this.chart.renderTo.setAttribute('bookmark-migration-finished', chartNode.getAttribute('bookmark-migration-finished'));
+            }
             this.rdSetChartData(chartOptions, refreshType);
         },
 
@@ -146,6 +149,7 @@ YUI.add('chartCanvas', function (Y) {
                                 }
                             }
                         }
+                        this.chart.setTitle(chartOptions.title, true)
                         
                     }
                     break;
@@ -340,7 +344,9 @@ YUI.add('chartCanvas', function (Y) {
                 this.createChart(chartOptions);
             } else {
                 this.createChart(chartOptions);
-                this.chart.showLoading('<img src="rdTemplate/rdWait.gif" alt="loading..."></img>');
+                if (this.id !="rdMigrationGauge") {
+                    this.chart.showLoading('<img src="rdTemplate/rdWait.gif" alt="loading..."></img>');
+                }
                 this.requestChartData(null, "createChart", true);
             }
         },
@@ -726,7 +732,7 @@ YUI.add('chartCanvas', function (Y) {
 
         requestChartData: function (url, callbackFunctionName, prm1, prm2, prm3) {
             var chartUrl = url ? url : this.jsonUrl;
-            if (this.chart) {
+            if (this.chart && callbackFunctionName != "createChart") {
                 chartUrl += "&rdDynamicChartWidth=" + this.chart.chartWidth;
                 chartUrl += "&rdDynamicChartHeight=" + this.chart.chartHeight;
             }
@@ -1850,6 +1856,12 @@ YUI.add('chartCanvas', function (Y) {
                             if (this.isUnderSE === "True") {
                                 requestUrl += "&rdUnderSuperElement=True";
                             }
+
+                            if (document.getElementById("rdFreeformLayout")) {
+                                requestUrl += "&rdFreeformLayout=True";
+                                console.log("width: " + width);
+                                console.log("height: " + height);
+                            }
                             rdAjaxRequest(requestUrl);
                         }
                     }
@@ -1957,19 +1969,41 @@ YUI.add('chartCanvas', function (Y) {
             if (dateGrouping && dateGrouping.length > 0) {
                 if (this.drillTo.usedColumnIndexes[0] != -1 && this.drillTo.drillToColumns[this.drillTo.usedColumnIndexes[0]].DataColumn != dataColumnName) {
                     columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfYear');
+                    columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfFiscalYear');
                     columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfQuarter');
+                    columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfFiscalQuarter');
                     columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfMonth');
                     columnsInUse.push(dataColumnName);
                 } else {
                     switch (dateGrouping) {
                         case 'FirstDayOfYear':
                             columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfYear');
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfFiscalYear');
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfFiscalQuarter');
                             break;
                         case 'FirstDayOfQuarter':
                             columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfYear');
                             columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfQuarter');
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfFiscalYear');
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfFiscalQuarter');
                             break;
                         case 'FirstDayOfMonth':
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfYear');
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfQuarter');
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfMonth');
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfFiscalYear');
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfFiscalQuarter');
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfFiscalMonth');
+                            break;
+                        case 'FirstDayOfFiscalYear':
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfFiscalYear');
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfYear');
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfQuarter');
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfMonth');
+                            break;
+                        case 'FirstDayOfFiscalQuarter':
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfFiscalYear');
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfFiscalQuarter');
                             columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfYear');
                             columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfQuarter');
                             columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfMonth');
@@ -1980,6 +2014,9 @@ YUI.add('chartCanvas', function (Y) {
                 columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfYear');
                 columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfQuarter');
                 columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfMonth');
+                columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfFiscalYear');
+                columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfFiscalQuarter');
+                columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfFiscalMonth');
                 columnsInUse.push(dataColumnName);
             } else {
                 columnsInUse.push(dataColumnName);
@@ -2244,7 +2281,7 @@ YUI.add('chartCanvas', function (Y) {
             allCharts.each(function (node) {
                 chart = node.getData(TRIGGER);
                 if (chart) {
-                    console.log('reflow all charts');
+                    //console.log('reflow all charts');
                     chart.responsiveResize.call(chart, chart, true);
                 }
             });

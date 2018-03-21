@@ -31,6 +31,7 @@ function iframeResize(o, sOptionalParam) {
 
         iframeNode.setStyle('overflow', 'hidden');
         if (canAccess) {
+
             // An onload will fire with the initial page load even though the iframes are essentially empty.
             if (bodyNode.get('scrollWidth') == 0 && bodyNode.get('scrollHeight') == 0) {
                 return;
@@ -107,8 +108,13 @@ function iframeResize(o, sOptionalParam) {
             height = htmlNode.get('scrollHeight');
             height += 20  //Represents the scrollbar width.
 
-            if (bodyNode.get('scrollHeight') > htmlNode.get('scrollHeight') && height == 1)
+            if (bodyNode.get('scrollHeight') >= htmlNode.get('scrollHeight') && height == 21) {
                 height = bodyNode.get('scrollHeight');
+            }
+
+            if ((navigator.userAgent.indexOf('Trident') > 0) && (height == 42)) {
+                height = 400;
+            }
 
 			//AH-730 fix unnecessarily  scrolls for crosstab drilldowns
 			o.style.height = "";

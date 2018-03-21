@@ -421,8 +421,8 @@ YUI.add('element-seeker', function (Y) {
 		    if (rdIdeIdx === null)
 		        return;
 
-		    var reportID = rdAjaxGetUrlParameter(location.href.toString(), "rdReport");
-		    var isMobileReport = rdAjaxGetUrlParameter(location.href.toString(), "rdMobile");
+		    var reportID = LogiXML.getUrlParameter(location.href.toString(), "rdReport");
+		    var isMobileReport = LogiXML.getUrlParameter(location.href.toString(), "rdMobile");
 			var xml = window.document.implementation.createDocument("", "", null);
 			var docEle = xml.createElement("ServerMessage");
 

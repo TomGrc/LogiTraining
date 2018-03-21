@@ -2,7 +2,7 @@ var rdCurrPopupPanel
 var rdMouseX
 var rdMouseY
 
-Y.use('dd-plugin', 'dd-scroll', 'escape', function(Y){
+Y.use('dd-constrain', 'dd-plugin', 'dd-scroll', 'escape', function(Y){
 
     LogiXML.PopupPanel.rdShowPopupPanel = function(elePopupPanel) {
         var rdModalShade;
@@ -202,6 +202,12 @@ Y.use('dd-plugin', 'dd-scroll', 'escape', function(Y){
 			        rdMouseY = elePopupPanel.style.posTop;				
 		        });
     			
+                if (rdModalShade) {
+                    drag.dd.plug(Y.Plugin.DDConstrained, {
+                        constrain2node: rdModalShade
+                    });
+                }
+
 		        //Now you can only drag it from the panel title
 		        var hndNode = Y.one('#' + sTitleBarId);
 		        if (Y.Lang.isNull(hndNode)) {
@@ -409,7 +415,13 @@ function rdPositionPopupPanel(elePopupPanel){
             break
     }
     
-    if(document.getElementById('rdFreeformLayout')){
+    if (document.getElementById('rdFreeformLayout')){
+        //RD21229 - position needs to be 'fixed' for RA popup panels.
+        if (document.getElementById('rdFreeformLayout').parentElement.id == 'colReportAuthorWorkingArea') {
+            elePopupPanel.style.position = 'fixed';
+            nLeft = nLeft - nScrollLeft;
+            nTop = nTop - nScrollTop;
+        }
         if(rdGetModalShade(elePopupPanel) != null)  //#15131.
             rdGetModalShade(elePopupPanel).style.position = 'fixed';
     }

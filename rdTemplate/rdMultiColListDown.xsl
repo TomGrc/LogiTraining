@@ -37,11 +37,14 @@
     <xsl:variable name="nFullColumnsRowCnt">
       <xsl:value-of select="$nFullColumnsCnt * $nRowsPerFullColumn"/>
     </xsl:variable>
+
+    
+
     <xsl:choose>
       <xsl:when test="position() &lt;= $nFullColumnsRowCnt">
         <xsl:choose>
           <xsl:when test="(position()-1) mod $nRowsPerFullColumn = 0">
-            <TD style="vertical-align:top;nowrap:nowrap;padding:4px;" />
+            <TD style="vertical-align:top;nowrap:nowrap;padding:4px;" /><rdMclTdStart />
               rdListRecord
             </xsl:when>
             <xsl:otherwise>
@@ -53,7 +56,7 @@
       <xsl:otherwise>
         <xsl:choose>
           <xsl:when test="(position() - $nFullColumnsRowCnt - 1) mod ($nRowsPerReducedColumn) = 0">
-             <TD style="vertical-align:top;nowrap:nowrap;padding:4px;"/>
+             <TD style="vertical-align:top;nowrap:nowrap;padding:4px;"/><rdMclTdStart />
            rdListRecord
           </xsl:when>
           <xsl:otherwise>
@@ -63,5 +66,8 @@
         </xsl:choose>
       </xsl:otherwise>
     </xsl:choose>
+    <rdMclTdEnd />
+    
+    
 	</xsl:for-each>
 

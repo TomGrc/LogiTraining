@@ -337,6 +337,7 @@
 
         sResize += "," + sourceTableNode.getAttribute('ID') + ":" + tableWidth;
         var sResizableColumnsID = sourceTable.getAttribute("rdResizableColumnsID");
+        var sReportID = sourceTable.getAttribute("rdReportID");
 
         //For Logi: Save the new column sizes back to the server
         if (sourceTable.id == "dtAnalysisGrid") {
@@ -346,10 +347,13 @@
             hiddenNoCache.name = "rdNoXslCache";
             hiddenNoCache.value = "True";
             sourceTable.tHead.rows[0].cells[0].appendChild(hiddenNoCache);
-
-            rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SaveResizableColumns&rdResizableColumnsID=' + sResizableColumnsID + '&rdResize=' + sResize + '&rdIsAg=True&rdAgID=' + document.rdForm.rdAgId.value);
+            rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SaveResizableColumn&rdReport=' + sReportID + 's&rdResizableColumnsID=' + sResizableColumnsID + '&rdResize=' + sResize + '&rdIsAg=True&rdAgID=' + document.rdForm.rdAgId.value);
         } else {
-            rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SaveResizableColumns&rdResizableColumnsID=' + sResizableColumnsID + '&rdResize=' + sResize);
+            var sSuperElementParam = ""
+            if (document.getElementById('rdDashboardPanelContainer')) { sSuperElementParam = '&rdIsDashboard=True' }
+            if (Y.one('.rd-report-author-element')) { sSuperElementParam = '&rdIsReportAuthor=True' }
+
+            rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SaveResizableColumns&rdReport=' + sReportID + '&rdResizableColumnsID=' + sResizableColumnsID + '&rdResize=' + sResize + sSuperElementParam);
         }
         
     };

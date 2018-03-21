@@ -26,8 +26,8 @@ function TryParseFloat(str, defaultValue) {
     return retValue;
 }
 
-if (system.args.length < 6) {
-    console.log('Script expects 5 parameters: htmlFileName, fileNameTemplate, pageWidth, browserTimeout, sCheckTimeInterval');
+if (system.args.length < 7) {
+    console.log('Script expects 6 parameters: htmlFileName, fileNameTemplate, pageWidth, browserTimeout, sCheckTimeInterval, sAccessToken (optional)');
     phantom.exit(1);
 } else {
     var address = system.args[1];
@@ -36,6 +36,12 @@ if (system.args.length < 6) {
     page.viewportSize = { width: pageWidth, height: 800 };
     var browserTimeout = TryParseInt(system.args[4], 60) * 1000;
     var checkTimeInterval = TryParseInt((TryParseFloat(system.args[5], 0.25) * 1000) + "", 250);  //25729
+    var sAccessToken = system.args[6];
+    if (sAccessToken) {
+        page.customHeaders = {
+            "Authorization": sAccessToken
+        };
+    }
     var maxAttempt = browserTimeout / checkTimeInterval;
     var currentAttempt = 0;
 
@@ -75,7 +81,11 @@ if (system.args.length < 6) {
                 //special case for Highcharts
                 if (browserBornElement.one('.highcharts-container')) {
                     html = browserBornElement.one('.highcharts-container').get('outerHTML');
-                } else {
+                } else if (browserBornElement.one("logi-visualization logi-load-overlay")) {
+                    browserBornElement.one("logi-visualization logi-load-overlay").remove();
+                    html = browserBornElement.get('outerHTML');
+                }
+                else {
                     html = browserBornElement.get('outerHTML')
                 }
                 ret.push({

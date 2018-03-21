@@ -15,6 +15,7 @@
         <Column ID="colMenu" Class="rdAgNoPadding">
           <Division ShowModes="None">
             <InputText ID="rdAgCurrentOpenPanel" DefaultValue="@Request.rdAgCurrentOpenPanel~" />
+            <InputText ID="rdAllowChartBasedOnCurrentColumns" DefaultValue="@Request.rdAllowChartBasedOnCurrentColumn~" />
             <InputText ID="rdAllowCrosstabBasedOnCurrentColumns" DefaultValue="@Request.rdAllowCrosstabBasedOnCurrentColumn~" />
           </Division>
           <Rows Class="rdAgPanel" CellSpacing="4px" Width="100" WidthScale="%">
@@ -172,7 +173,7 @@
                   <Row>
                     <Column>
                       <Image Class="rdAgContentHeading" Caption="rdTemplate/rdAnalysisGrid/rdAgQueryBuilder.gif" ID="imgQueryBuilderSub" />
-                      <Spaces Size="2" />
+                      <Spaces ID="spaceQueryBuilderDescription" Size="2" />
                       <Label ID="lblQueryBuilderDescription" Class="rdAgContentHeading" Caption="Select data for analysis." />
                       <Division ID="divColumnError-InUse" Condition="@Session.agColumnError-InUse~">
                         <Spaces Size="3" />
@@ -220,28 +221,46 @@
                         <InputText ID="rdAgCalcName" DefaultValue="@Request.rdAgCalcName~" />
                       </Column>
                     </Row>
-                    <Row Class="rdAgAlignRight" ID="row2ColCalc">
-                      <Column ID="col1Row2Calc" />
-                      <Column ID="col2Row2Calc">
-                        <Label ID="lblCalcInsertDataColumn" Caption="Insert a column" For="rdAgCalcDataColumns" />
-                        <Spaces Size="2" />
-                        <InputSelectList OptionValueColumn="BracketedColumnName" ID="rdAgCalcDataColumns" OptionCaptionColumn="ColumnName" IncludeBlank="True">
-                          <DataLayer Type="Static" ID="dlCalcDataColumns" />
-                        </InputSelectList>
-                        <Spaces Size="2" />
-                        <Label ID="lblCalcInsertDataColumnNow" Caption="Insert" Class="rdAgCommand">
-                          <Action Type="Link" ID="actCalcInsertDataColumnNow">
-                            <Target Type="Link" ID="tgtCalcInsertDataColumnNow" Link="javascript:document.rdForm.rdAgCalcFormula.value=document.rdForm.rdAgCalcFormula.value+document.rdForm.rdAgCalcDataColumns.value" />
-                          </Action>
-                        </Label>
-                      </Column>
-                    </Row>
-                    <Row ID="row3ColCalc">
+                     <Row ID="row3ColCalc">
                       <Column ID="col1Row3Calc">
                         <Label ID="lblCalcFormula" Caption="Formula" For="rdAgCalcFormula" />
                       </Column>
                       <Column ID="col2Row3Calc">
-                        <InputTextArea ID="rdAgCalcFormula" InputColumns="50" InputRows="4" DefaultValue="@Request.rdAgCalcFormula~" />
+                        <InputTextArea ID="rdAgCalcFormula" InputColumns="50" InputRows="5" DefaultValue="@Request.rdAgCalcFormula~" >
+                          <EventHandler DhtmlEvent="onblur">
+                            <Action Javascript="rdFormulaTextSelection = rdGetFormulaSelection()" Type="Javascript" />
+                          </EventHandler>
+                        </InputTextArea>
+                      </Column>
+                      <Column ID="col2Row2Calc" Class="rdAgAlignRight">
+                        <Label ID="lblCalcInsertDataColumn" Caption="Insert a Column " For="rdAgCalcDataColumns" />
+                        <InputSelectList OptionValueColumn="BracketedColumnName" ID="rdAgCalcDataColumns" OptionCaptionColumn="ColumnName" IncludeBlank="True" Class="rdThemeInput rdAgCalcInsert">
+                          <DataLayer Type="Static" ID="dlCalcDataColumns" >
+                          </DataLayer>
+                          <EventHandler DhtmlEvent="onchange">
+                            <Action Type="Javascript" ID="actCalcInsertDataColumnNow" Javascript="rdInsertIntoFormula(rdForm.rdAgCalcDataColumns)" >
+                            </Action>
+                          </EventHandler>
+                        </InputSelectList>
+                        <LineBreak />
+                        <Label ID="lblCalcInsertFormula" Caption="Formula " For="rdAgCalcFormulas" />
+                        <InputSelectList OptionValueColumn="Syntax" ID="rdAgCalcFormulas" OptionCaptionColumn="Syntax" Tooltip="@Data.Description~" IncludeBlank="True" Class="rdThemeInput rdAgCalcInsert">
+                          <DataLayer Type="XMLFile" ID="dlCalcFormulas" XMLFile="@Function.AppPhysicalPath~/rdTemplate/rdAnalysisGrid/rdAg10HelpCalcData.lgx" >
+                            <SortFilter SortColumn="Syntax" />
+                          </DataLayer>
+                          <EventHandler DhtmlEvent="onchange">
+                            <Action Type="Javascript" ID="actCalcInsertOperatorNow" Javascript="rdInsertIntoFormula(rdForm.rdAgCalcFormulas)" />
+                          </EventHandler>
+                        </InputSelectList>
+                        <LineBreak />
+                        <Label ID="lblCalcInsertOperator" Caption="Operator " For="rdAgCalcOperators" />
+                        <InputSelectList OptionValueColumn="Operator" ID="rdAgCalcOperators" OptionCaptionColumn="Operator" Tooltip="@Data.Description~" IncludeBlank="True" Class="rdThemeInput rdAgCalcInsert">
+                          <DataLayer Type="XMLFile" ID="dlCalcOperators" XMLFile="@Function.AppPhysicalPath~/rdTemplate/rdAnalysisGrid/rdAg10HelpCalcDataOp.lgx" >
+                          </DataLayer>
+                          <EventHandler DhtmlEvent="onchange">
+                            <Action Type="Javascript" ID="actCalcInsertFormulaNow" Javascript="rdInsertIntoFormula(rdForm.rdAgCalcOperators)" />
+                          </EventHandler>
+                        </InputSelectList>
                       </Column>
                     </Row>
                     <Row ID="row4ColCalc">
@@ -254,9 +273,9 @@
                             <StaticDataRow Format="Number" FormatName="Number" />
                             <StaticDataRow Format="Text" FormatName="Text" />
                             <StaticDataRow Format="Date" FormatName="Date" />
-							<StaticDataRow Format="DateTime" FormatName="DateTime" />
-							<StaticDataRow Format="Boolean" FormatName="True/False"/>
-						  </DataLayer>
+							              <StaticDataRow Format="DateTime" FormatName="DateTime" />
+							              <StaticDataRow Format="Boolean" FormatName="True/False"/>
+						              </DataLayer>
                         </InputSelectList>
                       </Column>
                     </Row>
@@ -301,7 +320,8 @@
                         <Division ID="divCalcError-ActiveSql" Condition="&quot;@Request.rdAgCommand~&quot;.indexOf(&quot;Calc&quot;)==0">
                           <Division ID="divCalcError-ActiveSql" Condition="@Session.rdActiveSqlError~">
                             <Spaces Size="3" />
-                            <Label ID="lblActiveSqlErrorCalc" Caption="There is an error in the formula." Class="rdAgError" />
+                            <Label ID="lblActiveSqlErrorCalc" Caption="Formula error. @Session.rdActiveSqlErrorMsg~" Class="rdAgError">
+                            </Label>
                           </Division>
                         </Division>
                       </Column>
@@ -322,7 +342,11 @@
                       <Spaces Size="3" />
                     </DataTableColumn>
                     <DataTableColumn ID="colCalcColumnFormula" Class="rdNoClass">
-                      <Label Caption="@Data.Formula~" ID="lblCalcColumnFormula" />
+                      <Label Caption="@Data.Formula~" ID="lblCalcColumnFormula" >
+                        <Action Type="Link" ID="actShowCalcColumn">
+                          <Target Type="Link" Link="javascript:&#xD;&#xA;document.rdForm.rdAgCalcName.value=&quot;@Data.Name~&quot;;&#xD;&#xA;document.rdForm.rdAgCalcDataTypes.value=&quot;@Data.DataType~&quot;;&#xD;&#xA;document.rdForm.rdAgCalcFormula.value=&quot;@Data.Formula~&quot;.replace(/&amp;quot;/g,'&quot;').replace(/&amp;amp;/g,'&amp;').replace(/&amp;lt;/g,'&lt;');&#xD;&#xA;document.rdForm.rdAgCalcFormats.value=&quot;@Data.Format~&quot;;&#xD;&#xA;" ID="tgtShowCalcColumn" />
+                        </Action>
+                      </Label>
                       <Spaces Size="3" />
                     </DataTableColumn>
                     <DataTableColumn ID="colCalcColumnReplaceRemove" Class="rdNoClass">
@@ -424,13 +448,13 @@
 							<Column ID="colAddToDashboardDataTable" Width="1" WidthScale="%">
 								<Image ID="imgAddToDashboardDataTable" Caption="rdTemplate/rdAddToDBoard.png" Tooltip="Add to dashboard.">
 									<Action ID="actAddToDashboardDataTable" Type="AddDashboardPanel" DashboardSaveFile="@Request.DashboardSaveFile~" AddPanelContentElementID="dtAnalysisGrid" AddPanelPopupCaption="Add Panel" AddPanelButtonCaption="Done" AddPanelTitle="Table" AddPanelDescription="" Image="../rdTemplate/rdAnalysisGrid/rdAgDataTable.png" AgAddToDashboard="True" AddPanelSkipLocalData="False">
-										<BookmarkLinkback Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
+										<BookmarkLinkback ID="blTableRunOriginal" Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
 									</Action>
 								</Image>
 							</Column>
 							<Column ID="colTableExportControls" Class="ThemeAlignLeft" Width="1" WidthScale="%" >
 								<Division Condition="(parseInt(&quot;@Session.dtAnalysisGrid-RowCnt~&quot;) || 0) &lt;= (parseInt(&quot;@Session.rdAgMaxRowsExport~&quot;) || 0) || @Session.rdAgAllowASQLExport~">
-									<Image ID="imgTableExport" Caption="rdTemplate/rdExport.png" Tooltip="Export up to @Session.rdAgMaxRowsExport~ rows.">
+									<Image ID="imgTableExport" Caption="rdTemplate/rdExport.png" Tooltip="@Session.rdAgMaxRowsExportTooltip~">
 										<Action Type="Popup" ID="agExportPopupMenu" Class="rdThemePopupMenu">
 											<PopupOption ID="lblExportExcel" Caption="Excel">
 												<Action Type="NativeExcel" ID="actExportExcel">
@@ -475,7 +499,7 @@
                     <Row>
                       <Column>
                         <Rows Width="1" WidthScale="%">
-                          <Row>
+                          <Row ID="rowTableMenuOptions">
                             <Column ID="colTable" WidthScale="%" Width="1">
                               <Label Caption="Columns" ID="lblHeadingLayout" Class="rdAgCommandLeft">
                                 <Action Type="Link">
@@ -517,7 +541,7 @@
                                             <Row>
                                               <Column>
                                                 <Image Class="rdAgContentHeading" Caption="rdTemplate/rdAnalysisGrid/rdAgLayout.gif" ID="imgLayoutSub" />
-                                                <Spaces Size="2" />
+                                                <Spaces Size="2" ID="spaceLayoutSub" />
                                                 <Label ID="lblLayoutDescription" Class="rdAgContentHeading" Caption="Hide and show columns." />
                                               </Column>
                                             </Row>
@@ -527,6 +551,7 @@
 					                      </InputCheckboxList>
                                           <Row ID="RowLayoutControls">
                                             <Column ID="colLayoutControls">
+                                              
                                               <Label Caption="OK" ID="lblLayoutOk" Class="rdAgCommand">
                                                 <Action Type="Report" ID="actSetLayout">
                                                   <Target Type="Report" ID="tgtSetLayout" KeepScrollPosition="True" />
@@ -575,12 +600,15 @@
                                                   <Division ID="divGroupByDateOperator" ShowModes="None">
                                                     <InputHidden ID="rdAgPickDateColumnsForGrouping" DefaultValue="@Session.rdAgPickDateColumnsForGrouping~" />
                                                     <Label ID="lblGroupByDateOperatorCaption" Caption="by " For="rdAgDateGroupBy" />
-                                                    <InputSelectList OptionValueColumn="GroupByDateOperatorValue" ID="rdAgDateGroupBy" IncludeBlank="True" OptionCaptionColumn="GroupByDateOperator" DefaultValue="@Request.rdAgDateGroupBy~">
+                                                    <InputSelectList OptionValueColumn="GroupByDateOperatorValue" ID="rdAgDateGroupBy" IncludeBlank="True" OptionCaptionColumn="GroupByDateLabel" DefaultValue="@Request.rdAgDateGroupBy~">
                                                       <DataLayer Type="Static" ID="dlGroupByDateOperators">
-                                                        <StaticDataRow GroupByDateOperator="Year" GroupByDateOperatorValue="Year" />
-                                                        <StaticDataRow GroupByDateOperator="Quarter" GroupByDateOperatorValue="FirstDayOfQuarter" />
-                                                        <StaticDataRow GroupByDateOperator="Month" GroupByDateOperatorValue="FirstDayOfMonth" />
-                                                        <StaticDataRow GroupByDateOperator="Day" GroupByDateOperatorValue="Date" />
+                                                        <StaticDataRow GroupByDateOperator="Year" GroupByDateOperatorValue="FirstDayOfYear" GroupByDateLabel="Year" Format="yyyy" GroupByDateHeader="by Year"/>
+                                                        <StaticDataRow GroupByDateOperator="FiscalYear" GroupByDateOperatorValue="FirstDayOfFiscalYear" GroupByDateLabel="Fiscal Year" Format="\FYfyy" GroupByDateHeader="by Fiscal Year" />
+                                                        <StaticDataRow GroupByDateOperator="Quarter" GroupByDateOperatorValue="FirstDayOfQuarter" GroupByDateLabel="Quarter" Format="yyyy Qqq" GroupByDateHeader="by Quarter" />
+                                                        <StaticDataRow GroupByDateOperator="FiscalQuarter" GroupByDateOperatorValue="FirstDayOfFiscalQuarter" GroupByDateLabel="Fiscal Quarter" Format="\FYfyy Qfqq" GroupByDateHeader="by Fiscal Quarter" />
+                                                        <StaticDataRow GroupByDateOperator="Month" GroupByDateOperatorValue="FirstDayOfMonth" GroupByDateLabel="Month" Format="yyyy MMM" GroupByDateHeader="by Month" />
+                                                        <StaticDataRow GroupByDateOperator="Week" GroupByDateOperatorValue="FirstDayOfWeek" GroupByDateLabel="Week" Format="Short Date" GroupByDateHeader="by Week" />
+                                                        <StaticDataRow GroupByDateOperator="Day" GroupByDateOperatorValue="Date" GroupByDateLabel="Day" GroupByDateHeader="by Day" Format="Short Date" />
                                                       </DataLayer>
                                                     </InputSelectList>
                                                   </Division>
@@ -981,7 +1009,7 @@
 							<Column ID="colAnalChartAddDashboard_rdAcID" Width="1" WidthScale="px">
 								<Image ID="imgAddToDashboardChart" Caption="rdTemplate/rdAddToDBoard.png" Tooltip="Add to dashboard.">
 									<Action ID="actAddToDashboardAnalChart" Type="AddDashboardPanel" DashboardSaveFile="@Request.DashboardSaveFile~" AddPanelContentElementID="" AddPanelPopupCaption="Add Panel" AddPanelButtonCaption="Done" AddPanelTitle="" AddPanelDescription="" AgAddToDashboard="True" AgAddChartToDashboard="True" AddPanelSkipLocalData="False">
-										<BookmarkLinkback Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
+										<BookmarkLinkback ID="blChartRunOriginal" Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
 									</Action>
 								</Image>
 							</Column>
@@ -1045,7 +1073,7 @@
 							  <Column ID="colAnalCrosstabAddDashboard_rdAxID" Width="1" WidthScale="px">
 								  <Image ID="imgAddToDashboardCrosstab" Caption="rdTemplate/rdAddToDBoard.png" Tooltip="Add to dashboard.">
 									  <Action ID="actAddToDashboardAnalCrosstab" Type="AddDashboardPanel" DashboardSaveFile="@Request.DashboardSaveFile~" AddPanelContentElementID="" AddPanelPopupCaption="Add Panel" AddPanelButtonCaption="Done" AddPanelTitle="" AddPanelDescription="" Image="../rdTemplate/rdAnalysisGrid/rdAgCrosstab.png" AgAddToDashboard="True" AgAddCrosstabToDashboard="True" AddPanelSkipLocalData="False">
-										  <BookmarkLinkback Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
+										  <BookmarkLinkback ID="blCrosstabRunOriginal" Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
 									  </Action>
 								  </Image>
 							  </Column>
@@ -1135,28 +1163,88 @@
                       <LinkParams rdAgCommand="GroupAdd" rdAgDateGroupBy="" rdAgGroupColumn="@Data.DataColumn~" rdAgCommandID="@Function.GUID~" />
                     </Action>
                   </PopupOption>
-                  <PopupOption ID="ppo_AddGroupByYear" Caption="Group by year">
+                  <PopupOption ID="ppo_AddGroupByYear" Caption="Group by Year">
                     <Action Type="Report" ID="actAddGroupByYear">
                       <Target Type="Report" ID="tgtAddGroupByYear" KeepScrollPosition="True" />
-                      <LinkParams rdAgCommand="GroupAdd" rdAgDateGroupBy="Year" rdAgGroupColumn="@Data.DataColumn~" rdAgCommandID="@Function.GUID~" />
+                      <LinkParams rdAgCommand="GroupAdd" rdAgDateGroupBy="FirstDayOfYear" rdAgGroupColumn="@Data.DataColumn~" rdAgCommandID="@Function.GUID~" />
                     </Action>
                   </PopupOption>
-                  <PopupOption ID="ppo_AddGroupByQuarter" Caption="Group by quarter">
+                  <PopupOption ID="ppo_RemoveGroupByYear" Caption="Remove Group by Year">
+                    <Action Type="Report" ID="actRemoveGroupByYear">
+                      <Target Type="Report" ID="tgtRemoveGroupByYear" KeepScrollPosition="True" />
+                      <LinkParams rdAgCommand="GroupRemove" rdAgDateGroupBy="FirstDayOfYear" rdAgGroupColumn="@Data.DataColumn~" rdAgCommandID="@Function.GUID~" />
+                    </Action>
+                  </PopupOption>
+                  <PopupOption ID="ppo_AddGroupByFiscalYear" Caption="Group by Fiscal Year">
+                    <Action Type="Report" ID="actAddGroupByFiscalYear">
+                      <Target Type="Report" ID="tgtAddGroupByFiscalYear" KeepScrollPosition="True" />
+                      <LinkParams rdAgCommand="GroupAdd" rdAgDateGroupBy="FirstDayOfFiscalYear" rdAgGroupColumn="@Data.DataColumn~" rdAgCommandID="@Function.GUID~" />
+                    </Action>
+                  </PopupOption>
+                  <PopupOption ID="ppo_RemoveGroupByFiscalYear" Caption="Remove Group by Fiscal Year">
+                    <Action Type="Report" ID="actRemoveGroupByFiscalYear">
+                      <Target Type="Report" ID="tgtRemoveGroupByFiscalYear" KeepScrollPosition="True" />
+                      <LinkParams rdAgCommand="GroupRemove" rdAgDateGroupBy="FirstDayOfFiscalYear" rdAgGroupColumn="@Data.DataColumn~" rdAgCommandID="@Function.GUID~" />
+                    </Action>
+                  </PopupOption>
+                  <PopupOption ID="ppo_AddGroupByQuarter" Caption="Group by Quarter">
                     <Action Type="Report" ID="actAddGroupByQuarter">
                       <Target Type="Report" ID="tgtAddGroupByQuarter" KeepScrollPosition="True" />
                       <LinkParams rdAgCommand="GroupAdd" rdAgDateGroupBy="FirstDayOfQuarter" rdAgGroupColumn="@Data.DataColumn~" rdAgCommandID="@Function.GUID~" />
                     </Action>
                   </PopupOption>
-                  <PopupOption ID="ppo_AddGroupByMonth" Caption="Group by month">
+                  <PopupOption ID="ppo_RemoveGroupByQuarter" Caption="Remove Group by Quarter">
+                    <Action Type="Report" ID="actRemoveGroupByQuarter">
+                      <Target Type="Report" ID="tgtRemoveGroupByQuarter" KeepScrollPosition="True" />
+                      <LinkParams rdAgCommand="GroupRemove" rdAgDateGroupBy="FirstDayOfQuarter" rdAgGroupColumn="@Data.DataColumn~" rdAgCommandID="@Function.GUID~" />
+                    </Action>
+                  </PopupOption>
+                  <PopupOption ID="ppo_AddGroupByFiscalQuarter" Caption="Group by Fiscal Quarter">
+                    <Action Type="Report" ID="actAddGroupByFiscalQuarter">
+                      <Target Type="Report" ID="tgtAddGroupByFiscalQuarter" KeepScrollPosition="True" />
+                      <LinkParams rdAgCommand="GroupAdd" rdAgDateGroupBy="FirstDayOfFiscalQuarter" rdAgGroupColumn="@Data.DataColumn~" rdAgCommandID="@Function.GUID~" />
+                    </Action>
+                  </PopupOption>
+                  <PopupOption ID="ppo_RemoveGroupByFiscalQuarter" Caption="Remove Group by Fiscal Quarter">
+                    <Action Type="Report" ID="actRemoveGroupByFiscalQuarter">
+                      <Target Type="Report" ID="tgtRemoveGroupByFiscalQuarter" KeepScrollPosition="True" />
+                      <LinkParams rdAgCommand="GroupRemove" rdAgDateGroupBy="FirstDayOfFiscalQuarter" rdAgGroupColumn="@Data.DataColumn~" rdAgCommandID="@Function.GUID~" />
+                    </Action>
+                  </PopupOption>
+                  <PopupOption ID="ppo_AddGroupByMonth" Caption="Group by Month">
                     <Action Type="Report" ID="actAddGroupByMonth">
                       <Target Type="Report" ID="tgtAddGroupByMonth" KeepScrollPosition="True" />
                       <LinkParams rdAgCommand="GroupAdd" rdAgDateGroupBy="FirstDayOfMonth" rdAgGroupColumn="@Data.DataColumn~" rdAgCommandID="@Function.GUID~" />
                     </Action>
                   </PopupOption>
-                  <PopupOption ID="ppo_AddGroupByDay" Caption="Group by day">
+                  <PopupOption ID="ppo_RemoveGroupByMonth" Caption="Remove Group by Month">
+                    <Action Type="Report" ID="actRemoveGroupByMonth">
+                      <Target Type="Report" ID="tgtRemoveGroupByMonth" KeepScrollPosition="True" />
+                      <LinkParams rdAgCommand="GroupRemove" rdAgDateGroupBy="FirstDayOfMonth" rdAgGroupColumn="@Data.DataColumn~" rdAgCommandID="@Function.GUID~" />
+                    </Action>
+                  </PopupOption>
+                  <PopupOption ID="ppo_AddGroupByWeek" Caption="Group by Week">
+                    <Action Type="Report" ID="actAddGroupByWeek">
+                      <Target Type="Report" ID="tgtAddGroupByWeek" KeepScrollPosition="True" />
+                      <LinkParams rdAgCommand="GroupAdd" rdAgDateGroupBy="FirstDayOfWeek" rdAgGroupColumn="@Data.DataColumn~" rdAgCommandID="@Function.GUID~" />
+                    </Action>
+                  </PopupOption>
+                  <PopupOption ID="ppo_RemoveGroupByWeek" Caption="Remove Group by Week">
+                    <Action Type="Report" ID="actRemoveGroupByWeek">
+                      <Target Type="Report" ID="tgtRemoveGroupByWeek" KeepScrollPosition="True" />
+                      <LinkParams rdAgCommand="GroupRemove" rdAgDateGroupBy="FirstDayOfWeek" rdAgGroupColumn="@Data.DataColumn~" rdAgCommandID="@Function.GUID~" />
+                    </Action>
+                  </PopupOption>
+                  <PopupOption ID="ppo_AddGroupByDay" Caption="Group by Day">
                     <Action Type="Report" ID="actAddGroupByDay">
                       <Target Type="Report" ID="tgtAddGroupByDay" KeepScrollPosition="True" />
                       <LinkParams rdAgCommand="GroupAdd" rdAgDateGroupBy="Date" rdAgGroupColumn="@Data.DataColumn~" rdAgCommandID="@Function.GUID~" />
+                    </Action>
+                  </PopupOption>
+                  <PopupOption ID="ppo_RemoveGroupByDay" Caption="Remove Group by Day">
+                    <Action Type="Report" ID="actRemoveGroupByDay">
+                      <Target Type="Report" ID="tgtRemoveGroupByDay" KeepScrollPosition="True" />
+                      <LinkParams rdAgCommand="GroupRemove" rdAgDateGroupBy="Date" rdAgGroupColumn="@Data.DataColumn~" rdAgCommandID="@Function.GUID~" />
                     </Action>
                   </PopupOption>
                 </Action>
@@ -1164,7 +1252,7 @@
               <PopupOption ID="ppo_AddGroup" Caption="Group" Condition="True">
                 <Action Type="Report" ID="actAddGroup">
                   <Target Type="Report" ID="tgtAddGroup" KeepScrollPosition="True" />
-                  <LinkParams rdAgCommand="GroupAdd" rdAgGroupDateByOperator="" rdAgGroupColumn="@Data.DataColumn~" rdAgCommandID="@Function.GUID~" />
+                  <LinkParams rdAgCommand="GroupAdd" rdAgGroupDateGroupByOperator="" rdAgGroupColumn="@Data.DataColumn~" rdAgCommandID="@Function.GUID~" />
                 </Action>
               </PopupOption>
               <PopupOption ID="ppo_RemoveGroup" Caption="Remove Group">

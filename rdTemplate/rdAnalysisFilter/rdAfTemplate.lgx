@@ -42,7 +42,7 @@
       </Rows>
 
       <Division Class="rdAgHidden,rdDashboardHidden">
-        <Label ID="rdAfCaptionLine_rdAfID" Caption="" />
+        <Label ID="rdAfCaptionLine_rdAfID" Caption="" />        
         <Label ID="rdAfCaptionList_rdAfID" Caption="" />
         <Label ID="rdAfCaptionElementID_rdAfID" Caption="" />
       </Division>
@@ -192,24 +192,25 @@
 													<StaticDataRow Text="This Year End" Value="This Year End" />
 													<StaticDataRow Text="Next Year Start" Value="Next Year Start" />
 													<StaticDataRow Text="Next Year End" Value="Next Year End" />
-													<StaticDataRow Text="10 Days Ago" Value="10 Days Ago" />
-													<StaticDataRow Text="30 Days Ago" Value="30 Days Ago" />
+                          <StaticDataRow Text="7 Days Ago" Value="7 Days Ago" />
+                          <StaticDataRow Text="10 Days Ago" Value="10 Days Ago" />
+                          <StaticDataRow Text="30 Days Ago" Value="30 Days Ago" />
 													<StaticDataRow Text="60 Days Ago" Value="60 Days Ago" />
 													<StaticDataRow Text="90 Days Ago" Value="90 Days Ago" />
 													<StaticDataRow Text="180 Days Ago" Value="180 Days Ago" />
 													<StaticDataRow Text="365 Days Ago" Value="365 Days Ago" />
-													<StaticDataRow Text="Last Fiscal Year Start" Value="Last Fiscal Year Start" />
-													<StaticDataRow Text="This Fiscal Year Start" Value="This Fiscal Year Start" />
-													<StaticDataRow Text="Next Fiscal Year Start" Value="Next Fiscal Year Start" />
-													<StaticDataRow Text="Last Fiscal Year End" Value="Last Fiscal Year End" />
-													<StaticDataRow Text="This Fiscal Year End" Value="This Fiscal Year End" />
-													<StaticDataRow Text="Next Fiscal Year End" Value="Next Fiscal Year End" />
-													<StaticDataRow Text="Last Fiscal Quarter Start" Value="Last Fiscal Quarter Start" />
-													<StaticDataRow Text="Last Fiscal Quarter End" Value="Last Fiscal Quarter End" />
-													<StaticDataRow Text="This Fiscal Quarter Start" Value="This Fiscal Quarter Start" />
-													<StaticDataRow Text="This Fiscal Quarter End" Value="This Fiscal Quarter End" />
-													<StaticDataRow Text="Next Fiscal Quarter Start" Value="Next Fiscal Quarter Start" />
-													<StaticDataRow Text="Next Fiscal Quarter End" Value="Next Fiscal Quarter End" />
+													<StaticDataRow Text="Last Fiscal Year Start" Value="Last Fiscal Year Start" IsFiscal="True" />
+													<StaticDataRow Text="This Fiscal Year Start" Value="This Fiscal Year Start" IsFiscal="True" />
+													<StaticDataRow Text="Next Fiscal Year Start" Value="Next Fiscal Year Start" IsFiscal="True" />
+													<StaticDataRow Text="Last Fiscal Year End" Value="Last Fiscal Year End" IsFiscal="True" />
+													<StaticDataRow Text="This Fiscal Year End" Value="This Fiscal Year End" IsFiscal="True" />
+													<StaticDataRow Text="Next Fiscal Year End" Value="Next Fiscal Year End" IsFiscal="True" />
+													<StaticDataRow Text="Last Fiscal Quarter Start" Value="Last Fiscal Quarter Start" IsFiscal="True" />
+													<StaticDataRow Text="Last Fiscal Quarter End" Value="Last Fiscal Quarter End" IsFiscal="True" />
+													<StaticDataRow Text="This Fiscal Quarter Start" Value="This Fiscal Quarter Start" IsFiscal="True" />
+													<StaticDataRow Text="This Fiscal Quarter End" Value="This Fiscal Quarter End" IsFiscal="True"/>
+													<StaticDataRow Text="Next Fiscal Quarter Start" Value="Next Fiscal Quarter Start" IsFiscal="True" />
+													<StaticDataRow Text="Next Fiscal Quarter End" Value="Next Fiscal Quarter End" IsFiscal="True" />
 												</DataLayer>
 											</InputSelectList>
 										</Division>
@@ -236,7 +237,7 @@
 										<Division ID="divSlidingTimeEndDateFilterOperatorValues_rdAfID" ShowModes="None">
 											<Spaces Size="5" />
 											<InputSelectList OptionValueColumn="Value" ID="rdAfSlidingTimeEndDateFilterOperatorOptions_rdAfID" OptionCaptionColumn="Text" DefaultValue="@Request.rdAfSlidingTimeEndDateFilterOperatorOptions_rdAfID~">
-												<DataLayer Type="Static" ID="dlrdAfSlidingTimeFilterOperatorEndDateOptions_rdAfID">
+												<DataLayer Type="Static" ID="dlrdAfSlidingTimeEndDateFilterOperatorOptions_rdAfID">
 													<StaticDataRow Text="Today" Value="Today" />
 													<StaticDataRow Text="Yesterday" Value="Yesterday" />
 													<StaticDataRow Text="Tomorrow" Value="Tomorrow" />
@@ -264,24 +265,25 @@
 													<StaticDataRow Text="This Year End" Value="This Year End" />
 													<StaticDataRow Text="Next Year Start" Value="Next Year Start" />
 													<StaticDataRow Text="Next Year End" Value="Next Year End" />
-													<StaticDataRow Text="10 Days Ago" Value="10 Days Ago" />
-													<StaticDataRow Text="30 Days Ago" Value="30 Days Ago" />
+                          <StaticDataRow Text="7 Days Ago" Value="7 Days Ago" />
+                          <StaticDataRow Text="10 Days Ago" Value="10 Days Ago" />
+                          <StaticDataRow Text="30 Days Ago" Value="30 Days Ago" />
 													<StaticDataRow Text="60 Days Ago" Value="60 Days Ago" />
 													<StaticDataRow Text="90 Days Ago" Value="90 Days Ago" />
 													<StaticDataRow Text="180 Days Ago" Value="180 Days Ago" />
 													<StaticDataRow Text="365 Days Ago" Value="365 Days Ago" />
-													<StaticDataRow Text="Last Fiscal Year Start" Value="Last Fiscal Year Start" />
-													<StaticDataRow Text="This Fiscal Year Start" Value="This Fiscal Year Start" />
-													<StaticDataRow Text="Next Fiscal Year Start" Value="Next Fiscal Year Start" />
-													<StaticDataRow Text="Last Fiscal Year End" Value="Last Fiscal Year End" />
-													<StaticDataRow Text="This Fiscal Year End" Value="This Fiscal Year End" />
-													<StaticDataRow Text="Next Fiscal Year End" Value="Next Fiscal Year End" />
-													<StaticDataRow Text="Last Fiscal Quarter Start" Value="Last Fiscal Quarter Start" />
-													<StaticDataRow Text="Last Fiscal Quarter End" Value="Last Fiscal Quarter End" />
-													<StaticDataRow Text="This Fiscal Quarter Start" Value="This Fiscal Quarter Start" />
-													<StaticDataRow Text="This Fiscal Quarter End" Value="This Fiscal Quarter End" />
-													<StaticDataRow Text="Next Fiscal Quarter Start" Value="Next Fiscal Quarter Start" />
-													<StaticDataRow Text="Next Fiscal Quarter End" Value="Next Fiscal Quarter End" />
+													<StaticDataRow Text="Last Fiscal Year Start" Value="Last Fiscal Year Start" IsFiscal="True" />
+													<StaticDataRow Text="This Fiscal Year Start" Value="This Fiscal Year Start" IsFiscal="True" />
+													<StaticDataRow Text="Next Fiscal Year Start" Value="Next Fiscal Year Start" IsFiscal="True" />
+													<StaticDataRow Text="Last Fiscal Year End" Value="Last Fiscal Year End" IsFiscal="True" />
+													<StaticDataRow Text="This Fiscal Year End" Value="This Fiscal Year End" IsFiscal="True" />
+													<StaticDataRow Text="Next Fiscal Year End" Value="Next Fiscal Year End" IsFiscal="True" />
+													<StaticDataRow Text="Last Fiscal Quarter Start" Value="Last Fiscal Quarter Start" IsFiscal="True" />
+													<StaticDataRow Text="Last Fiscal Quarter End" Value="Last Fiscal Quarter End" IsFiscal="True" />
+													<StaticDataRow Text="This Fiscal Quarter Start" Value="This Fiscal Quarter Start" IsFiscal="True" />
+													<StaticDataRow Text="This Fiscal Quarter End" Value="This Fiscal Quarter End" IsFiscal="True" />
+													<StaticDataRow Text="Next Fiscal Quarter Start" Value="Next Fiscal Quarter Start" IsFiscal="True" />
+													<StaticDataRow Text="Next Fiscal Quarter End" Value="Next Fiscal Quarter End" IsFiscal="True" />
 												</DataLayer>
 											</InputSelectList>
 										</Division>
@@ -306,7 +308,7 @@
                     </Label>
 									</Division>
 									<PopupPanel ID="popupPickDistinct_rdAfID" Draggable="True" PopupModal="True" Caption="Select a Value" rdNoElementShowHistory="True">
-										<IncludeFrame ID="subPickDistinct_rdAfID" FrameBorder="False" xxxClass="rdAfPickDistinctFrame" Height="400" Width="255" Title="Distinct Values List">
+                    <IncludeFrame ID="subPickDistinct_rdAfID" FrameBorder="False" xxxClass="rdAfPickDistinctFrame" Height="400" Width="255" Title="Distinct Values List" Condition="'@Request.rdRequestFromProcess~' == ''">
 											<Target Type="IncludeFrameReport" Report="rdAfPickDistinct" ID="targetPickDistinct_rdAfID" />
 										</IncludeFrame>
 									</PopupPanel>
@@ -369,7 +371,7 @@
                       <Label Caption="@Data.LeftParens~" ID="lblLeftParens_rdAfID" Class="rdAgCaptionRow" />
                       <Spaces Size="1" />
                       <Label Caption="@Data.FilterCaptionLimited~" Tooltip="@Data.FilterCaption~" ID="lblFilterCaption_rdAfID">
-                        <Action ID="actShowFilter_rdAfID" Type="Javascript" Javascript="rdAfRestoreClickedFilter('rdAfID',&quot;@Data.ColumnID~&quot;, &quot;@Data.Operator~&quot;, &quot;@Data.Value~&quot;, &quot;@Data.DateType~&quot;, &quot;@Data.SlidingDateName~&quot;)"/>
+                        <Action ID="actShowFilter_rdAfID" Type="Javascript" Javascript="rdAfRestoreClickedFilter('rdAfID',&quot;@Data.ColumnID~&quot;, &quot;@Data.Operator~&quot;, &quot;@Data.Value~&quot;, &quot;@Data.DateType~&quot;, &quot;@Data.SlidingDateName~&quot;, &quot;@Data.Format~&quot;)" />
                       </Label>
                       <Label  ID="lblFilterDataColumn_rdAfID" Caption="@Data.GlobalFilterColumnID~" Class="rdAgHidden" />
                       <Label  ID="lblFilterDashboardPanelID_rdAfID" Caption="@Data.rdGlobalFilterFromPanelID~" Class="rdAgHidden" />
@@ -378,10 +380,10 @@
                     </DataTableColumn>
                     <DataTableColumn ID="colFilterRemove_rdAfID" Class="rdNoClass">
                       <Label Caption="Replace" ID="lblFilterReplace_rdAfID" Class="rdAgCommand">
-                        <Action Type="Javascript" ConfirmMessage="Replace?" Javascript="rdAfUpdateUi(true,'rdAfID','FilterReplace','@Data.FilterID~');" />
+                        <Action Type="Javascript" ID="lblReplace" ConfirmMessage="Replace?" Javascript="rdAfUpdateUi(true,'rdAfID','FilterReplace','@Data.FilterID~');" />
                       </Label>
                       <Label Caption="Remove" ID="lblFilterRemove_rdAfID" Class="rdAgCommand">
-                        <Action Type="Javascript" ConfirmMessage="Remove?" Javascript="rdAfUpdateUi(true,'rdAfID','FilterRemove','@Data.FilterID~');" />
+                        <Action Type="Javascript" ID="lblRemove" ConfirmMessage="Remove?" Javascript="rdAfUpdateUi(true,'rdAfID','FilterRemove','@Data.FilterID~');" />
                       </Label>
                     </DataTableColumn>
                     <DataTableColumn ID="colFilterMove_rdAfID" Class="rdNoClass">
@@ -416,7 +418,7 @@
                     <Row>
                       <Column Condition="@Data.cntFilters_rdAfID~ &gt; 1" Class="ThemeAlignRight">
                         <Label Caption="Remove All..." ID="lblFilterRemove_rdAfID">
-                          <Action Type="Javascript" ConfirmMessage="Remove All?" Javascript="rdAfUpdateUi(true,'rdAfID','FilterRemoveAll');" />
+                          <Action Type="Javascript" ConfirmMessage="Remove All?" ID="actFilterRemoveAll_rdAfID" Javascript="rdAfUpdateUi(true,'rdAfID','FilterRemoveAll');" />
                         </Label>
                       </Column>
                     </Row>

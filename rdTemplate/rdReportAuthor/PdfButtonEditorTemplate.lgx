@@ -44,7 +44,7 @@
                 <Rows>
                   <Row IdeDisplayStatus="Collapsed">
                     <Column>
-                      <Label Caption="Font Size:" />
+                      <Label ID="lblFontSize" Caption="Font Size:" />
                     </Column>
                     <Column>
                       <InputSelectList ID="slctLabelFontSize_rdElementID" OptionCaptionColumn="Caption" OptionValueColumn="Value" DefaultValue="14px" Class="rdThemeInput" ChangeFlagElementID="isChanged_rdElementID">
@@ -62,7 +62,7 @@
                   </Row>
                   <Row IdeDisplayStatus="Collapsed">
                     <Column>
-                      <Label Caption="Font Color:" />
+                      <Label ID="lblFontColor" Caption="Font Color:" />
                     </Column>
                     <Column>
                       <InputColorPicker ID="slctLabelFontColor_rdElementID" >
@@ -74,7 +74,7 @@
                   </Row>
                   <Row>
                     <Column>
-                      <Label Caption="Page Size:" />
+                      <Label ID="lblPageSize" Caption="Page Size:" />
                     </Column>
                     <Column>
                       <InputSelectList ID="slctPdfPageSize_rdElementID" OptionCaptionColumn="Caption" OptionValueColumn="Value" DefaultValue="Legal" Class="rdThemeInput" ChangeFlagElementID="isChanged_rdElementID">
@@ -96,7 +96,7 @@
                   </Row>
                   <Row IdeDisplayStatus="Collapsed">
                     <Column>
-                      <Label Caption="Orientation:" />
+                      <Label  ID="lblOrientation" Caption="Orientation:" />
                     </Column>
                     <Column>
                       <InputSelectList ID="slctPdfPageOrientation_rdElementID" OptionCaptionColumn="Caption" OptionValueColumn="Value" DefaultValue="Vertical" Class="rdThemeInput" ChangeFlagElementID="isChanged_rdElementID">
@@ -109,7 +109,7 @@
                   </Row>
 		  <Row IdeDisplayStatus="Collapsed">
 		     <Column>
-                        <Label Caption="Java AutoFit:" />
+           <Label ID="lblJavaAutofit" Caption="Java AutoFit:" />
                      </Column>
                     <Column>
                       <InputSelectList ID="slctPdfPageJavaAutoFit_rdElementID" OptionCaptionColumn="Caption" OptionValueColumn="Value" DefaultValue="True" Class="rdThemeInput" ChangeFlagElementID="isChanged_rdElementID">
@@ -125,11 +125,11 @@
             </Row>
             <Row>
               <Column>
-                <FieldsetBox Caption="Border Settings" CaptionClass="ThemeTextNormal">
+                <FieldsetBox ID="fsBorderSetttings" Caption="Border Settings" CaptionClass="ThemeTextNormal">
                   <Rows>
                     <Row IdeDisplayStatus="Collapsed">
                       <Column>
-                        <Label Caption="Thickness:" />
+                        <Label ID="lblThickness" Caption="Thickness:" />
                       </Column>
                       <Column>
                         <InputSelectList ID="slctBorderThickness_rdElementID" OptionCaptionColumn="Caption" OptionValueColumn="Value" Class="rdThemeInput" ChangeFlagElementID="isChanged_rdElementID">
@@ -143,7 +143,7 @@
                     </Row>
                     <Row IdeDisplayStatus="Collapsed">
                       <Column>
-                        <Label Caption="Color:" />
+                        <Label ID="lblColor" Caption="Color:" />
                       </Column>
                       <Column>
                         <InputColorPicker ID="slctBorderColor_rdElementID" >
@@ -230,8 +230,9 @@
           </Rows>
         </Division>
         <InputHidden ID="isChanged_rdElementID" />
+        <InputHidden ID="rdRaPdfCaption" DefaultValue="Download as PDF" />
       </PopupPanel>
-    </DraggableDivision>
+    </DraggableDivision>    
   </Body>
   <ReportFooter />
 </Report>

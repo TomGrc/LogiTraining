@@ -342,7 +342,7 @@
             <LineBreak />
             <Label ID="lblSchXml_rdSchId" />
           </Division>
-          <Label Format="HTML" Caption="&lt;SCRIPT&gt;rdSchUpdateControls('rdSchId')&lt;/SCRIPT&gt;" />
+          <Label ID="lblUpdateControls" Format="HTML" Caption="&lt;SCRIPT&gt;rdSchUpdateControls('rdSchId')&lt;/SCRIPT&gt;" />
         </Column>
       </Row>
     </Rows>

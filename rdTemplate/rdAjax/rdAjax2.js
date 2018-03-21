@@ -19,7 +19,10 @@ function rdAjaxRequest(commandParams, bValidate, sConfirm, bProcess, fnCallback,
 	    var aCommandParams = commandParams.split('&');
 	    var sDataTableId='';
 	    var sDivPagingWait = 'divPagingWait_';  //#18021.
-	    for(i=0;i<aCommandParams.length;i++){
+	    for (i = 0; i < aCommandParams.length; i++) {
+	        if (aCommandParams[i].indexOf('rdNewPageNr=True2') > -1) {
+	            sDivPagingWait = 'divPagingWait2_'
+	        }
 	        if(aCommandParams[i].indexOf('rdRefreshElementID') > -1){
 	            sDataTableId = aCommandParams[i].replace('rdRefreshElementID=', '');
 	            sDivPagingWait += sDataTableId;
@@ -246,6 +249,10 @@ function rdAjaxRequestWithFormVars(commandURL, bValidate, sConfirm, bFromOnClick
     if (commandURL.indexOf("RequestRealTimeAnimatedChartData") > 0)
         commandURL = commandURL + "&rdAnimatedChartRenderer=" + FusionCharts.getCurrentRenderer(); //19845.
 
+    try {
+        window.external.AutoCompleteSaveForm(document.rdForm);  //Works for IE only.
+    } catch (e) {}  // Ignore  
+    
     if (copyQueryString) {
         var refreshElementIDs = getParameterByName(commandURL, "rdRefreshElementID");
         if (refreshElementIDs) {
@@ -381,98 +388,6 @@ function rdAjaxEncodeValue(sValue){
     sValue = sValue.replace(/&/g,"%26")  //replace &
     sValue = sValue.replace(/\+/g,"%2B") //replace +
     return sValue
-}
-
-function rdAjaxGetUrlParameter(url, name) {
-    var params = rdAjaxGetUrlParameters(url);
-    var param;
-
-    for (var i = 0; i < params.length; i++) {
-        param = params[i];
-
-        if (param.name === name) {
-            return param.value;
-        }
-    }
-
-    return null;
-}
-function rdAjaxGetUrlParameters(url) {
-    var params = [];
-
-    var i = url.indexOf("?");
-
-    var sParams;
-    
-    if (i < 0)
-        sParams = url;
-    else
-        sParams = url.substr(i + 1);
-
-    var aParams = sParams.split("&");
-
-    for (i = 0; i < aParams.length; i++) {
-        var kvp = aParams[i].split("=");
-
-        if (kvp[0]) { //RD20049
-            kvp[0] = kvp[0].replace(/\+/g, "%20");
-        } else { // if undefined, ignore it.
-            continue;
-        }
-
-        if (kvp[1]) {
-            kvp[1] = kvp[1].replace(/\+/g, "%20");
-        }
-        
-        params.push({
-            name: decodeURIComponent(kvp[0]), 
-            value: decodeURIComponent(kvp[1])
-        });
-    }
-
-    return params;
-}
-
-function rdAjaxSetUrlParameter(url, name, value) {
-    var params = rdAjaxGetUrlParameters(url);
-    var kvp, i;
-    var bFound = false;
-
-    for (i = 0; i < params.length; i++) {
-        kvp = params[i];
-
-        if (kvp.name == name) {
-            kvp.value = value;
-            bFound = true;
-            break;
-        }
-    }
-
-    if (!bFound)
-        params.push({
-            name: name,
-            value: value
-        });
-
-    i = url.indexOf("?");
-
-    kvp = params[0];
-
-    if (i > 0)
-        url = url.substr(0, i) + "?";
-    else if (url.indexOf("=") > 0)
-        url = "";
-    else if (url.length)
-        url += "?";
-
-    url += encodeURIComponent(kvp.name) + "=" + encodeURIComponent(kvp.value)
-
-    for (i = 1; i < params.length; i++) {
-        kvp = params[i];
-        url += "&" + encodeURIComponent(kvp.name) + "=" + encodeURIComponent(kvp.value);
-    }
-
-    return url;
 }
 
 function rdUpdatePage(xmlResponse, sResponse) {
@@ -798,7 +713,7 @@ function __rdUpdatePage(xmlResponse, sResponse) {
 
         //REPDEV-19948
 	    if (document.getElementById("rdKillPageCache")) {
-	        var url = rdAjaxSetUrlParameter(location.href, "rdKillPageCache", Math.floor(Math.random() * 100000));
+	        var url = LogiXML.setUrlParameter(location.href, "rdKillPageCache", Math.floor(Math.random() * 100000));
 	        history.replaceState({}, null, url);
 	    }
 
@@ -839,7 +754,14 @@ function __rdUpdatePage(xmlResponse, sResponse) {
 
 function replaceHTMLElement(eleOld, sResponse, newElementID) {
 	var newYuiNode, placeHolder,
-		oldYuiNode = Y.one( eleOld );
+		oldYuiNode = Y.one(eleOld);
+
+	var oldValues;
+    
+	if (oldYuiNode)
+	    oldValues = rdGetInputValuesRecursive(oldYuiNode._node);
+	else
+	    oldValues = [];
 	
 	//Find the new element's text.
     var sNewHtml;
@@ -923,7 +845,22 @@ function replaceHTMLElement(eleOld, sResponse, newElementID) {
 		oldYuiNode.remove(true);		
 		
 		placeHolder.replace( newYuiNode );
-		placeHolder.remove( true );
+		placeHolder.remove(true);
+
+        // trigger onchange event for all elements that changed
+		for (var i = 0; i < oldValues.length; i++) {
+		    var oldVal = oldValues[i];
+		    var newEle = document.getElementById(oldVal.id);
+
+		    if (rdEnableEventsOnRefresh(newEle)) {
+		        var value = rdGetInputValues(newEle, false);
+
+		        if (value != oldVal.value) {
+                    // value changed - trigger onchange event
+		            LogiXML.fireEvent(newEle, "onchange");
+		        }
+		    }
+		}
 	}
 
 	return sNewHtml;
@@ -1088,6 +1025,34 @@ function rdGetSelectedValuesFromCheckboxList(inputName) {
         sReturn = uniqueValues.join(rdInputValueDelimiter);
     }
     return sReturn;
+}
+
+function rdEnableEventsOnRefresh(ele) {
+    return (ele && ele.getAttribute && ele.getAttribute("data-rdEnableEventsOnRefresh") == "True");
+}
+
+function rdGetInputValuesRecursive(ele, list) {
+    if (!ele)
+        return list;
+
+    list = list || [];
+
+    var value;
+    
+    if (ele.id) {
+        value = rdGetInputValues(ele, false);
+
+        list.push({
+            "id": ele.id,
+            "value": value
+        });
+    }
+
+    for (var i = 0; i < ele.childNodes.length; i++) {
+        rdGetInputValuesRecursive(ele.childNodes[i], list);
+    }
+
+    return list;
 }
 
 function rdGetInputValues(ele, urlRequest) {
@@ -1362,4 +1327,16 @@ function rdRemoveQueryStringParameter(sHref, sParam) {
         return sHref.substr(0, i) + sHref.substr(j);
 
     return sHref.substr(0, i);
+}
+
+function rdNestedConfirm(sConfirm) {
+    if (sConfirm) {
+        if (sConfirm.length != 0) {
+            if (!confirm(sConfirm)) {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }

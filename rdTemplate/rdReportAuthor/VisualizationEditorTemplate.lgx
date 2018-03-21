@@ -141,7 +141,7 @@
                 <Rows>
                   <Row>
                     <Column>
-                      <Label Caption="Insert a Formula: " />
+                      <Label ID="lblInsertFormula" Caption="Insert a Formula: " />
                     </Column>
                     <Column>
                       <InputSelectList OptionCaptionColumn="Column2" OptionValueColumn="Column1" ID="islTokens_rdElementID" Class="rdThemeInput" ChangeFlagElementID="isChanged_rdElementID" IdeDisplayStatus="Collapsed">
@@ -158,7 +158,7 @@
                   </Row>
                   <Row>
                     <Column>
-                      <Label Caption="Font Size: " />
+                      <Label ID="lblFontSize" Caption="Font Size: " />
                     </Column>
                     <Column>
                       <InputSelectList ID="slctLabelFontSize_rdElementID" OptionCaptionColumn="Caption" OptionValueColumn="Value" DefaultValue="14px" Class="rdThemeInput" ChangeFlagElementID="isChanged_rdElementID">
@@ -176,7 +176,7 @@
                   </Row>
                   <Row>
                     <Column>
-                      <Label Caption="Font Color:" />
+                      <Label ID="lblFontColor" Caption="Font Color:" />
                     </Column>
                     <Column>
                       <InputColorPicker ID="slctLabelFontColor_rdElementID" >
@@ -191,11 +191,11 @@
             </Row>
             <Row IdeDisplayStatus="Collapsed">
               <Column>
-                <FieldsetBox Caption="Border Settings" CaptionClass="ThemeTextNormal">
+                <FieldsetBox ID="fsBorderSettings" Caption="Border Settings" CaptionClass="ThemeTextNormal">
                   <Rows>
                     <Row IdeDisplayStatus="Collapsed">
                       <Column>
-                        <Label Caption="Thickness:" />
+                        <Label ID="lblThickness" Caption="Thickness:" />
                       </Column>
                       <Column>
                         <InputSelectList ID="slctBorderThickness_rdElementID" OptionCaptionColumn="Caption" OptionValueColumn="Value" DefaultValue="1px" IdeDisplayStatus="Collapsed" Class="rdThemeInput" ChangeFlagElementID="isChanged_rdElementID">
@@ -209,7 +209,7 @@
                     </Row>
                     <Row>
                       <Column>
-                        <Label Caption="Color:" />
+                        <Label ID="lblColor" Caption="Color:" />
                       </Column>
                       <Column>
                         <InputColorPicker ID="slctBorderColor_rdElementID" >

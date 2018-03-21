@@ -29,6 +29,7 @@
 		<Label
 			Caption="Data Source Connections"
 			Class="ThemeHeaderLarger"
+			ID="lblTitle"
 		/>
 		<LineBreak
 			LineCount="2"
@@ -36,6 +37,7 @@
 		<Label
 			Caption="The Metadata Builder helps add data source connections and also build Metadata files.  Metadata files describe data sources&apos; tables and columns so that applications can make it easy for end users to select data for analysis."
 			Format="Preserve Line Feeds"
+			ID="lblInstruct1"
 		/>
 		<LineBreak
 			LineCount="2"
@@ -44,10 +46,12 @@
 			Caption="To start"
 			Class="ThemeBold"
 			Format="Preserve Line Feeds"
+			ID="lblInstruct2"
 		/>
 		<Label
 			Caption=", add a new Data Source Connection, then add a new Metadata Definition."
 			Format="Preserve Line Feeds"
+			ID="lblInstruct3"
 		/>
 		<LineBreak
 			LineCount="2"
@@ -56,6 +60,7 @@
 			<Label
 				Caption="Actions:"
 				Class="ThemeHeader"
+				ID="lblActions"
 			/>
 			<Spaces
 				Size="5"
@@ -68,6 +73,7 @@
 			<Label
 				Caption="Add a New Data Source Connection"
 				Class="ThemeLinkButton"
+				ID="lblNew"
 				>
 				<Action
 					ConfirmMessage="Add a new Connection?"
@@ -87,6 +93,7 @@ return false;"
 			Caption="Connections"
 			HideWhenZeroRows="True"
 			ID="dt"
+			RememberSort="True"
 			SortArrows="True"
 			>
 			<DataLayer
@@ -108,8 +115,26 @@ return false;"
 				/>
 				<CompareFilter
 					CompareType="InList"
-					CompareValue="SqlServer,Oracle,MySql,Vertical,Redshift,DataHub,PostgreSQL,Vertica,DB2,OpenEdge"
+					CompareValue="SqlServer,Oracle,MySql,Vertical,Redshift,DataHub,PostgreSQL,Vertica,DB2,OpenEdge,JDBC,ADO"
 					DataColumn="Connection_Type"
+					ID="filterValidDatabaseTypes"
+				/>
+				<CompareFilter
+					CaseSensitive="True"
+					CompareType="&lt;&gt;"
+					CompareValue="ADO"
+					DataColumn="Connection_Type"
+					DataType="Text"
+					ID="NoADO"
+					IncludeCondition="&quot;@Session.InfoServerJava~&quot;=&quot;true&quot;"
+				/>
+				<CompareFilter
+					CaseSensitive="True"
+					CompareType="&lt;&gt;"
+					CompareValue="PredictGo"
+					DataColumn="Connection_ID"
+					DataType="Text"
+					ID="NoPredictGo"
 				/>
 				<Join
 					ID="joinMetadata"
@@ -152,9 +177,10 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;Redshift&apos;, &apos;@Data.Connec
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;DataHub&apos;, &apos;@Data.Connection_DataHubServer~&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;Vertica&apos;, &apos;@Data.Connection_VerticaServer~&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;DB2&apos;, &apos;@Data.Connection_DB2Server~&apos;,
+IIF(&apos;@Data.Connection_Type~&apos;==&apos;ADO&apos;, &apos;&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;&apos;,
 &apos;&apos;
-)))))))))"
+))))))))))"
 					ID="calcServer"
 					>
 					<Note
@@ -170,9 +196,10 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;Redshift&apos;, &apos;@Data.Connec
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;DataHub&apos;, &apos;@Data.Connection_DataHubConnectionString~&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;Vertica&apos;, &apos;@Data.Connection_VerticaConnectionString~&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;DB2&apos;, &apos;@Data.Connection_DB2ConnectionString~&apos;,
+IIF(&apos;@Data.Connection_Type~&apos;==&apos;ADO&apos;, &apos;@Data.Connection_AdoConnectionString~&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection_ConnectionString~&apos;,
 &apos;&apos;
-)))))))))"
+))))))))))"
 					ID="calcConnectionString"
 					>
 					<Note
@@ -204,9 +231,10 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;Redshift&apos;, &apos;@Data.Connec
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;DataHub&apos;, &apos;@Data.Connection_DataHubDatabase~&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;Vertica&apos;, &apos;@Data.Connection_VerticaDatabase~&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;DB2&apos;, &apos;@Data.Connection_DB2Database~&apos;,
+IIF(&apos;@Data.Connection_Type~&apos;==&apos;ADO&apos;, &apos;&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;&apos;,
 &apos;&apos;
-)))))))))"
+))))))))))"
 					ID="calcDatabase"
 				/>
 			</DataLayer>
@@ -226,6 +254,7 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;&apos;,
 						<Column>
 							<Label
 								Caption="@Data.Connection_ID~"
+								ID="lblEdit"
 								Tooltip="Edit Connection"
 								>
 								<Action
@@ -244,8 +273,10 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;&apos;,
 						<Column
 							Class="ThemeAlignRight ThemeNoWrap"
 							>
-							<Image
+              <Remark>
+              <Image
 								Caption="rdTemplate/rdMetadata/EditConnection.png"
+								ID="imgEditConnection"
 								Tooltip="Edit Connection"
 								>
 								<Action
@@ -263,9 +294,13 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;&apos;,
 							<Spaces
 								Size="2"
 							/>
+              </Remark>  
 							<Image
 								Caption="rdTemplate/rdDelete2.png"
+                Height="20"
+								ID="imgRemoveConnection"
 								Tooltip="Remove..."
+                Width="20"
 								>
 								<Action
 									ConfirmMessage="Remove Connection?"
@@ -326,6 +361,7 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;&apos;,
 						>
 						<Label
 							Caption="@Data.Metadata_ID~"
+							ID="lblMetadataID"
 							Tooltip="Edit Metadata Definition for @Data.Metadata_MetadataName~"
 							>
 							<Action
@@ -350,8 +386,10 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;&apos;,
 							Condition="&apos;@Data.Metadata_ID~&apos; != &apos;&apos;"
 							ID="divEdit"
 							>
+              <Remark>
 							<Image
 								Caption="rdTemplate/rdMetadata/EditMetadata.png"
+								ID="imgEditMetadata"
 								Tooltip="Edit Metadata definition"
 								>
 								<Action
@@ -364,15 +402,20 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;&apos;,
 									<LinkParams
 										ConnectionID="@Data.Connection_ID~"
 										MetadataID="@Data.Metadata_ID~"
+										rdForWizard="@Request.rdForWizard~"
 									/>
 								</Action>
 							</Image>
 							<Spaces
 								Size="2"
 							/>
+              </Remark>  
 							<Image
 								Caption="rdTemplate/rdDelete2.png"
+                Height="20"
+								ID="imgRemoveMetadata"
 								Tooltip="Remove..."
+                Width="20"
 								>
 								<Action
 									ConfirmMessage="Remove Metadata?"
@@ -394,10 +437,12 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;&apos;,
 							>
 							<Image
 								Caption="rdTemplate/rdMetadata/NewMetadata.png"
+								ID="imgNewMetadata"
 								Tooltip="Add new Metadata definition"
 								>
 								<Action
 									ConfirmMessage="Click OK to create a new Metadata Definition."
+									ID="jsNewMetadata"
 									Javascript="rdMetadataSetBackButtonRefresh(&quot;Connections&quot;);
 rdMetadataAddNewMetadata(&apos;@Data.Connection_ID~&apos;);
 return false;"
@@ -406,9 +451,11 @@ return false;"
 							</Image>
 							<Label
 								Caption=" Add New"
+								ID="lblNewMetadata"
 								>
 								<Action
 									ConfirmMessage="Click OK to create a new Metadata Definition."
+									ID="jsNewMetadataImage"
 									Javascript="rdMetadataSetBackButtonRefresh(&quot;Connections&quot;);
 rdMetadataAddNewMetadata(&apos;@Data.Connection_ID~&apos;);
 return false;"
@@ -421,5 +468,7 @@ return false;"
 			</DataTableColumn>
 		</DataTable>
 	</Body>
-	<ideTestParams/>
+	<ideTestParams
+		rdForWizard=""
+	/>
 </Report>

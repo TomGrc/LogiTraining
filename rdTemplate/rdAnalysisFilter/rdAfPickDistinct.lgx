@@ -20,7 +20,7 @@
 	<InputCheckboxList ID="lstFilter" CheckboxListDropdown="False" DefaultValue="@Request.rdAfValues~" OptionCaptionColumn="Value" OptionValueColumn="Value" MultiSelect="True" CheckAllCaption="(All)">
 		<Note Note="For picking multiple values.  Otherwise this gets removed." />
 		<DataLayer ID="rdAfPickDistinct" >
-			<GroupFilter GroupColumn="@Request.rdAfDataColumn~" KeepGroupedRows="False" DataType="Text" />
+			<GroupFilter ID="rdAfPickDistinctGroup" GroupColumn="@Request.rdAfDataColumn~" KeepGroupedRows="False" DataType="Text" />
 			<FormattedColumn ID="Value" Format="@Request.rdAfColumnFormat~" DataColumn="@Request.rdAfDataColumn~" />
 			<CalculatedColumn ID="Value" Formula="&quot;@Data.@Request.rdAfDataColumn~~&quot;" />
 			<CompareFilter DataColumn="Value" CompareType="LengthGreaterThan" CompareValue="0" />

@@ -1,11 +1,34 @@
-var gMaps = []
-var ie7Processed = false
-var userMarkers = [];
-var userClusterers = [];
+var gMaps = gMaps || [];
+var ie7Processed = [];
+var userMarkers = userMarkers || [];
+var userClusterers = userClusterers || [];
 
 function rdGmapLoad(sMapID) {
     var spanMap = document.getElementById(sMapID)
+
+    var replay = function () {
+        rdGmapLoad(sMapID);
+    };
+
+    var neededScripts = [];
+
+    var url = spanMap.getAttribute("ApiUrl");
+    if (url)
+        neededScripts.push(url);
+
+    var clusterInclude = spanMap.getAttribute("MarkerClusterInclude");
+    if (clusterInclude)
+        neededScripts.push(clusterInclude);
+
+    var markerLabelInclude = spanMap.getAttribute("MarkerLabelInclude");
+    if (markerLabelInclude)
+        neededScripts.push(markerLabelInclude);
+
+    if (neededScripts.length && LogiXML.addScript(neededScripts, replay))
+        return;
+
     var mapContainer = Y.one('#' + sMapID);
+
     //Map types
     var sMapTypes = spanMap.getAttribute("GoogleMapTypes")
     var aMapTypes = new Array()
@@ -92,7 +115,7 @@ function rdGmapLoad(sMapID) {
             mapTypeControlStyle = google.maps.MapTypeControlStyle.DROPDOWN_MENU
             break;
         default:
-            mapTypeControlStyle = google.maps.MapTypeControlStyle.DEFAUL
+            mapTypeControlStyle = google.maps.MapTypeControlStyle.DEFAULT
             break;
     }
 
@@ -207,14 +230,14 @@ function rdGmapLoad(sMapID) {
         else {
             markers.push(marker)
         }
-        userMarkers.push(marker);
+        userMarkers.push({ mapId: sMapID, marker: marker });
         //Add the marker to the bounds, extending the bounds.
         bounds.extend(point)
     }
     var markerCluster = null
     if (bUseClustering == true) {
         markerCluster = new MarkerClusterer(map, markers)
-        userClusterers.push(markerCluster);
+        userClusterers.push({ mapId: sMapID, markerCluster: markerCluster });
     }
 
     var nMinLat; var nMaxLat; var nMinLon; var nMaxLon;
@@ -277,7 +300,7 @@ function rdGmapLoad(sMapID) {
             map.setOptions(mapOptions)
         }
         else {
-            map.fitBounds(bounds)
+            map.fitBounds(bounds);
             var zoom = map.getZoom()
             if (zoom == 0) {
                 zoom = 1
@@ -298,14 +321,15 @@ function rdGmapLoad(sMapID) {
         rdSetMapLocation()  //Set viewport based on markers and/polygons
     }
 
-    try {    // Need to access the 'map' object to resize/re-center the Map.
-        if (rdInitGoogleMapsResizer) {
-            Y.on('domready', function (e) {
-                rdInitGoogleMapsResizer(sMapID, map);
+    Y.on('domready', function (e) {
+        try {    // Need to access the 'map' object to resize/re-center the Map.
+            Y.use("rdResize", function () {
+                LogiXML.Resize.rdInitMapResizer(sMapID, map);
             });
         }
-    }
-    catch (e) { }
+        catch (e) { }
+    });
+
     //15646, 15537
     if (navigator.appVersion.match('MSIE 7.0') != null) {
         if (gMaps.length > 0 && ie7Processed == false) {
@@ -330,23 +354,31 @@ function rdGmapLoad(sMapID) {
     }
     catch (e) { }
 
-    var markersElement = Y.one("rdmapmarkers");
-    markersElement.realoadMarkers = this.realoadMarkers;
+    var markersElement = Y.one("#" + sMapID + "_rdmapmarkers");
+    markersElement.reloadMarkers = this.reloadMarkers;
     mapContainer.setData("rdmapmarkers", markersElement);
-   
     mapContainer.setData("rdGMap", map);
+
+    map.resized = function () {
+        google.maps.event.trigger(map, 'resize');
+    };
+
     mapContainer.fire('rdCreated', { map: map, id: sMapID, mapOptions: mapOptions, container: mapContainer });
 }
 
-function realoadMarkers(newMarkers,sOriginResponse) {
+function reloadMarkers(newMarkers, sOriginResponse) {
     var sMapID = newMarkers.get("id");
-    var originResponseDocument = Y.Node.create(sOriginResponse);
     var mapContainer = Y.one("#" + sMapID);
     var map = mapContainer.getData("rdGMap");
-    clearAllMarkers();
-    var oldMarkers = Y.one("rdmapmarkers");
-    var updatedMarkers = newMarkers.one("rdmapmarkers");
-    oldMarkers.insert(updatedMarkers, "replace");
+    clearAllMarkers(sMapID);
+    var oldMarkers = Y.one("#" + sMapID + "_rdmapmarkers");
+
+    var originResponseDocument = Y.Node.create(sOriginResponse);
+    var updatedMarkers = originResponseDocument.one("#" + sMapID + "_rdmapmarkers");
+
+    if (updatedMarkers)
+        oldMarkers.insert(updatedMarkers.get("children"), "replace");
+
     var markersList = document.getElementsByTagName(sMapID + "_rdmapmarker");
     var infowindow = new google.maps.InfoWindow({ content: "" });
     var bUseClustering = mapContainer.getAttribute("UseClustering") == "" ? false : true
@@ -373,6 +405,13 @@ function realoadMarkers(newMarkers,sOriginResponse) {
         options.position = point
 
         var sMarkerId = eleMapMarkerRow.getAttribute("rdMarkerID")
+        var eleMarker = originResponseDocument.one('#' + sMarkerId);
+
+        if (!eleMarker)
+            continue;
+
+        eleMarker = eleMarker.getDOMNode();
+
         var eleMarkerImage = originResponseDocument.one("#rdMapMarkerImage_" + sMapID + "_" + sMarkerId) //"+"_Row" + (i + 1))
         if (eleMarkerImage) {
             var widthImage = parseInt(eleMarkerImage.getAttribute("width"))
@@ -415,7 +454,7 @@ function realoadMarkers(newMarkers,sOriginResponse) {
             marker = new google.maps.Marker(options)
         }
         marker.isMarker = true
-        var eleMarker = originResponseDocument.one('#' + eleMapMarkerRow.getAttribute("rdMarkerID")).getDOMNode()
+        
         rdCreateMarkerAction(map, marker, eleMarker, eleMapMarkerRow.getAttribute("rdActionSpanID"), infowindow)
         if (!bUseClustering) {
             marker.setMap(map)
@@ -423,32 +462,49 @@ function realoadMarkers(newMarkers,sOriginResponse) {
         else {
             markers.push(marker)
         }
-        userMarkers.push(marker);
+        userMarkers.push({ mapId: sMapID, marker: marker });
     }
     var markerCluster = null
     if (bUseClustering == true) {
         markerCluster = new MarkerClusterer(map, markers)
-        userClusterers.push(markerCluster);
+        userClusterers.push({ mapId: sMapID, markerCluster: markerCluster });
     }
 }
 
-function setMapOnAll(map) {
+function setMapOnAll(sMapID, map) {
+    var um;
     for (var i = 0; i < userMarkers.length; i++) {
-        userMarkers[i].setMap(map);
+        um = userMarkers[i];
+
+        if (um.mapId == sMapID)
+            um.marker.setMap(map);
     }
 }
 
-function cleanAllClusterers() {
+function cleanAllClusterers(sMapID) {
+    var uc;
     for (var i = 0; i < userClusterers.length; i++) {
-        userClusterers[i].clearMarkers();
+        uc = userClusterers[i];
+        
+        if (uc.mapId == sMapID)
+            uc.markerCluster.clearMarkers();
     }
 }
 
-function clearAllMarkers() {
-    setMapOnAll(null);
-    userMarkers = [];
-    cleanAllClusterers();
-    userClusterers = [];
+function clearAllMarkers(sMapID) {
+    setMapOnAll(sMapID, null);
+
+    for (var i = userMarkers.length - 1; i >= 0; i--) {
+        if (userMarkers[i].mapId == sMapID)
+            userMarkers.splice(i, 1);
+    }
+
+    cleanAllClusterers(sMapID);
+
+    for (var i = userClusterers.length - 1; i >= 0; i--) {
+        if (userClusterers[i].mapId == sMapID)
+            userClusterers.splice(i, 1);
+    }
 }
 
 function rdCreateMarkerAction(map, marker, eleMarker, sMarkerActionSpanID, infowindow) {
@@ -456,6 +512,13 @@ function rdCreateMarkerAction(map, marker, eleMarker, sMarkerActionSpanID, infow
         if (eleMarker.getAttribute("rdActionMapMarkerInfo") == "true") {
             //A bubble-style Info window.
             google.maps.event.addListener(marker, "click", function (point) {
+                //RD21353
+                Y.each(Y.one(eleMarker).all('rdiframe'), function (nodeFrame) {
+                    var sSrc = nodeFrame.getData("hiddensource");
+                    if (Y.Lang.isValue(sSrc))
+                        rdConvertRdIFrame(nodeFrame.getDOMNode());
+                });
+
                 //This is for IFRAMES (SubReports) that may be in the info panel.
                 cFrames = eleMarker.getElementsByTagName("IFRAME");
                 for (var i = 0; i < cFrames.length; i++) {
@@ -498,3 +561,11 @@ function rdGetGMapObject(sMapID) {
     }
     return null;
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    var maps = document.getElementsByClassName("rdGoogleMap");
+
+    for (var i = 0; i < maps.length; i++) {
+        rdGmapLoad(maps[i].id);
+    }
+});

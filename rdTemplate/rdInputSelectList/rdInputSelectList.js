@@ -29,9 +29,18 @@
         },
         destructor: function() {
             if (this._onchangeHandlers) {
-                var i = 0; length = this._onchangeHandlers.length;
-                for (; i < length; i++) {
-                    this._onchangeHandlers[i].detach();
+                // RD20538
+                var i ; length = this._onchangeHandlers.length;
+                for (i = length -1 ; i >= 0; i--) {
+                    if (this._onchangeHandlers[i].evt.el) {
+                        if (this._onchangeHandlers[i].evt.el.id == this._id) {
+                            this._onchangeHandlers[i].detach();
+                            this._onchangeHandlers.splice(i, 1);
+                        }
+                    } else {
+                        this._onchangeHandlers[i].detach();
+                        this._onchangeHandlers.splice(i, 1);
+                    }                    
                 }
                 this._onchangeHandlers = null;
             }

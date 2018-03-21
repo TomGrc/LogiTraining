@@ -408,8 +408,20 @@
          * Add a new method to the Chart object to perform a local download
          */
         Highcharts.Chart.prototype.exportChartLocal = function (exportingOptions, chartOptions) {
-            var chart = this,
-                options = Highcharts.merge(chart.options.exporting, exportingOptions),
+            var chart = this;
+
+            var parentPanel = Y.one(chart.renderTo).ancestor('div[id^="rdDashboardPanel-"], div.rd-report-author-element, #rdDivAgPanels');
+            if (parentPanel && !chart.options.title.text) {
+                var panelTitle = parentPanel.one('#rdDashboardCaptionID, span[id^="lblVisualizationTitle_"], span[id^="lblHeadingAnalChart_"]');
+                if (panelTitle) {
+                    chart.options.exporting.chartOptions = {};
+                    chart.options.exporting.chartOptions.title = chart.options.title;
+                    chart.options.exporting.chartOptions.title.text = panelTitle.get('innerText');
+                }
+            }
+
+
+            var options = Highcharts.merge(chart.options.exporting, exportingOptions),
                 fallbackToExportServer = function () {
                     if (options.fallbackToExportServer === false) {
                         if (options.error) {

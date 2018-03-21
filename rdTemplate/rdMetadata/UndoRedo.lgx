@@ -7,6 +7,7 @@
 		>
 		<Division
 			ID="divUndoRedo"
+      Class="ThemeNoWrap"
 			>
 			<Division
 				ID="divUndo"

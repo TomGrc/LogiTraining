@@ -1778,10 +1778,9 @@
                     fill: series.options.balloonColor || "#FFFFFF",
                     'zIndex': 3
                 })
-                .add(balloonContainer)
-                .shadow({ width: 2, opacity: 0.0, offsetX: 2, offsetY: 3 }, shape);
+                .add(balloonContainer);
 
-            LogiXML.attr(shape.shadows[0], { fill: 'black', 'fill-opacity': 0.4 });
+            //LogiXML.attr(shape.shadows[0], { fill: 'black', 'fill-opacity': 0.0 });
 
 
 

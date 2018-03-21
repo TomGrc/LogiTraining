@@ -17,9 +17,13 @@
             document.getElementById(this._id).style.display = "none";
             var folders = document.getElementById('dtFolders');
             var sharedFolders = document.getElementById('dtSharedFolders');
-
+			 var myFolders;
             if (folders) {
-                var myFolders = folders.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+                var tbody = folders.getElementsByTagName("tbody")[0];
+				 if (tbody == undefined) {
+					return;
+				 }			
+                myFolders = tbody.getElementsByTagName("tr");
             } else {
                 //critical error, cannot find root of the folders, exit
                 return;

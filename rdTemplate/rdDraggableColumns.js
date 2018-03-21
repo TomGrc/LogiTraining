@@ -141,6 +141,7 @@ YUI.add('draggable-columns', function (Y) {
             DraggableColumns.moveColumn(sourceTable, startCol, targetCol);
 
             var sDraggableColumnsID = sourceTable.getAttribute("rdDraggableColumnsID");
+            var sReportID = sourceTable.getAttribute("rdReportID");
 
             //For Logi: Save the new order back to the server
             if (sourceTable.id == "dtAnalysisGrid") {
@@ -152,11 +153,17 @@ YUI.add('draggable-columns', function (Y) {
                 sourceTable.tHead.rows[0].cells[startCol].appendChild(hiddenNoCache);
 
                 var sDrag = "," + sDragColId + ":" + sTargetColId + ":" + (targetCol - startCol);
-                rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SaveDraggableColumns&rdDraggableColumnsID=' + sDraggableColumnsID + '&rdDrags=' + sDrag + '&rdIsAg=True&rdAgID=' + document.rdForm.rdAgId.value);
+                rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SaveDraggableColumns&rdReport=' + sReportID + '&rdDraggableColumnsID=' + sDraggableColumnsID + '&rdDrags=' + sDrag + '&rdIsAg=True&rdAgID=' + document.rdForm.rdAgId.value);
             } else {
+                var sSuperElementParam = ""
+                if (document.getElementById('rdDashboardPanelContainer')) { sSuperElementParam = '&rdIsDashboard=True'} 
+                if (Y.one('.rd-report-author-element')) { sSuperElementParam = '&rdIsReportAuthor=True' }
+
+                var dashboardPanelContainer = Y.one(".rdDashboardPanelContainer");
+
+
                 var sDrag = "," + startCol + ":" + targetCol;
-                //var sDrag = "," + sDragColId + ":" + sTargetColId + ":" + (targetCol - startCol);
-                rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SaveDraggableColumns&rdDraggableColumnsID=' + sDraggableColumnsID + '&rdDrags=' + sDrag);
+                rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SaveDraggableColumns&rdReport=' + sReportID + '&rdDraggableColumnsID=' + sDraggableColumnsID + '&rdDrags=' + sDrag + sSuperElementParam);
             }
 
             if (sourceTable.getAttribute("rdDraggableCtComp") != null) {

@@ -30,6 +30,7 @@
 <script src="rdYui/rdTabs.js" ></script>
 <script src="rdYui/responsive-column-resizer.js" ></script>
 <script src="rdYui/wait-panel.js" ></script>
+<script src="rdYui/rdDashboardResizer.js" ></script>
 
 <script src="rdCellColorSlider/rdCellColorSlider.js" ></script>
 <script src="rdCookie.js" ></script>
@@ -51,6 +52,7 @@
 <script src="rdResize/rdResizableColumns.js" ></script>
 <script src="rdPopup/rdPopupPanel.js" ></script>
 <script src="rdAutoSizer.js" ></script>
+<script src="rdIframeIOS.js" ></script>
 <script src="rdScroll.js" ></script>
 <script src="rdSchedule/rdScheduleScript.js" ></script>
 
@@ -65,6 +67,7 @@
 <script src="rdDashboard/rdHandleEnterKey.js" ></script>
 <script src="rdDashboard/rdDashboard2.js" ></script>
 <script src="rdAnalysisGrid/rdAg10Script.js" ></script>
+<script src="rdOlapGrid/rdOgScript.js" ></script>
 <script src="rdElementSeeker/rdElementSeeker.js" ></script>
 <script src="rdZoomChart/rdZoomChart.js" ></script>
 <script src="rdInputSlider/rdInputSlider.js" ></script>
@@ -73,5 +76,3 @@
 <script src="rdYui/colorHelper.js" ></script>
 <script src="rdYui/rdInputColorPicker.js" ></script>
 <script src="rdYui/logi-visualization.js" ></script>
-
-

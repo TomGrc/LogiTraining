@@ -105,7 +105,7 @@ function rdMetadataConnectionSetValue(eleInput, sAttribute, bIncludeType, callba
         var divTest = document.getElementById("divTest");
 
         if (divTest)
-            divTest.style.display = "none";
+            divTest.style.visibility = "hidden";
     }
 
     rdMetadataSetValue(eleInput, sCommand, sFullParams, false, callback);
@@ -233,7 +233,7 @@ function rdMetadataSetTableName(eleInput) {
             // Success
             hdnTableName.value = sNewTableName;
 
-            var url = rdAjaxSetUrlParameter(location.href, "TableName", sNewTableName);
+            var url = LogiXML.setUrlParameter(location.href, "TableName", sNewTableName);
             history.replaceState({}, document.title, url);
         }
 
@@ -561,6 +561,9 @@ function rdMetadataShowNewMetadata(sConnectionID) {
     var sUrl = "rdPage.aspx?rdReport=rdTemplate/rdMetadata/Tables"
     sUrl += "&ConnectionID=" + encodeURIComponent(sConnectionID)
     sUrl += "&MetadataID=" + encodeURIComponent(rdMetadataReturnedMetadataID)
+    if (window.location.href.indexOf("rdForWizard=True") > -1) {
+        sUrl += "&rdForWizard=True"
+    }
     NavigateLink2(sUrl, "_self")
 }
 
@@ -669,7 +672,7 @@ function rdMetadataRemoveTestParams(tr) {
         tr = tr.parentNode;
 
     if (!tr)
-        return;
+        return rdMetadataSaveTestParameters();
 
     var table = tr.parentNode;
 
@@ -677,12 +680,13 @@ function rdMetadataRemoveTestParams(tr) {
         table = table.parentNode;
 
     if (!table || table.rows.length < 2)
-        return;
+        return rdMetadataSaveTestParameters();
 
     // 1st row is header, 2nd row is first parameter
     if (table.rows.length > 2) {
         tr.parentNode.removeChild(tr);
-        return rdResizeCurrentIFrame();
+        rdResizeCurrentIFrame();
+        return rdMetadataSaveTestParameters();
     }
 
     // else just clear out last one
@@ -690,6 +694,8 @@ function rdMetadataRemoveTestParams(tr) {
     for (var i = 0; i < inputs.length; i++) {
         inputs[i].value = "";
     }
+
+    return rdMetadataSaveTestParameters();
 }
 
 function rdMetadataTestCustomSql(callback) {
@@ -740,6 +746,22 @@ function rdMetadataGetTestParameters() {
     }
 
     return testParams;
+}
+
+function rdMetadataSaveTestParameters() {
+    var sConnID = document.getElementById("hiddenConnectionID").value;
+
+    var sMetadataID = document.getElementById("hiddenMetadataID").value;
+    var sTableName = document.getElementById("hiddenTableName").value;
+
+    var testParams = rdMetadataGetTestParameters();
+
+    var sParams = "MetadataID=" + encodeURIComponent(sMetadataID)
+        + "&TableName=" + encodeURIComponent(sTableName)
+        + "&Attribute=CustomTableTestSessionParams"
+        + "&Value=" + encodeURIComponent(JSON.stringify(testParams));
+
+    rdMetadataSetValue(null, "TableSetValue", sParams);
 }
 
 function rdMetadataShowGetColumnsDialog() {

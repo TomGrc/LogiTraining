@@ -42,7 +42,7 @@
   <SetAttributeWhenEmpty XPath=".//SubDataTable/GroupSummaryRow" Class="rdThemeSubDataTableGroupSummaryRow" />
   <SetAttributeWhenEmpty XPath=".//SubDataTable/MoreInfoRow" Class="rdThemeSubDataTableMoreInfoRow" />
   <!-- Paging -->
-  <SetAttributeWithInsert XPath=".//InteractivePaging" Class="rdThemePaging" CurrentPageClass="rdThemePagingCurrent" />
+  <SetAttributeWithInsert XPath=".//InteractivePaging[not(@Class='rdNoClass')]" Class="rdThemePaging" CurrentPageClass="rdThemePagingCurrent" />
   <SetAttribute XPath=".//AnalysisGrid" CurrentPageClass="rdThemePagingCurrent" />
   <SetAttribute XPath=".//InteractivePaging[@CaptionType='Image']" FirstPageCaption="@Function.ThemePath~/images/rdPageFirstDark.png" PreviousPageCaption="@Function.ThemePath~/images/rdPagePreviousDark.png" NextPageCaption="@Function.ThemePath~/images/rdPageNextDark.png" LastPageCaption="@Function.ThemePath~/images/rdPageLastDark.png" />
   <SetAttribute XPath=".//InteractivePaging[@CaptionType='Image' and @FirstPageCaption='page_first_en.png' ]" FirstPageCaption="@Function.ThemePath~/images/rdPageFirstDark.png" />

@@ -8,6 +8,6 @@ overlay.logi-widget .overlay-bg,
 
 .viz-main-holder logi-analysis-table.logi-widget td {
     padding-right: 0;
-    padding-left: 0;
-    text-align: center;
+    padding-left: 3px;
+    text-align: left;
 }

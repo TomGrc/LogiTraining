@@ -31,12 +31,15 @@
 				<Division ID="divAxHeaderGroupByDateOperator_rdAxID" ShowModes="None" IdeDisplayStatus="Collapsed">
                 <Spaces Size="3" />
                 <Label ID="lblAxHeaderGroupByDateOperator_rdAxID_Caption" Caption="by " For="rdAxHeaderDateGroupBy_rdAxID" />
-                <InputSelectList OptionValueColumn="CrosstabHeaderGroupByDateOperatorValue" ID="rdAxHeaderDateGroupBy_rdAxID" IncludeBlank="True" OptionCaptionColumn="CrosstabHeaderGroupByDateOperator" InitialValue="FirstDayOfYear" DefaultValue="@Request.rdAxHeaderDateGroupBy_rdAxID~">
+                <InputSelectList OptionValueColumn="CrosstabHeaderGroupByDateOperatorValue" ID="rdAxHeaderDateGroupBy_rdAxID" IncludeBlank="True" OptionCaptionColumn="GroupByDateLabel" InitialValue="FirstDayOfYear" DefaultValue="@Request.rdAxHeaderDateGroupBy_rdAxID~">
                   <DataLayer Type="Static" ID="dlCrosstabHeaderGroupByDateOperators_rdAxID">
-                    <StaticDataRow CrosstabHeaderGroupByDateOperator="Year" CrosstabHeaderGroupByDateOperatorValue="FirstDayOfYear" />
-                    <StaticDataRow CrosstabHeaderGroupByDateOperator="Quarter" CrosstabHeaderGroupByDateOperatorValue="FirstDayOfQuarter" />
-                    <StaticDataRow CrosstabHeaderGroupByDateOperator="Month" CrosstabHeaderGroupByDateOperatorValue="FirstDayOfMonth" />
-                    <StaticDataRow CrosstabHeaderGroupByDateOperator="Day" CrosstabHeaderGroupByDateOperatorValue="Date" />
+                    <StaticDataRow CrosstabHeaderGroupByDateOperator="Year" CrosstabHeaderGroupByDateOperatorValue="FirstDayOfYear" GroupByDateOperatorValue="FirstDayOfYear" GroupByDateLabel="Year" Format="yyyy" />
+                    <StaticDataRow CrosstabHeaderGroupByDateOperator="FiscalYear" CrosstabHeaderGroupByDateOperatorValue="FirstDayOfFiscalYear" GroupByDateOperatorValue="FirstDayOfFiscalYear" GroupByDateLabel="Fiscal Year" Format="\FYfyy"/>
+                    <StaticDataRow CrosstabHeaderGroupByDateOperator="Quarter" CrosstabHeaderGroupByDateOperatorValue="FirstDayOfQuarter" GroupByDateOperatorValue="FirstDayOfQuarter" Format="yyyy Qqq" GroupByDateLabel="Quarter" />
+                    <StaticDataRow CrosstabHeaderGroupByDateOperator="FiscalQuarter" CrosstabHeaderGroupByDateOperatorValue="FirstDayOfFiscalQuarter" GroupByDateOperatorValue="FirstDayOfFiscalQuarter" GroupByDateLabel="Fiscal Quarter" Format="\FYfyy Qfqq" />
+                    <StaticDataRow CrosstabHeaderGroupByDateOperator="Month" CrosstabHeaderGroupByDateOperatorValue="FirstDayOfMonth" GroupByDateOperatorValue="FirstDayOfMonth" GroupByDateLabel="Month" Format="yyyy MMM" />
+                    <StaticDataRow CrosstabHeaderGroupByDateOperator="Week" CrosstabHeaderGroupByDateOperatorValue="FirstDayOfWeek"  GroupByDateOperatorValue="FirstDayOfWeek" GroupByDateLabel="Week" Format="Short Date" />
+					<StaticDataRow CrosstabHeaderGroupByDateOperator="Day" CrosstabHeaderGroupByDateOperatorValue="Date"  GroupByDateOperatorValue="Date" GroupByDateLabel="Day" Format="Short Date" />
                   </DataLayer>
                   <EventHandler DhtmlEvent="onchange">
                     <Action Type="Javascript" Javascript="LogiXML.rdAnalysisCrosstab.updateControls(false,'@Request.rdReport~', 'rdAxID')" />
@@ -59,12 +62,15 @@
               <Division ID="divAxLabelGroupByDateOperator_rdAxID" ShowModes="None" IdeDisplayStatus="Collapsed">
                 <Spaces Size="3" />
                 <Label ID="lblAxLabelGroupByDateOperatorCaption" Caption="by " For="rdAxLabelDateGroupBy_rdAxID" />
-                <InputSelectList OptionValueColumn="CrosstabLabelGroupByDateOperatorValue" ID="rdAxLabelDateGroupBy_rdAxID" IncludeBlank="True" OptionCaptionColumn="CrosstabLabelGroupByDateOperator" InitialValue="FirstDayOfYear" DefaultValue="@Request.rdAxLabelDateGroupBy_rdAxID~">
+                <InputSelectList OptionValueColumn="CrosstabLabelGroupByDateOperatorValue" ID="rdAxLabelDateGroupBy_rdAxID" IncludeBlank="True" OptionCaptionColumn="GroupByDateLabel" InitialValue="FirstDayOfYear" DefaultValue="@Request.rdAxLabelDateGroupBy_rdAxID~">
                   <DataLayer Type="Static" ID="dlCrosstabLabelGroupByDateOperators_rdAxID">
-                    <StaticDataRow CrosstabLabelGroupByDateOperator="Year" CrosstabLabelGroupByDateOperatorValue="FirstDayOfYear" />
-                    <StaticDataRow CrosstabLabelGroupByDateOperator="Quarter" CrosstabLabelGroupByDateOperatorValue="FirstDayOfQuarter" />
-                    <StaticDataRow CrosstabLabelGroupByDateOperator="Month" CrosstabLabelGroupByDateOperatorValue="FirstDayOfMonth" />
-                    <StaticDataRow CrosstabLabelGroupByDateOperator="Day" CrosstabLabelGroupByDateOperatorValue="Date" />
+                    <StaticDataRow CrosstabLabelGroupByDateOperator="Year" CrosstabLabelGroupByDateOperatorValue="FirstDayOfYear" GroupByDateOperatorValue="FirstDayOfYear" GroupByDateLabel="Year" Format="yyyy" />
+                    <StaticDataRow CrosstabLabelGroupByDateOperator="FiscalYear" CrosstabLabelGroupByDateOperatorValue="FirstDayOfFiscalYear" GroupByDateOperatorValue="FirstDayOfFiscalYear" GroupByDateLabel="Fiscal Year" Format="\FYfyy"/>
+                    <StaticDataRow CrosstabLabelGroupByDateOperator="Quarter" CrosstabLabelGroupByDateOperatorValue="FirstDayOfQuarter" GroupByDateOperatorValue="FirstDayOfQuarter" Format="yyyy Qqq" GroupByDateLabel="Quarter" />
+                    <StaticDataRow CrosstabLabelGroupByDateOperator="FiscalQuarter" CrosstabLabelGroupByDateOperatorValue="FirstDayOfFiscalQuarter" GroupByDateOperatorValue="FirstDayOfFiscalQuarter" GroupByDateLabel="Fiscal Quarter" Format="\FYfyy Qfqq" />
+                    <StaticDataRow CrosstabLabelGroupByDateOperator="Month" CrosstabLabelGroupByDateOperatorValue="FirstDayOfMonth" GroupByDateOperatorValue="FirstDayOfMonth" GroupByDateLabel="Month" Format="yyyy MMM" />
+                    <StaticDataRow CrosstabLabelGroupByDateOperator="Week" CrosstabLabelGroupByDateOperatorValue="FirstDayOfWeek"  GroupByDateOperatorValue="FirstDayOfWeek" GroupByDateLabel="Week" Format="Short Date" />
+                    <StaticDataRow CrosstabLabelGroupByDateOperator="Day" CrosstabLabelGroupByDateOperatorValue="Date"  GroupByDateOperatorValue="Date" GroupByDateLabel="Day" Format="Short Date" />
                   </DataLayer>
                   <EventHandler DhtmlEvent="onchange">
                     <Action Type="Javascript" Javascript="LogiXML.rdAnalysisCrosstab.updateControls(false,'@Request.rdReport~', 'rdAxID')" />
@@ -130,6 +136,16 @@
 							<Action Type="Javascript" Javascript="LogiXML.rdAnalysisCrosstab.updateControls(false,'@Request.rdReport~', 'rdAxID')" />
 						</EventHandler>
 					</InputSelectList>
+          <Spaces Size="3" />
+          <InputSelectList OptionValueColumn="dlRowPositionValue" ID="rdAxAggrRowPosition_rdAxID" OptionCaptionColumn="dlRowPositionCaption" DefaultValue="@Request.rdAxAggrRowPosition_rdAxID~" xxxCaption="Results Positioning ">
+            <DataLayer Type="Static" ID="dlRowPosition_rdAxIDs">
+              <StaticDataRow dlRowPositionCaption="Top" dlRowPositionValue="RowPositionTop" />
+              <StaticDataRow dlRowPositionCaption="Bottom" dlRowPositionValue="RowPositionBottom" />
+            </DataLayer>
+            <EventHandler DhtmlEvent="onchange">
+              <Action Type="Javascript" Javascript="LogiXML.rdAnalysisCrosstab.updateControls(false,'@Request.rdReport~', 'rdAxID')" />
+            </EventHandler>
+          </InputSelectList>
 				</Column>
 			</Row>
 			<Row ID="rowCrosstabComparison_rdAxID">
@@ -145,7 +161,7 @@
           </Row>
           <Row ID="rowAxComparisonColors_rdAxID">
             <Column ID="colCrosstabComparisonColors">
-              <Label Caption="Reverse Compare Colors" ID="lblCompareColumns" For="rdAxSwitchColors_rdAxID" />
+              <Label Caption="Reverse Compare Colors" ID="lblReverseColors" For="rdAxSwitchColors_rdAxID" />
             </Column>
             <Column ID="colCrosstabComparisonColorsCheckbox">
               <InputSelectList OptionValueColumn="Value" ID="rdAxSwitchColors_rdAxID" IncludeBlank="False" OptionCaptionColumn="Caption" DefaultValue="@Request.rdAxSwitchColors_rdAxID~" Tooltip="Swap comparison colors." >
@@ -198,7 +214,7 @@
 				<CrosstabTableLabelColumn ID="colAxSummary" Header="Total " Class="ThemeBold rdAgAlignRight" Note="This is for summary rows and columns.">
 					<DataColumnSort DataColumn="AxSummaryRowValue" DataType="Number" />
 					<Label ID="lblRowSummary" Caption="@Data.AxSummaryRowValue~" Format="mps3" />
-					<DataColumnSummary ID="AxColumnSummary" DataColumn="AxSummaryRowValue" Function=""  />
+					<DataColumnSummary ID="AxColumnSummary_rdAxID" DataColumn="AxSummaryRowValue" Function=""  />
 					<SummaryFilterTemplate>
 						<ExtraCrosstabValueColumn ID="AxSummaryValue" CrosstabValueColumn="" CrosstabValueFunction="" />
 						<CrosstabRowSummaryColumn ID="AxSummaryRowValue" Function="" />

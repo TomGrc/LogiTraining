@@ -44,10 +44,10 @@
                   <Image Caption="../rdTemplate/rdBlank.gif" Condition="!@Data.HasChildren~" AltText="" Tooltip="" ID="rdBlank" Width="12" Height="12" />
                   <Spaces Size="2" />
                   <Image Caption="../rdTemplate/rdBookmarkOrganizer/rdBookmarkFolder.png" Condition="'@Data.IsShortcut~' &lt;&gt; 'True'" ID="rdFolderImage" Tooltip="@Data.Name~" Width="16" Height="12" />
-                  <Image Caption="../rdTemplate/rdBookmarkOrganizer/rdBookmarkFolderShortcut.png" Condition="'@Data.IsShortcut~' == 'True'" ID="rdFolderImage" Tooltip="Shared by @Data.BookmarkUserName~" Width="16" Height="12" />
+                  <Image Caption="../rdTemplate/rdBookmarkOrganizer/rdBookmarkFolderShortcut.png" Condition="'@Data.IsShortcut~' == 'True'" ID="rdFolderShortcutImage" Tooltip="Shared by @Data.BookmarkUserName~" Width="16" Height="12" />
                   <Spaces Size="4" />
                   <Division Condition="'@Data.IsShortcut~' &lt;&gt; 'True'">
-                    <Label Caption="@Data.Name~" Tooltip="@Data.Name~">
+                    <Label ID="" Caption="@Data.Name~" Tooltip="@Data.Name~">
                       <Action Type="Javascript" ID="actSelectFolder" Javascript="LogiXML.BookmarkOrganizer.rdBookmarkOrganizer.selectFolder(this, '@Data.ID~', '@Data.SharedID~','@Data.SharedParentID~');" />
                     </Label>
                   </Division>
@@ -69,8 +69,8 @@
                 </Image>
                 <Image Caption="../rdTemplate/rdBlank.gif" Condition="!@Data.HasChildren~" AltText="" Tooltip="" ID="rdBlank" Width="12" Height="12" />
                 <Spaces Size="2" />
-                <Image Caption="../rdTemplate/rdBookmarkOrganizer/rdBookmarkFolder.png" Condition="'@Data.IsShortcut~' &lt;&gt; 'True'" ID="rdFolderImage" Tooltip="@Data.Name~" Width="16" Height="12" />
-                <Image Caption="../rdTemplate/rdBookmarkOrganizer/rdBookmarkFolderShortcut.png" Condition="'@Data.IsShortcut~' == 'True'" ID="rdFolderImage" Tooltip="Shared by @Data.BookmarkUserName~" Width="16" Height="12" />
+                <Image Caption="../rdTemplate/rdBookmarkOrganizer/rdBookmarkFolder.png" Condition="'@Data.IsShortcut~' &lt;&gt; 'True'" ID="rdFolderSharedImage" Tooltip="@Data.Name~" Width="16" Height="12" />
+                <Image Caption="../rdTemplate/rdBookmarkOrganizer/rdBookmarkFolderShortcut.png" Condition="'@Data.IsShortcut~' == 'True'" ID="rdFolderSharedShortcutImage" Tooltip="Shared by @Data.BookmarkUserName~" Width="16" Height="12" />
                 <Spaces Size="4" />
                 <Division Condition="'@Data.IsShortcut~' &lt;&gt; 'True'">
                   <Label Caption="@Data.Name~" Tooltip="@Data.Name~">

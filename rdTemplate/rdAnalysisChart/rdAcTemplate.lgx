@@ -83,7 +83,7 @@
 								<Spaces Size="3" />
 								<Image Caption="rdTemplate/rdAddToDBoard.png" Tooltip="Add to dashboard." ID="lblACAddToDashboard">
 									<Action ID="actAddToDashboard" Type="AddDashboardPanel" DashboardSaveFile="@Request.DashboardSaveFile~" AddPanelContentElementID="rdAcChart_rdAcID" AddPanelPopupCaption="Add Panel" AddPanelButtonCaption="Done" AcAddToDashboard="True" AddPanelSkipLocalData="False">
-										<BookmarkLinkback Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
+										<BookmarkLinkback ID="blRunOriginal" Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
 									</Action>
 								</Image>
 							</Division>
@@ -131,12 +131,15 @@
 										</InputSelectList>
 									</Column>
 									<Column ID="colChartXColumnCell3" Class="rdAcAlignRight">
-										<InputSelectList OptionValueColumn="GroupByDateOperatorValue" ID="rdAcChartsDateGroupBy_rdAcID" IncludeBlank="True" OptionCaptionColumn="GroupByDateOperator" InitialValue="FirstDayOfYear" DefaultValue="@Request.rdAcChartsDateGroupBy_rdAcID~" Caption="by ">
+										<InputSelectList OptionValueColumn="GroupByDateOperatorValue" ID="rdAcChartsDateGroupBy_rdAcID" IncludeBlank="True" OptionCaptionColumn="GroupByDateLabel" InitialValue="FirstDayOfYear" DefaultValue="@Request.rdAcChartsDateGroupBy_rdAcID~" Caption="by ">
 											<DataLayer Type="Static" ID="dlGroupByDateOperators">
-												<StaticDataRow GroupByDateOperator="Year" GroupByDateOperatorValue="FirstDayOfYear" GroupByDateLabel="Year" />
-												<StaticDataRow GroupByDateOperator="Quarter" GroupByDateOperatorValue="FirstDayOfQuarter" GroupByDateLabel="Quarter" />
-												<StaticDataRow GroupByDateOperator="Month" GroupByDateOperatorValue="FirstDayOfMonth" GroupByDateLabel="Month" />
-												<StaticDataRow GroupByDateOperator="Day" GroupByDateOperatorValue="Date" GroupByDateLabel="Day" />
+                        <StaticDataRow GroupByDateOperator="Year" GroupByDateOperatorValue="FirstDayOfYear" GroupByDateLabel="Year" Format="yyyy" />
+                        <StaticDataRow GroupByDateOperator="FiscalYear" GroupByDateOperatorValue="FirstDayOfFiscalYear" GroupByDateLabel="Fiscal Year" Format="\FYfyy" />
+                        <StaticDataRow GroupByDateOperator="Quarter" GroupByDateOperatorValue="FirstDayOfQuarter" GroupByDateLabel="Quarter" Format="yyyy Qqq" />
+                        <StaticDataRow GroupByDateOperator="FiscalQuarter" GroupByDateOperatorValue="FirstDayOfFiscalQuarter" GroupByDateLabel="Fiscal Quarter" Format="\FYfyy Qfqq" />
+                        <StaticDataRow GroupByDateOperator="Month" GroupByDateOperatorValue="FirstDayOfMonth" GroupByDateLabel="Month" Format="yyyy MMM" />
+                        <StaticDataRow GroupByDateOperator="Week" GroupByDateOperatorValue="FirstDayOfWeek" GroupByDateLabel="Week" Format="Short Date" />
+                        <StaticDataRow GroupByDateOperator="Day" GroupByDateOperatorValue="Date" GroupByDateLabel="Day" Format="Short Date" />
 											</DataLayer>
 											<EventHandler DhtmlEvent="onchange">
 												<Action Type="Javascript" ID="actSelectXDataColumn" Javascript="rdModifyTimeSeriesCycleLengthOptions(this,'rdAcID');rdAcUpdateControls(false,'@Request.rdReport~','rdAcID');" />
@@ -376,12 +379,13 @@
 										<Label ID="rdAcChartRelevanceLabel_rdAcID" Caption="Relevance" For="rdAcRelevanceType_rdAcID" />
 									</Column>
 									<Column ID="colChartRelevanceColumnCell2">
-										<InputSelectList OptionValueColumn="RelevanceType" ID="rdAcRelevanceType_rdAcID" OptionCaptionColumn="RelevanceName" InitialValue="Automatic" DefaultValue="@Request.rdAcRelevanceType_rdAcID~">
+										<InputSelectList OptionValueColumn="RelevanceType" ID="rdAcRelevanceType_rdAcID" OptionCaptionColumn="RelevanceName" InitialValue="NumberOfRows" DefaultValue="@Request.rdAcRelevanceType_rdAcID~">
 											<DataLayer Type="Static" ID="dlRelevanceType">
-												<StaticDataRow RelevanceType="Automatic" RelevanceName="Automatic" />
-												<StaticDataRow RelevanceType="NumberOfRows" RelevanceName="Rank" />
-												<StaticDataRow RelevanceType="PercentageOfValues" RelevanceName="Percentage" />
-												<StaticDataRow RelevanceType="None" RelevanceName="Off" />
+                        <StaticDataRow RelevanceType="NumberOfRows" RelevanceName="Top Values" />
+                        <StaticDataRow RelevanceType="NumberOfRowsBottom" RelevanceName="Bottom Values" />
+                        <StaticDataRow RelevanceType="PercentageOfValues" RelevanceName="Top Percentage" />
+                        <StaticDataRow RelevanceType="PercentageOfValuesBottom" RelevanceName="Bottom Percentage" />
+                        <StaticDataRow RelevanceType="None" RelevanceName="Off" />
 											</DataLayer>
 											<EventHandler DhtmlEvent="onchange">
 												<Action Type="Javascript" ID="actShowRelevance" Javascript="rdAcUpdateControls(false,'@Request.rdReport~','rdAcID');" />
@@ -389,10 +393,11 @@
 										</InputSelectList>
 									</Column>
 									<Column ID="colChartRelevanceColumnCell3" Class="rdAcAlignRight">
-										<InputSelectList OptionValueColumn="RelevanceValue" ID="rdAcRelevanceValue_rdAcID" OptionCaptionColumn="RelevanceValueName" DefaultValue="@Request.rdAcRelevanceValue_rdAcID~">
+										<InputSelectList OptionValueColumn="RelevanceValue" ID="rdAcRelevanceValue_rdAcID" OptionCaptionColumn="RelevanceValueName" InitialValue="0" DefaultValue="@Request.rdAcRelevanceValue_rdAcID~">
 											<DataLayer Type="Static" ID="dlRelevanceValue">
-												<StaticDataRow RelevanceValue="5" RelevanceValueName="5" />
-												<StaticDataRow RelevanceValue="10" RelevanceValueName="10" />
+                        <StaticDataRow RelevanceValue="0" RelevanceValueName="Automatic" />
+                        <StaticDataRow RelevanceValue="5" RelevanceValueName="5" />
+                        <StaticDataRow RelevanceValue="10" RelevanceValueName="10" />
 												<StaticDataRow RelevanceValue="20" RelevanceValueName="20" />
 												<StaticDataRow RelevanceValue="30" RelevanceValueName="30" />
 												<StaticDataRow RelevanceValue="40" RelevanceValueName="40" />
@@ -408,6 +413,17 @@
 											</EventHandler>
 										</InputSelectList>
 									</Column>
+                  <Column ID="colChartRelevanceColumnCell4">
+                    <Label ID="lblShowOthers_rdAcID" Caption=" Show " For="rdAcRelevanceOther_rdAcID" />
+                    <InputSelectList OptionValueColumn="ShowOthers" ID="rdAcRelevanceOther_rdAcID" OptionCaptionColumn="Caption" IncludeBlank="True" InitialValue="True" DefaultValue="@Request.rdAcRelevanceOther_rdAcID~">
+                      <DataLayer Type="Static" ID="dlShowValues" >
+                        <StaticDataRow ShowOthers="True" Caption="Others" />
+                      </DataLayer>
+                      <EventHandler DhtmlEvent="onchange">
+                        <Action Type="Javascript" ID="actShowRelevance" Javascript="rdAcUpdateControls(false,'@Request.rdReport~','rdAcID');" />
+                      </EventHandler>
+                    </InputSelectList>
+                  </Column>
 								</Row>
 								<Row ID="rowGaugeMin_rdAcID">
 									<Column>

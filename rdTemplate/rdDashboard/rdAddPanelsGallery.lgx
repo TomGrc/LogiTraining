@@ -53,7 +53,7 @@
 											<Division HtmlDiv="True" Class="rdScrollableList" ID="rdAddPanelsList">
 												<Division Condition="0@Data.PanelListRowCount~ == 0">
 													<LineBreak LineCount="1"/>
-													<Label Caption="No panels." />
+													<Label ID="lblNoPanels" Caption="No panels." />
 												</Division>
 												<DataMultiColumnList ID="dtPanelList" CellSpacing="15" Width="100" WidthScale="%" MultiListColumns="1" MultiListDirection="Across" Layout="Fixed">
 													<DataLayer Type="Static" ID="rdPanelListDataLayer">

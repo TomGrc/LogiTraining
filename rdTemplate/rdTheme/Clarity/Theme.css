@@ -14,7 +14,6 @@ body {
   min-height: 100%;
   text-decoration: none;
   text-transform: none;
-  text-rendering: optimizeLegibility;
 }
 h1, h2, h3, h4, h5, h6, .ThemeHeaderLargest, .ThemeHeaderLarger, .ThemeHeaderLarge, .ThemeHeader, .ThemeHeaderSmall, .ThemeHeaderSmaller, .ThemeHeaderSmallest {
   text-align: center;
@@ -1255,6 +1254,46 @@ td.rdDashboardTitle {
 #rdReportAuthor .rdDashboardControl {
   width: 1%;
 }
+
+/*rdElement: DataList | rdElement: ListItem*/
+
+.ThemeULNone {
+  list-style-type: none;
+}
+
+.ThemeULDisc {
+  list-style-type: disc;
+}
+
+.ThemeULCircle {
+  list-style-type: circle;
+}
+
+.ThemeULSquare {
+  list-style-type: square;
+}
+
+.ThemeOLDecimal {
+  list-style-type: decimal;
+}
+
+.ThemeOLLowerAlpha {
+  list-style-type: lower-alpha;
+}
+
+.ThemeOLUpperAlpha {
+  list-style-type: upper-alpha;
+}
+
+.ThemeOLLowerRoman {
+  list-style-type: lower-roman;
+}
+
+.ThemeOLUpperRoman {
+  list-style-type: upper-roman;
+}
+
+/*End Element*/
 
 /* Report Layout Toolbar */
 .rdReportLayoutToolbar {

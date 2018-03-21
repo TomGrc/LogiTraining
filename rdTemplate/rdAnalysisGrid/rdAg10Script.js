@@ -32,6 +32,9 @@ YUI.add('analysis-grid', function(Y) {
 			if (document.getElementById('rdAgCurrentOpenTablePanel') && document.getElementById('rdAgCurrentOpenTablePanel').value == "")
 			    this.rdAgShowTableMenuTab("Layout");
 
+			if (document.getElementById('rdAllowChartBasedOnCurrentColumns') && document.getElementById('rdAllowChartBasedOnCurrentColumns').value == "False")
+			    this.rdSetPanelDisabledClass('Chart');
+
 			if (document.getElementById('rdAllowCrosstabBasedOnCurrentColumns') && document.getElementById('rdAllowCrosstabBasedOnCurrentColumns').value == "False")
 			    this.rdSetPanelDisabledClass('Crosstab');
 
@@ -687,6 +690,11 @@ YUI.add('analysis-grid', function(Y) {
 		    if (sTabName == "Group") {
 		        this.rdAgGetGroupByDateOperatorDiv();
 		    }
+
+		    if (sTabName == "Aggr") { 
+		        this.rdChangeAggregateOptions(); //RD20741
+		    }
+		    
 		},
 
 		rdSetClassNameById: function (sId, sClassName) {
@@ -1147,4 +1155,54 @@ function rdfillList(rdEleId, arr, aLabel, sDataColumnType, sSelectedValue, arrGr
         }
     }
 }
+
+var rdFormulaTextSelection
+function rdGetFormulaSelection() {
+    var eleFormula = document.rdForm.rdAgCalcFormula
+    // IE < 9 Support
+    if (document.selection) {
+        eleFormula.focus();
+        var range = document.selection.createRange();
+        var rangelen = range.text.length;
+        range.moveStart('character', -eleFormula.value.length);
+        var start = range.text.length - rangelen;
+        return { 'start': start, 'end': start + rangelen };
+    }
+        // IE >=9 and other browsers
+    else if (eleFormula.selectionStart || eleFormula.selectionStart == '0') {
+        return { 'start': eleFormula.selectionStart, 'end': eleFormula.selectionEnd };
+    } else {
+        return { 'start': 0, 'end': 0 };
+    }
+}
+function rdSetFormulaSelection(start, end) {
+    var eleFormula = document.rdForm.rdAgCalcFormula
+    // IE >= 9 and other browsers
+    if (eleFormula.setSelectionRange) {
+        eleFormula.focus();
+        eleFormula.setSelectionRange(start, end);
+    }
+        // IE < 9
+    else if (eleFormula.createTextRange) {
+        var range = eleFormula.createTextRange();
+        range.collapse(true);
+        range.moveEnd('character', end);
+        range.moveStart('character', start);
+        range.select();
+    }
+}
+function rdInsertIntoFormula(eleInputSelect) {
+    var sSelectedText = eleInputSelect.value
+    eleInputSelect.selectedIndex = 0
+    var sValue = document.rdForm.rdAgCalcFormula.value
+    if (rdFormulaTextSelection && rdFormulaTextSelection.end <= sValue.length) {
+        sValue = sValue.substring(0, rdFormulaTextSelection.start) + sSelectedText + sValue.substring(rdFormulaTextSelection.end)
+        document.rdForm.rdAgCalcFormula.value = sValue
+        rdSetFormulaSelection(rdFormulaTextSelection.start + sSelectedText.length, rdFormulaTextSelection.start + sSelectedText.length)
+    } else {
+        document.rdForm.rdAgCalcFormula.value += sSelectedText
+        rdSetFormulaSelection(document.rdForm.rdAgCalcFormula.value.length, document.rdForm.rdAgCalcFormula.value.length)
+    }
+}
+
 
