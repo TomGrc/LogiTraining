@@ -1735,7 +1735,7 @@ defaultOptions = {
 		itemStyle: {			
 			color: '#333333',
 			fontSize: '12px',
-			fontWeight: 'bold'
+			fontWeight: 'normal'
 		},
 		itemHoverStyle: {
 			//cursor: 'pointer', removed as of #601
@@ -5881,7 +5881,7 @@ Tick.prototype = {
 				!labelOptions.step && !labelOptions.staggerLines &&
 				!labelOptions.rotation &&
 				chart.plotWidth / tickPositions.length) ||
-				(!horiz && (chart.margin[3] || chart.chartWidth * 0.33)), // #1580, #1931
+                (!horiz && (axis.labelsWidth || (axis.labelsWidth = (chart.margin[3] || chart.chartWidth * 0.33)))), // #1580, #1931
 			isFirst = pos === tickPositions[0],
 			isLast = pos === tickPositions[tickPositions.length - 1],
 			css,
@@ -7035,6 +7035,9 @@ Axis.prototype = {
                             }
                             if (isNaN(axis.dataMax)) {
                                 axis.dataMax = arrayMax(xData);
+                                if (axis.dataMax == null) {
+                                    axis.dataMax = axis.dataMin;
+                                }
                             }
 					}
 
@@ -8733,6 +8736,43 @@ Axis.prototype.getTimeTicks = function (normalizedInterval, min, max, startOfWee
 	
 		// push the last time
 		tickPositions.push(time);
+
+		var firstDayOfFiscalHidden = document.getElementById("rdConstantFirstDayOfFiscalYearHidden");
+		var adjustedMonth = 0;
+		var bIsFiscalQuarter = false;
+		var bIsFiscalYear = false;
+		var currentAxis = this.isXAxis ? this.chart.userOptions.xAxis[0] : this.chart.userOptions.yAxis[0];
+		bIsFiscalQuarter = new RegExp(/fqq?/g).test(currentAxis.labels.format);
+		bIsFiscalYear = new RegExp(/fyyyy?|fyy?/g).test(currentAxis.labels.format);
+
+		if (firstDayOfFiscalHidden && bIsFiscalQuarter && tickPositions.length > 1) {
+		    var currentTick = this.dataMin;
+		    tickPositions = [];
+		    while (currentTick < this.dataMax) {
+		        tickPositions.push(currentTick);
+		        var currDate = new Date(currentTick);
+		        var shiftedMonth = currDate.getUTCMonth() + 3;
+		        currDate.setUTCMonth(shiftedMonth);
+		        currentTick = currDate.getTime();
+		    }
+		    var timeDiff = (new Date(this.dataMax)).getTime() - (new Date(tickPositions[tickPositions.length - 1])).getTime();
+		    var dayDiff = timeDiff / (1000 * 3600 * 24);
+		    if (dayDiff > 60) {
+		        tickPositions.push(this.dataMax);
+		    }
+		}
+
+		if (firstDayOfFiscalHidden && bIsFiscalYear && currentAxis.labels.format.indexOf("fqq") < 0 && tickPositions.length > 1) {
+		    var currentTick = this.dataMin;
+		    tickPositions = [];
+		    while (currentTick < this.dataMax) {
+		        tickPositions.push(currentTick);
+		        var currDate = new Date(currentTick);
+		        currDate.setUTCFullYear(currDate.getUTCFullYear() + 1);
+		        currentTick = currDate.getTime();
+		    }
+		    tickPositions.push(this.dataMax);
+		}
 
 
 		// mark new days if the time is dividible by day (#1649, #1760)
@@ -10613,8 +10653,10 @@ Legend.prototype = {
 			
 			// Apply marker options
 			if (markerOptions && legendSymbol.isMarker) { // #585
-				symbolAttr.stroke = symbolColor;
-				markerOptions = item.convertAttribs(markerOptions);
+			    symbolAttr.stroke = symbolColor;
+			    if (item && item.convertAttribs) {
+			        markerOptions = item.convertAttribs(markerOptions);
+			    }
 				for (key in markerOptions) {
 					val = markerOptions[key];
 					if (val !== UNDEFINED) {
@@ -10804,8 +10846,8 @@ Legend.prototype = {
 				li.attr('y', legend.baseline);
 			}
 
-			// Draw the legend symbol inside the group box
-			series.drawLegendSymbol(legend, item);
+            // Draw the legend symbol inside the group box
+            series.drawLegendSymbol && series.drawLegendSymbol(legend, item);
 
 			if (legend.setItemEvents) {
 				legend.setItemEvents(item, li, useHTML, itemStyle, itemHiddenStyle);
@@ -10813,6 +10855,10 @@ Legend.prototype = {
 
 			// Colorize the items
 			legend.colorizeItem(item, item.visible);
+
+			if (item.id == "selectAllItemsLegendItem" && item.legendSymbol) {
+			    item.legendSymbol.attr(item.options.marker);
+			}
 
 			// add the HTML checkbox on top
 			if (showCheckbox) {
@@ -10963,12 +11009,25 @@ Legend.prototype = {
 		
 		legend.renderTitle();
 
+		legend.options.symbolRadius = 2;
 
-		// sort by legendIndex
+		if (legend.options.showAllCaption && legend.options.showAllCaption != "") {
+		    var selectAllItem = { name: legend.options.showAllCaption, id: "selectAllItemsLegendItem", visible: true, legendColor: chart.options.chart.plotBackgroundColor };
+		    selectAllItem.drawLegendSymbol = allItems[0].drawLegendSymbol || (allItems[0].series && allItems[0].series.drawLegendSymbol);
+		    if (selectAllItem.drawLegendSymbol == LegendSymbolMixin.drawLineMarker) {
+		        selectAllItem.drawLegendSymbol = LegendSymbolMixin.drawRectangle;
+		    }		    
+            selectAllItem.chart = allItems[0].chart || allItems[0].series.chart;
+		    selectAllItem.options = { legendIndex: -1 };
+		    selectAllItem.options.marker = { stroke: chart.xAxis[0].options.lineColor || "#C0C0C0", 'stroke-width': 1};
+		    allItems = allItems.concat(selectAllItem);
+		}
+
+        // sort by legendIndex
 		stableSort(allItems, function (a, b) {
 			return ((a.options && a.options.legendIndex) || 0) - ((b.options && b.options.legendIndex) || 0);
 		});
-
+        
 		// reversed legend
 		if (options.reversed) {
 			allItems.reverse();
@@ -11258,7 +11317,7 @@ var LegendSymbolMixin = Highcharts.LegendSymbolMixin = {
 	 * 
 	 * @param {Object} legend The legend object
 	 */
-	drawLineMarker: function (legend) {
+	drawLineMarker: function (legend, item) {
 
 		var options = this.options,
 			markerOptions = options.marker,
@@ -11270,6 +11329,12 @@ var LegendSymbolMixin = Highcharts.LegendSymbolMixin = {
 			legendItemGroup = this.legendGroup,
 			verticalCenter = legend.baseline - mathRound(renderer.fontMetrics(legendOptions.itemStyle.fontSize, this.legendItem).b * 0.3),
 			attr;
+
+
+		if (item.id == "selectAllItemsLegendItem") {
+		    options.lineWidth = 2;
+		    item.legendColor = this.chart.xAxis[0].options.lineColor || "#C0C0C0";
+		}
 
 		// Draw the line
 		if (options.lineWidth) {
@@ -11292,7 +11357,7 @@ var LegendSymbolMixin = Highcharts.LegendSymbolMixin = {
 		}
 		
 		// Draw the marker
-		if (markerOptions && markerOptions.enabled !== false) {
+		if (markerOptions && markerOptions.enabled !== false && this.symbol) {
 			radius = markerOptions.radius;
 			this.legendSymbol = legendSymbol = renderer.symbol(
 				this.symbol,
@@ -12293,7 +12358,7 @@ Chart.prototype = {
 		chart.renderer.setSize(chartWidth, chartHeight, animation);
 
 		if (chart.angular) {
-		    var chartCanvasLabels = document.getElementsByClassName('chart-canvas-label');
+		    var chartCanvasLabels = chart.renderTo.getElementsByClassName('chart-canvas-label');
 		    if (chartCanvasLabels.length > 0) {
 		        for (var i = 0; i < chartCanvasLabels.length; i++) {
 		            chartCanvasLabels[i].parentNode.removeChild(chartCanvasLabels[i]);
@@ -12746,6 +12811,18 @@ Chart.prototype = {
 				.attr({ zIndex: 3 })
 				.add();
 		}
+	    //REPDEV-20695 Angular: when a value is lower than the Min Value Needle should Stop at the lowerBound
+		if (chart.angular) {
+		    if (options.yAxis[0]) {
+		        var minBound = options.yAxis[0].min;
+		        for (var i = 0; i < chart.series.length; i++) {
+		            var serie = chart.series[i];
+		            if (serie.data[0].y < minBound)
+		                serie.data[0].y = minBound;
+		        }
+		    }
+		}
+
 		chart.renderSeries();
 
 		// Labels
@@ -14737,8 +14814,14 @@ Series.prototype = {
 	    var series = this,
             areaPath = this.areaPath,
             options = this.options,
+            negativeColor = options.negativeColor,
+            negativeFillColor = options.negativeFillColor,
             zones = this.zones,
             props = [['area', this.color, options.fillColor]]; // area name, main color, fill color
+
+	    if (negativeColor || negativeFillColor) {
+	        props.push(['areaNeg', negativeColor, negativeFillColor]);
+	    }
 
 	    each(zones, function (threshold, i) {
 	        props.push(['zoneArea' + i, threshold.color || series.color, threshold.fillColor || options.fillColor]);
@@ -15087,7 +15170,7 @@ Series.prototype = {
 				}
 
 				if (area) {
-					area.clip(posClip);
+				    area.clip(posClip);
 					this.areaNeg.clip(negClip);
 				}
 			}
@@ -18334,7 +18417,50 @@ extend(Legend.prototype, {
 	setItemEvents: function (item, legendItem, useHTML, itemStyle, itemHiddenStyle) {
 	var legend = this;
             var weight = itemStyle["fontWeight"] || "normal"; //LOGIFIX #21195 Fixed bug: after mouseover legend still display bold
-	// Set the events on the item group, or in case of useHTML, the item itself (#1249)
+	    // Set the events on the item group, or in case of useHTML, the item itself (#1249)
+            if (item.id && item.id == "selectAllItemsLegendItem") {
+                (useHTML ? legendItem : item.legendGroup).on('click', function (event) {
+                    var allItemsSelected = true;                    
+                    var allItems = item.chart.series[0].options.legendType === 'point' ?
+                        item.chart.series[0].data :
+                        item.chart.series;
+
+                    each(allItems, function (item) {                        
+                        if (item.id && item.id == "selectAllItemsLegendItem") {
+                            return;
+                        }
+                        allItemsSelected = allItemsSelected && item.visible;
+                    })
+                    if (allItemsSelected) {
+                        //each(item.chart.series, function (serie) {
+                        //    serie.hide();
+                        //})
+                        each(allItems, function (item) {
+                            if (item.id && item.id == "selectAllItemsLegendItem") {
+                                return;
+                            }
+                            (item.setVisible && item.setVisible(false, false));
+                        })
+                        item.chart.redraw();
+                        return;
+                    }
+                    else
+                    {
+                        //each(item.chart.series, function (serie) {
+                        //    serie.show();
+                        //})                        
+                        each(allItems, function (item) {
+                            if (item.id && item.id == "selectAllItemsLegendItem") {
+                                return;
+                            }
+                            (item.setVisible && item.setVisible(true, false));
+                        })
+                        item.chart.redraw();
+                        return;
+                    }
+                });
+                return;
+            }            
 	(useHTML ? legendItem : item.legendGroup).on('mouseover', function () {
 			item.setState(HOVER_STATE);
 		//LOGIFIX	
@@ -18480,6 +18606,19 @@ extend(Chart.prototype, {
 			chart.redraw(
 				pick(chart.options.chart.animation, event && event.animation, chart.pointCount < 100) // animation
 			);
+			var viewstateObj = JSON.parse(getInputViewStateElement(chart, 'zoom').value);
+			if (viewstateObj && chart.xAxis && chart.yAxis) {
+			    viewstateObj.xZoom[0] = viewstateObj.xZoom[0] ? viewstateObj.xZoom[0] : {};
+			    viewstateObj.yZoom[0] = viewstateObj.yZoom[0] ? viewstateObj.yZoom[0] : {};
+
+			    viewstateObj.xZoom[0].min = chart.xAxis[0].min;
+			    viewstateObj.xZoom[0].max = chart.xAxis[0].max;
+
+			    viewstateObj.yZoom[0].min = chart.yAxis[0].min;
+			    viewstateObj.yZoom[0].max = chart.yAxis[0].max;
+			    getInputViewStateElement(chart, 'zoom').value = JSON.stringify(viewstateObj);
+			    mergeHandlers(chart);
+			}
 		}
 	},    
 	/**
@@ -18599,9 +18738,11 @@ extend(Point.prototype, {
 		point.firePointEvent('mouseOver');
 
 		// update the tooltip
-		if (tooltip && (!tooltip.shared || series.noSharedTooltip)) {
-			tooltip.refresh(point, e);
-		}
+        if (series.tooltipOptions.enabled !== false && tooltip && (!tooltip.shared || series.noSharedTooltip)) {
+            tooltip.refresh(point, e);
+        } else if (series.tooltipOptions.enabled==false) {
+            tooltip.hide(0);
+        }
 
 		// hover this
 		point.setState(HOVER_STATE);

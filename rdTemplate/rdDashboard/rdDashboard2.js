@@ -102,7 +102,7 @@ YUI.add('dashboard', function (Y) {
 
                         //Now you can only drag it from the panel title
                         var hndNode = panelNode.one('tr[id="' + dashTitleID + '"]');
-                        panelNode.dd.addHandle(hndNode).plug(Y.Plugin.DDWinScroll, { scrollDelay: 100 });
+                        panelNode.dd.addHandle(hndNode).plug(Y.Plugin.DDWinScroll, { scrollDelay: 100, horizontal:false });
                         //25556
                         //if (this.get('bIsFreeformLayout')) panelNode.dd.plug(Y.Plugin.DDWinScroll, { scrollDelay: 100 });
                         hndNode.setStyle('cursor', 'move');
@@ -181,10 +181,24 @@ YUI.add('dashboard', function (Y) {
                         this.rdPositiontabSettingsCog(false);
                     }
                 }
-
+                this.subscribeToWindowResize();
             }  //End init interactivity.
 
 
+        },
+        subscribeToWindowResize: function () {
+            if (!window.LogiXML.visualizationWindowResize) {
+                window.LogiXML.visualizationWindowResize = Y.on('windowresize', function () {
+                    var panels = Y.all('div.rdDashboardPanel');
+                    panels.each(function (panel) {
+                        var panelBody = panel.one('div.panelBody');
+                        var ngpVisualization = panel.one('logi-visualization,logi-crosstab-table');
+                        if (ngpVisualization) {
+                                FreeForm.resizeVisualizationToFitPanel(panel, ngpVisualization);
+                        }
+                    });
+                });
+            }
         },
 
         rdClientSideEnableUndo: function () {
@@ -548,7 +562,24 @@ YUI.add('dashboard', function (Y) {
 
             rdAjaxRequestWithFormVars('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=DeleteCustomDashboardPanel' + rdPanelParams);
             var dtPanelList = document.getElementById('dtPanelList');   //#12552.
-            dtPanelList.childNodes[0].childNodes[nRowNr - 1].style.display = 'none';
+
+            // REPDEV-21788 - Only count the childNodes with IDs - there are empty tr tags that don't count
+            var curIdx = -1;
+            var targetIdx = Number(nRowNr) - 1;
+            var rows = dtPanelList.childNodes[0].childNodes;
+            for (var i = 0; i < rows.length; i++) {
+                var row = rows[i];
+
+                if (!row.id)
+                    continue;
+
+                curIdx++;
+
+                if (curIdx == targetIdx) {
+                    row.style.display = 'none';
+                    break;
+                }
+            }
         },
 
         rdSetDropZone: function (eleDropZone) {
@@ -836,7 +867,7 @@ YUI.add('dashboard', function (Y) {
             rdParams += "&NewName=" + rdAjaxEncodeValue(sNewName)
             bSubmitFormAfterAjax = true //13690
             this.rdClientSideEnableUndo();
-            rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=RenameDashboardTab' + rdParams);
+            rdAjaxRequestWithFormVars('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=RenameDashboardTab' + rdParams);
             LogiXML.Dashboard.pageDashboard.rdPositiontabSettingsCog();
         },
 
@@ -878,16 +909,11 @@ YUI.add('dashboard', function (Y) {
             //set the focus in the text box.
             var nodeRenamePanelTextbox = Y.one('#rdDashboardPanelRename-' + sPanelInstanceID);
             nodeRenamePanelTextbox.focus();
-        },
 
-        rdShowRenamePanel: function (sPanelElementID, sPanelInstanceID) {
-            var nodePanel = Y.one(sPanelElementID);
-            var nodeRenamePanelDiv = Y.one('#rdDashboardPanelRenameDiv-' + sPanelInstanceID);
-            nodeRenamePanelDiv.setStyle('display', '');
-            var txtRenamePanel = Y.one('#rdDashboardPanelRename-' + sPanelInstanceID).getDOMNode();
+            var txtRenamePanel = nodeRenamePanelTextbox.getDOMNode();
             if (txtRenamePanel.createTextRange) {
                 var range = txtRenamePanel.createTextRange();
-                range.move('character', txtRenamePanel.value.length - 1);
+                range.move('character', txtRenamePanel.value.length);
                 range.select();
             }
             else {
@@ -895,9 +921,16 @@ YUI.add('dashboard', function (Y) {
                 txtRenamePanel.setSelectionRange(txtRenamePanel.value.length, txtRenamePanel.value.length);
             }
 
-            var nodePanelRenameCaptionDiv = Y.one('#rdDashboardPanelCaptionDiv-' + sPanelInstanceID);
-            nodePanelRenameCaptionDiv.setStyle('display', 'none');
+            Y.one('body').on('keydown', this.rdHandleRenameKeyDown);
+        },
 
+        rdHandleRenameKeyDown: function (e) {
+            if (e && e.keyCode == 13) { 
+                if (e.target.get('id').indexOf('rdDashboardPanelRename') > -1) {
+                    e.preventDefault();
+                    e.target.blur();
+                }
+            }
         },
 
         rdMoveDashboardTab: function (sDirection) {
@@ -1066,11 +1099,25 @@ YUI.add('dashboard', function (Y) {
         rdRefreshDashboard: function (bSetRepotLayoutInViewMode) {
             var nodeDashboardId = Y.one('#DashboardIdentifier');
             var dashboardTabs = document.getElementById("rdActiveTabId_rdDashboardTabs");
+            var sAjaxUrl;
             if (!Y.Lang.isNull(dashboardTabs)) {
-                rdAjaxRequest('rdAjaxCommand=RefreshElement&rdRefreshElementID=' + nodeDashboardId.get("value") + ',rdDashboardTabs' + '&rdRefreshDashboard=True&rdReport=' + document.getElementById("rdDashboardDefinition").value + '&rdRequestForwarding=Form');
+                sAjaxUrl = "rdAjaxCommand=RefreshElement&rdRefreshElementID=" + nodeDashboardId.get("value") + ",rdDashboardTabs" + "&rdRefreshDashboard=True&rdReport=" + document.getElementById("rdDashboardDefinition").value + "&rdRequestForwarding=Form";
             } else {  //When no tabs.
-                rdAjaxRequest('rdAjaxCommand=RefreshElement&rdRefreshElementID=' + nodeDashboardId.get("value") + ',rdDivDashboardpanels' + '&rdRefreshDashboard=True&rdReport=' + document.getElementById("rdDashboardDefinition").value + '&rdRequestForwarding=Form');
+                sAjaxUrl = "rdAjaxCommand=RefreshElement&rdRefreshElementID=" + nodeDashboardId.get("value") + ",rdDivDashboardpanels" + "&rdRefreshDashboard=True&rdReport=" + document.getElementById("rdDashboardDefinition").value + "&rdRequestForwarding=Form";
             }
+
+            //Parse out WaitPage configuration
+            var waitCfg = ['', '', '']
+            var eleWaitCfg = document.getElementById("rdWaitCfg")
+            if (eleWaitCfg) {
+                try {
+                    var sScript = eleWaitCfg.parentElement.href
+                    sScript = sScript.substr(sScript.indexOf("["))
+                    waitCfg = eval(sScript.substr(0, sScript.indexOf("]") + 1))
+                }
+                catch (e) { }
+            }
+            rdAjaxRequest(sAjaxUrl, false, null, false, null, waitCfg);
 
             // should be revisited , if NGP platform, refresh after adding panel
 		    //if (window.Logi !== undefined)
@@ -1148,7 +1195,7 @@ YUI.add('dashboard', function (Y) {
                 rdParams += "&TabID=" + sTabID
                 rdParams += "&NewColumnCount=" + nColumnCount;//(nColumnCount == 'Free-form' ? 0 : nColumnCount);
                 rdParams += "&NewWideColumn=" + nWideColumn
-                rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SetDashboardTabColumns' + rdParams)
+                rdAjaxRequestWithFormVars('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SetDashboardTabColumns' + rdParams)
             }
 
             if (nColumnCount == 'Free-form') {   // Freeform Layout.
@@ -1773,6 +1820,17 @@ YUI.add('dashboard-freeform', function (Y) {
 	    }
 	},
 
+    isInlineElement = function (htmlElement) {
+        var displayStyle;
+        if (window.getComputedStyle) {
+            displayStyle = window.getComputedStyle(htmlElement, null).getPropertyValue('display');
+        } else {
+            displayStyle = htmlElement.currentStyle.display;
+        }
+
+        return displayStyle == "inline";
+    },
+
 	getContentDimension = function (node, dimension) {
 	    dimension = dimension.toLowerCase();
 	    if (dimension === 'w' || dimension === 'width') {
@@ -2009,7 +2067,13 @@ YUI.add('dashboard-freeform', function (Y) {
             for (var i = 0; i < lstElementsToExclude.length; i++) {
                 elementToExclude = panel.one(lstElementsToExclude[i]);
                 if (elementToExclude) {
-                    availableHeight -= elementToExclude.get('clientHeight');
+                    var domExcludeElement = elementToExclude.getDOMNode();
+                    if (isInlineElement(domExcludeElement)) {
+                        var excludeElementRect = domExcludeElement.getBoundingClientRect();
+                        availableHeight -= (excludeElementRect.top - excludeElementRect.bottom);
+                    } else {
+                        availableHeight -= elementToExclude.get('clientHeight');
+                    }
                 }
             }
 

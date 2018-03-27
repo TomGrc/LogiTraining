@@ -176,7 +176,11 @@ function rdValidateJavascript(sFieldId, funcValidate, sErrorMsg, sErrorClass) {
         eval(funcValidate)
     }
     catch (e) {
-        sErrorMsg = sErrorMsg.replace("{error}",e)
+        sErrorMsg = sErrorMsg.replace("{error}", e)
+        var eleInput = document.getElementById(sFieldId);
+        if (eleInput) {
+            rdSetErrorClass(eleInput, sErrorClass);
+        }
         return sErrorMsg
     }
 }
@@ -583,6 +587,6 @@ function rdConfirmAndValidateActionJavascript(e, sConfirmationMsg, bValidate, on
     if (onSuccess)
         onSuccess.bind(this)();
 
-    return true;
+    return;
 }
 

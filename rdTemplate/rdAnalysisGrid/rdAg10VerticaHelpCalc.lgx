@@ -45,7 +45,6 @@
 					<DataTable ID="dtOperators" CellSpacing="0" TableBorder="1" IdeDisplayStatus="Collapsed">
 						<DataLayer Type="Static" ID="dlFunctions">
 							<StaticDataRow Operator="-" Description="Negation" />
-							<StaticDataRow Operator="^" Description="Exponentiation: Power( m, n ). Function returns m raised to the nth power." />
 							<StaticDataRow Operator="*" Description="Multiplication" />
 							<StaticDataRow Operator="/" Description="Division" />
 							<StaticDataRow Operator="%" Description="Modulus: m%n." />

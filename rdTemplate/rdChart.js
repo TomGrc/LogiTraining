@@ -53,7 +53,7 @@ function findAncestorByIdPrefix(prefix, elem) {
 }
 
 function rdChartError(imgChart) {
-	if (imgChart.parentNode.tagName != "A") {
+    if (imgChart.parentNode && imgChart.parentNode.tagName != "A") {
 		parentChart = imgChart.parentNode
 		//Create a link pointing to the error page.
 		var aLink = document.createElement("A")

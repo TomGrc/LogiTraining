@@ -52,7 +52,7 @@ function rdAddBookmark(sActionId, sReport, sBookmarkReqIds, sBookmarkSessionIds,
 	            sReqParams += sInputValue;	
 		}
 		else if (ele.type == "select-one" && ele.options[ele.selectedIndex]) {
-		    sReqParams += "&" + ele.id + "=" + ele.options[ele.selectedIndex].value;
+		    sReqParams += "&" + ele.id + "=" + rdAjaxEncodeValue(ele.options[ele.selectedIndex].value); //RD21575		    
 		}
 	}
 	

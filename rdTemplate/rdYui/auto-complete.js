@@ -46,7 +46,7 @@ YUI.add('rdAutoComplete', function (Y) {
 				queryDelay: 0,
 				// queryDelimiter: ',',
 				queryDelimiter: this.delimiter,
-				scrollIntoView: true,
+				scrollIntoView: false,
 				resultHighlighter: 'startsWith',
 				source: this.values,
 				render: (btnComboDropdown) ? false:true,
@@ -64,6 +64,20 @@ YUI.add('rdAutoComplete', function (Y) {
 					        this._inputNode.ac.sendRequest(''); 
 					    }
 				    }
+				},
+
+				resultFormatter: function (query, results) {
+				    return Y.Array.map(results, function (result) {
+				        var sText = result.raw
+                        var sTitle = ""
+				        var nSplitLocation = result.text.indexOf('_rdTooltip_')
+				        if (nSplitLocation != -1) {
+				             sTitle = 'title="' + sText.substr(nSplitLocation + 11).replace("'","\'") + '" '
+				            sText = sText.substr(0, nSplitLocation)
+				            result.text = result.text.substr(0, nSplitLocation)
+                        }
+				        return '<span ' + sTitle + '">' + sText + '</span>';
+				    });
 				},
 				
 				resultFilters: ['startsWith', function (query, results) {
@@ -99,8 +113,13 @@ YUI.add('rdAutoComplete', function (Y) {
 			    inputNode.ac.sendRequest('');
 			    inputNode.ac.render();
 			    btnComboDropdown.on('click', function (e) {
-			        inputNode.ac.sendRequest('');
-			        inputNode.getDOMNode().focus();
+                    // might not be initialized, page refreshed other parts of the report.RD21281
+			        try {
+			            inputNode.ac.sendRequest('');
+			            inputNode.getDOMNode().focus();
+			        }  catch (e) {
+			        
+			        }			        
 			    });
 			} else {
                 //InputText with AutoComplete.
@@ -136,6 +155,7 @@ YUI.add('rdAutoComplete', function (Y) {
 				} else {
 					this.delimiter = "";
 				}	
+
 			this.rdEventOnAutoComplete = this.configNode.getAttribute('data-event');			
         },
         

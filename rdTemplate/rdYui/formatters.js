@@ -128,7 +128,7 @@ LogiXML.Formatter = {
         //remove %
         format = format.replace(/%/g, "");
 
-        formattedDate = format.replace(/(\\)?("[^"]*"?|'[^']*'?|dd?d?d?|MM?M?M?|yy?y?y?|hh?|HH?|mm?|ss?|tt?|S|fF?|qq?)/g,
+        formattedDate = format.replace(/(\\)?("[^"]*"?|'[^']*'?|dd?d?d?|MM?M?M?|yy?y?y?|hh?|HH?|mm?|ss?|tt?|S|fyyyy?|fyy?|fqq?|ww?|fF?|qq?)/g,
             function (m) {
                 if (m.charAt(0) === "\\") {
                     return m.replace("\\", "");
@@ -223,7 +223,25 @@ LogiXML.Formatter = {
 
                     case "qq":
                         return Math.ceil((month + 1) / 3);
-
+                    case "fyyyy":
+                        var adjustedDate = LogiXML.Formatter.getAdjustedFiscalDate(date);
+                        return adjustedDate.getUTCFullYear();
+                    case "fyy":
+                        var adjustedDate = LogiXML.Formatter.getAdjustedFiscalDate(date);
+                        return adjustedDate.getUTCFullYear().toString().substr(2);
+                    case "fqq":
+                        var adjustedDate = LogiXML.Formatter.getAdjustedFiscalDate(date);
+                        return parseInt((adjustedDate.getUTCMonth()) / 3) + 1;
+                    case "ww":
+                        var dayOfYear = LogiXML.Formatter.getDayOfYear(date) - 1;
+                        var dayForJan1 = LogiXML.Formatter.getDayOfYear(date) - (dayOfYear % 7);
+                        var firstDayOfWeek = 0;
+                        var firstDayOfWeekHidden = document.getElementById("rdConstantFirstDayOfWeekHidden");
+                        if (firstDayOfWeekHidden) {
+                            firstDayOfWeek = parseInt(firstDayOfWeekHidden.value)
+                        }
+                        var offset = (dayForJan1 - firstDayOfWeek + 14) % 7;
+                        return Math.floor(((dayOfYear + offset) / 7 + 1));
                     default:
                         if (m.charAt(0) === "\"") {
                             return m.replace(/["]/g, '');
@@ -233,9 +251,48 @@ LogiXML.Formatter = {
                         return m;
                 }
             }
-        );
+        ).replace("\\","");
 
         return formattedDate;
+    },
+
+    getDayOfYear : function(date){
+        var start = new Date(date.getUTCFullYear(), 0, 0);
+        var diff = date - start;
+        var oneDay = 1000 * 60 * 60 * 24;
+        var day = Math.floor(diff / oneDay);
+        return day;
+    },
+
+    getAdjustedFiscalDate: function (dt) {
+        var adjustedDate = new Date(dt);
+        var firstDayOfFiscalHidden = document.getElementById("rdConstantFirstDayOfFiscalYearHidden");
+        if (firstDayOfFiscalHidden) {
+            var firstDayOfFiscalValue = firstDayOfFiscalHidden.value;
+            if (firstDayOfFiscalValue) {
+                var fiscalStartDate = new Date(firstDayOfFiscalValue);
+                if (fiscalStartDate.getUTCDate() == 1 && fiscalStartDate.getUTCMonth() == 0) {
+                    return adjustedDate;
+                } else {
+                    var yearOffset = 0;
+                    var positiveFiscalYearValue = "";
+                    var positiveFiscalYearHidden = document.getElementById("rdConstantPositiveFiscalYearHidden");
+                    if (positiveFiscalYearHidden) {
+                        positiveFiscalYearValue = positiveFiscalYearHidden.value;
+                    }
+
+                    if (positiveFiscalYearValue != "True") {
+                        yearOffset = 1;
+                    }
+
+
+                    adjustedDate.setUTCFullYear(dt.getUTCFullYear() + yearOffset);
+                    adjustedDate.setUTCMonth(dt.getUTCMonth() + (1 - (fiscalStartDate.getUTCMonth() + 1)));
+                    adjustedDate.setUTCDate(dt.getUTCDate() + (1 - fiscalStartDate.getUTCDate()));
+                }
+            }
+        }
+        return adjustedDate;
     },
 
     formatNumber: function (num, format) {
@@ -464,6 +521,15 @@ LogiXML.Formatter = {
             }
             exponential = exponential.replace(".", LogiXML.Localization.NumFormatInfo.numberDecimalSeparator);
             return format.charAt(0) == "e" ? exponential.toLowerCase() : exponential.toUpperCase();
+        }
+
+        if ((format.charAt(0) == "p" || format.charAt(0) == "P") && format.length > 1) {
+            var rxNum = new RegExp(/[0-9]+/),
+                results = rxNum.exec(format);
+            var decimals = parseInt(results[0]);
+            if (!isNaN(decimals)) {//Formats like "Percent" or pPpP are invalid or handled before
+                format = customFormat = "#,##0." + Array(++decimals).join("0") + "%";
+            }            
         }
 
         var validFormat = "0#-,.";

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report ID="OlapGrid.rdDgTemplate">
   <Body>
-    <Rows ID="rowsOlapGrid" CellSpacing="0" Class="rdDg">
-      <Row ID="rowOgTitle" >
+    <Rows ID="rowsOlapGrid" CellSpacing="0" Class="rdDg" >
+      <Row ID="rowOgTitle" ShowModes="rdBrowser" >
         <Column ID="colOgTitle" Class="rdDgNoPadding">
           <Rows CellSpacing="0" Width="100" WidthScale="%" >
             <Row Class="rdDgCaptionRow">
@@ -15,7 +15,7 @@
         </Column>
       </Row>
 
-      <Row ID="rowControlPanels" >
+      <Row ID="rowControlPanels" ShowModes="rdBrowser" >
         <Column ID="colMenu" Class="rdDgNoPadding" ColSpan="2">
           <Rows CellSpacing="0">
             <Row >
@@ -295,14 +295,14 @@
                   <Row>
 					  <Column Class="rdDgNoPadding" >
 						  <Rows Class="rdDgContentHeadingRow" Width="165" WidthScale="px">
-							  <Row>
+							  <Row ShowModes="rdBrowser" >
 								  <Column Width="0.2" WidthScale="%">
 									  <Image Caption="rdTemplate/rdOlapGrid/rdDgTableHeading.gif" ID="imgTableOG"/>
 								  </Column>
 								  <Column Width="0.3" WidthScale="%">
                     <Label Caption="Table" ID="lblTableHeading" Class="rdDgContentHeading"/>
                   </Column>
-								  <Column ID="colCrosstabExportControls_rdAxID" Width="0.5" WidthScale="%">
+					<Column ID="colCrosstabExportControls_rdAxID" Width="0.5" WidthScale="%">
                     <Division ID="divTableExportControls">
                       <Image ID="imgTableExport" Caption="rdTemplate/rdExport.png" Tooltip="Export.">
                         <Action Type="Popup" ID="agExportPopupMenu" Class="rdThemePopupMenu">
@@ -319,7 +319,7 @@
 									  <Division Condition="@Session.ogEmptyTable~">
 										  <Image Caption="rdTemplate/rdAddToDBoard.png" Tooltip="Add to dashboard." ID="lblAddToDashboardDataTable">
 											  <Action ID="actAddToDashboardDgTable" Type="AddDashboardPanel" DashboardSaveFile="@Request.DashboardSaveFile~" AddPanelContentElementID="otOlapGrid" AddPanelPopupCaption="Add Panel" AddPanelButtonCaption="Done" AddPanelTitle="Enter a Panel Title" AddPanelDescription="" Image="../rdTemplate/rdAnalysisGrid/rdAgCrosstab.png" MultipleInstances="False" OgAddToDashboard="True" OgDataTable="True" AddPanelSkipLocalData="False">
-												  <BookmarkLinkback Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
+												  <BookmarkLinkback ID="blTableRunOriginal" Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
 											  </Action>
 										  </Image>
 									  </Division>
@@ -386,7 +386,7 @@
                             <Division Condition="@Session.ogEmptyTable~">
                             <Image Caption="rdTemplate/rdAddToDBoard.png" Tooltip="Add to dashboard." ID="lblAddToDashboardChart">
                               <Action ID="actAddToDashboardDgChart" Type="AddDashboardPanel" DashboardSaveFile="@Request.DashboardSaveFile~" AddPanelContentElementID="ogChart" AddPanelPopupCaption="Add Panel" AddPanelButtonCaption="Done" AddPanelTitle="Enter a Panel Title" AddPanelDescription="" MultipleInstances="False" OgAddToDashboard="True" OgChart="True" AddPanelSkipLocalData="False">
-                                <BookmarkLinkback Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
+                                <BookmarkLinkback ID="blChartRunOriginal" Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
                               </Action>
                             </Image>
                           </Division>
@@ -501,8 +501,8 @@
                             <Spaces Size="3"/>
                             <Division Condition="@Session.ogEmptyTable~">
                               <Image Caption="rdTemplate/rdAddToDBoard.png" Tooltip="Add to dashboard." ID="lblAddToDashboardHeatmap">
-                                <Action ID="actAddToDashboardDgHeatmap" Type="AddDashboardPanel" DashboardSaveFile="@Request.DashboardSaveFile~" AddPanelContentElementID="heatmapGrid" AddPanelPopupCaption="Add Panel" AddPanelButtonCaption="Done" AddPanelTitle="Enter a Panel Title" AddPanelDescription="" MultipleInstances="False" Image="../rdTemplate/rdOlapGrid/rdOgHeatmap.png" OgAddToDashboard="True" OgHeatmap="True" AddPanelSkipLocalData="False">
-                                  <BookmarkLinkback Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
+                                <Action ID="actAddToDashboardDgHeatmap" Type="AddDashboardPanel" DashboardSaveFile="@Request.DashboardSaveFile~" AddPanelContentElementID="heatmapGrid" AddPanelPopupCaption="Add Panel" AddPanelButtonCaption="Done" AddPanelTitle="Enter a Panel Title" AddPanelDescription="" MultipleInstances="False" OgAddToDashboard="True" OgHeatmap="True" AddPanelSkipLocalData="False">
+                                  <BookmarkLinkback ID="blHeatmapRunOriginal" Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
                                 </Action>
                               </Image>
                             </Division>

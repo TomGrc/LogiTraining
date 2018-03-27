@@ -81,7 +81,8 @@ function MarkerLabel_(marker, crossURL, handCursorURL) {
   this.crossDiv_ = MarkerLabel_.getSharedCross(crossURL);
 }
 
-inherits(MarkerLabel_, google.maps.OverlayView);
+if (typeof google != "undefined" && google && google.maps && google.maps.OverlayView)
+    inherits(MarkerLabel_, google.maps.OverlayView);
 
 /**
  * Returns the DIV for the cross used when dragging a marker when the
@@ -565,7 +566,8 @@ function MarkerWithLabel(opt_options) {
   google.maps.Marker.apply(this, arguments);
 }
 
-inherits(MarkerWithLabel, google.maps.Marker);
+if (typeof google != "undefined" && google && google.maps && google.maps.Marker)
+    inherits(MarkerWithLabel, google.maps.Marker);
 
 /**
  * Overrides the standard Marker setMap function.

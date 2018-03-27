@@ -48,9 +48,10 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;DataHub&apos;, &apos;@Data.Connect
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;Vertica&apos;, &apos;@Data.Connection_VerticaServer~&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;DB2&apos;, &apos;@Data.Connection_DB2Server~&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;OpenEdge&apos;, &apos;~&apos;,
+IIF(&apos;@Data.Connection_Type~&apos;==&apos;ADO&apos;, &apos;&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;&apos;,
 &apos;&apos;
-))))))))))"
+)))))))))))"
 				ID="calcServer"
 			/>
 			<CalculatedColumn
@@ -63,9 +64,10 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;DataHub&apos;, &apos;@Data.Connect
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;Vertica&apos;, &apos;@Data.Connection_VerticaDatabase~&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;DB2&apos;, &apos;@Data.Connection_DB2Database~&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;OpenEdge&apos;, &apos;~&apos;,
+IIF(&apos;@Data.Connection_Type~&apos;==&apos;ADO&apos;, &apos;&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;&apos;,
 &apos;&apos;
-))))))))))"
+)))))))))))"
 				ID="calcDatabase"
 			/>
 			<CalculatedColumn
@@ -78,9 +80,10 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;DataHub&apos;, &apos;@Data.Connect
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;Vertica&apos;, &apos;@Data.Connection_VerticaPort~&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;DB2&apos;, &apos;@Data.Connection_DB2Port~&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;OpenEdge&apos;, &apos;&apos;,
+IIF(&apos;@Data.Connection_Type~&apos;==&apos;ADO&apos;, &apos;&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;&apos;,
 &apos;&apos;
-))))))))))"
+)))))))))))"
 				ID="calcPort"
 			/>
 			<CalculatedColumn
@@ -93,9 +96,10 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;DataHub&apos;, &apos;@Data.Connect
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;Vertica&apos;, &apos;@Data.Connection_VerticaUser~&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;DB2&apos;, &apos;@Data.Connection_DB2User~&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;OpenEdge&apos;, &apos;~&apos;,
+IIF(&apos;@Data.Connection_Type~&apos;==&apos;ADO&apos;, &apos;&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;&apos;,
 &apos;&apos;
-))))))))))"
+)))))))))))"
 				ID="calcUser"
 			/>
 			<CalculatedColumn
@@ -108,13 +112,30 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;DataHub&apos;, &apos;@Data.Connect
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;Vertica&apos;, &apos;@Data.Connection_VerticaConnectionString~&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;DB2&apos;, &apos;@Data.Connection_DB2ConnectionString~&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;OpenEdge&apos;, &apos;@Data.Connection_OpenEdgeConnectionString~&apos;,
+IIF(&apos;@Data.Connection_Type~&apos;==&apos;ADO&apos;, &apos;@Data.Connection_AdoConnectionString~&apos;,
 IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection_ConnectionString~&apos;,
 &apos;&apos;
-))))))))))"
+)))))))))))"
 				ID="calcConnectionString"
 			/>
 			<CalculatedColumn
-				Formula="IIF((&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;)||(&apos;@Data.Connection_Type~&apos;==&apos;OpenEdge&apos;), &apos;False&apos;, &apos;True&apos;)"
+				Formula="IIF(&apos;@Data.Connection_Type~&apos;==&apos;SqlServer&apos;, &apos;&apos;,
+IIF(&apos;@Data.Connection_Type~&apos;==&apos;Oracle&apos;, &apos;&apos;,
+IIF(&apos;@Data.Connection_Type~&apos;==&apos;MySql&apos;, &apos;&apos;,
+IIF(&apos;@Data.Connection_Type~&apos;==&apos;PostgreSQL&apos;, &apos;&apos;,
+IIF(&apos;@Data.Connection_Type~&apos;==&apos;Redshift&apos;, &apos;&apos;,
+IIF(&apos;@Data.Connection_Type~&apos;==&apos;DataHub&apos;, &apos;&apos;,
+IIF(&apos;@Data.Connection_Type~&apos;==&apos;Vertica&apos;, &apos;&apos;,
+IIF(&apos;@Data.Connection_Type~&apos;==&apos;DB2&apos;, &apos;&apos;,
+IIF(&apos;@Data.Connection_Type~&apos;==&apos;OpenEdge&apos;, &apos;&apos;,
+IIF(&apos;@Data.Connection_Type~&apos;==&apos;ADO&apos;, &apos;@Data.Connection_AdoAssembly~&apos;,
+IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;&apos;,
+&apos;&apos;
+)))))))))))"
+				ID="calcAdoAssembly"
+			/>
+			<CalculatedColumn
+				Formula="IIF((&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;)||(&apos;@Data.Connection_Type~&apos;==&apos;OpenEdge&apos;) ||(&apos;@Data.Connection_Type~&apos;==&apos;ADO&apos;), &apos;False&apos;, &apos;True&apos;)"
 				ID="calcShowSimpleSettings"
 			/>
 		</DataLayer>
@@ -123,6 +144,7 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 		<Label
 			Caption="Data Source Connection Editor"
 			Class="ThemeHeaderLarger"
+			ID="lblTitle"
 		/>
 		<LineBreak
 			LineCount="2"
@@ -130,6 +152,7 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 		<Label
 			Caption="Enter the information to connect to a data source.	Then use the Test button to ensure the connection works."
 			Format="Preserve Line Feeds"
+			ID="lblInstruct"
 		/>
 		<LineBreak
 			LineCount="2"
@@ -140,6 +163,7 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 					<Label
 						Caption="Connection ID"
 						Class="ThemeHeader"
+						ID="lblConnectionID"
 					/>
 				</Column>
 				<Column>
@@ -182,6 +206,7 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 					<Label
 						Caption="Data Source Type"
 						Class="ThemeHeader"
+						ID="lblDataSourceType"
 					/>
 					<Spaces
 						Size="5"
@@ -233,12 +258,32 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 								Caption="DB2"
 								Type="DB2"
 							/>
-							<Remark>
-								<StaticDataRow
-									Caption="JDBC"
-									Type="JDBC"
-								/>
-							</Remark>
+							<StaticDataRow
+								Caption="ADO"
+								Type="ADO"
+							/>
+							<StaticDataRow
+								Caption="JDBC"
+								Type="JDBC"
+							/>
+							<CompareFilter
+								CaseSensitive="True"
+								CompareType="&lt;&gt;"
+								CompareValue="ADO"
+								DataColumn="Type"
+								DataType="Text"
+								ID="NoADO"
+								IncludeCondition="&quot;@Session.InfoServerJava~&quot;=&quot;true&quot;"
+							/>
+							<CompareFilter
+								CaseSensitive="True"
+								CompareType="&lt;&gt;"
+								CompareValue="JDBC"
+								DataColumn="Type"
+								DataType="Text"
+								ID="NoJDBC"
+								IncludeCondition="&quot;@Session.InfoServerJava~&quot;=&quot;false&quot;"
+							/>
 						</DataLayer>
 						<EventHandler
 							DhtmlEvent="onchange"
@@ -267,9 +312,10 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 			ID="divSettings"
 			>
 			<Label
-				Caption="Connnection Settings"
+				Caption="Connection Settings"
 				Class="ThemeHeader"
 				For="chkInputConnectionString"
+				ID="lblConnectionSettings"
 			/>
 			<LineBreak
 				LineCount="2"
@@ -286,6 +332,7 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 					<Column>
 						<Label
 							Caption="Server Name"
+							ID="lblServerName"
 						/>
 					</Column>
 					<Column>
@@ -313,6 +360,7 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 					<Column>
 						<Label
 							Caption="Database Name"
+							ID="lblDatabaseName"
 						/>
 					</Column>
 					<Column>
@@ -339,6 +387,7 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 					<Column>
 						<Label
 							Caption="Port Number"
+							ID="lblPortNumber"
 						/>
 					</Column>
 					<Column>
@@ -359,6 +408,7 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 						<Label
 							Caption="Optional"
 							Class="ThemeTextSmallest"
+							ID="lblOptional"
 						/>
 					</Column>
 				</Row>
@@ -369,6 +419,7 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 					<Column>
 						<Label
 							Caption="User"
+							ID="lblUser"
 						/>
 					</Column>
 					<Column>
@@ -396,6 +447,7 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 					<Column>
 						<Label
 							Caption="Password"
+							ID="lblPassword"
 						/>
 					</Column>
 					<Column>
@@ -424,6 +476,7 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 						<Label
 							Caption="Or"
 							Class="ThemeHeader"
+							ID="lblOr"
 						/>
 					</Column>
 				</Row>
@@ -432,6 +485,7 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 					<Column>
 						<Label
 							Caption="Connection String"
+							ID="lblConnectionString"
 						/>
 					</Column>
 					<Column>
@@ -460,7 +514,36 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 						<Label
 							Caption="Connection String is for when there are special parameters not listed in the Connection Settings."
 							Class="ThemeTextSmallest"
+							ID="lblConnectionStringInstruct"
 						/>
+					</Column>
+				</Row>
+				<Row
+					Condition="&apos;@Local.Connection_Type~&apos; == &apos;ADO&apos;"
+					>
+					<Column/>
+					<Column>
+						<Label
+							Caption="ADO Assembly"
+							ID="lblAdoAssembly"
+						/>
+					</Column>
+					<Column>
+						<InputText
+							DefaultValue="@Local.calcAdoAssembly~"
+							ID="AdoAssembly"
+							InputSize="50"
+							>
+							<EventHandler
+								DhtmlEvent="onchange"
+								>
+								<Action
+									ID="jsMetadataUpdate"
+									Javascript="rdMetadataConnectionSetValue(this,&apos;AdoAssembly&apos;,true);"
+									Type="Javascript"
+								/>
+							</EventHandler>
+						</InputText>
 					</Column>
 				</Row>
 			</Rows>
@@ -468,7 +551,7 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 				LineCount="2"
 			/>
 			<Division
-				Condition="&apos;@Local.Connection_Type~&apos; == &apos;JDBC&apos; || &apos;@Local.Connection_Type~&apos; == &apos;DataHub&apos;"
+				Condition="&apos;@Local.Connection_Type~&apos; == &apos;JDBC&apos; || &apos;@Local.Connection_Type~&apos; == &apos;DataHub&apos; || &apos;@Local.Connection_Type~&apos; == &apos;ADO&apos;"
 				ID="divSqlSyntax"
 				>
 				<Rows>
@@ -477,13 +560,14 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 							<Label
 								Caption="SQL Syntax"
 								Class="ThemeHeader"
+								ID="lblSqlSyntax"
 							/>
 							<Spaces
 								Size="5"
 							/>
 						</Column>
 						<Column
-							Condition="&apos;@Local.Connection_Type~&apos; == &apos;JDBC&apos;"
+							Condition="&apos;@Local.Connection_Type~&apos; == &apos;JDBC&apos; || &apos;@Local.Connection_Type~&apos; == &apos;ADO&apos;"
 							ID="colSqlSyntaxForJdbc"
 							>
 							<InputSelectList
@@ -518,6 +602,10 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 									<StaticDataRow
 										Caption="Vertica"
 										Type="Vertica"
+									/>
+									<StaticDataRow
+										Caption="1010data"
+										Type="1010data"
 									/>
 									<StaticDataRow
 										Caption="DB2"
@@ -590,6 +678,7 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 					<Label
 						Caption="Actions:"
 						Class="ThemeHeader"
+						ID="lblActions"
 					/>
 					<Spaces
 						Size="5"
@@ -597,6 +686,7 @@ IIF(&apos;@Data.Connection_Type~&apos;==&apos;JDBC&apos;, &apos;@Data.Connection
 					<Label
 						Caption="Test"
 						Class="ThemeLinkButtonSmall"
+						ID="lblTest"
 						>
 						<Action
 							ID="jsConnectionTest"
@@ -614,9 +704,10 @@ return false;"
 					<Label
 						Caption="Done"
 						Class="ThemeLinkButtonSmall"
+						ID="lblDone"
 						>
 						<Action
-							Javascript="history.go(-1);return false;"
+							Javascript="if(window.location.href.indexOf(&apos;rdForWizard=True&apos;) &gt; -1){ if(window.external){ try { return window.external.CloseWizardWindow(); } catch(err) {return true;} } } else { history.go(-1);return false; }"
 							Type="Javascript"
 						/>
 					</Label>
@@ -658,6 +749,7 @@ return false;"
 			<Label
 				Caption="Test Results"
 				Class="ThemeHeader"
+				ID="lblResults"
 			/>
 			<Spaces
 				Size="5"
@@ -665,6 +757,7 @@ return false;"
 			<Label
 				Caption="Last test: "
 				Class="ThemeTextSmallest"
+				ID="lblLastTest"
 			/>
 			<Label
 				Caption="@Local.Connection_TestTime~"
@@ -682,6 +775,7 @@ return false;"
 				<Label
 					Caption="&lt;span style=&quot;color: green;&quot;&gt;OK&lt;/span&gt;"
 					Format="HTML"
+					ID="lblTestOk"
 				/>
 			</Division>
 			<Division

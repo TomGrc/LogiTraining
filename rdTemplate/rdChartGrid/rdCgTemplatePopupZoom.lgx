@@ -24,7 +24,7 @@
           </Rows>
         </Column>
         <Column Class="rdCgAlignRight">
-          <Label Caption="Drillthrough" Class="rdCgCommand">
+          <Label ID="lblDrillthrough" Caption="Drillthrough" Class="rdCgCommand">
             <Action Type="Report" ID="actionDrillthrough">
               <Target Type="Report" FrameID="rdDrillthrough"/>
               <LinkParams rdCgCommand="Drillthrough" rdCgCommandID="@Function.FUID~" />

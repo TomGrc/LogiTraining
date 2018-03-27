@@ -16,6 +16,7 @@
 if (window.LogiXML === undefined) {
     window.LogiXML = {};
 }
+
 if (LogiXML.decodeHtml === undefined) {
     LogiXML.decodeHtml = function(htmlString, decodeTags) {
         var result = htmlString.toString();
@@ -39,6 +40,28 @@ if (LogiXML.decodeHtml === undefined) {
         return result;
     }
 }
+
+/// REPDEV-21152
+/// Studio Preview browser bug can trigger blur on textboxes when it didn't actually blur
+/// This function detects if that happened, and if it did it fixes the issue and returns true
+/// This function should never return true in Chrome, IE, Firefox, or Edge
+/// If this returns true when it shouldn't, it could be due to the use of `element.simulate("blur")`
+/// if so, change it to `element.blur()` and all should be well again
+LogiXML.isFalseBlur = function () {
+    if (window
+        && window.event
+        && window.event.type == "blur"
+        && window.event.target
+        && document
+        && document.activeElement
+        && document.activeElement == window.event.target)
+    {
+        document.activeElement.focus();
+        return true;
+    }
+
+    return false;
+};
 LogiXML.rd = {};
 LogiXML.guids = {};
 
@@ -91,8 +114,7 @@ LogiXML.layout = {};
 LogiXML.layout.isRendererElementCreated = false;
 LogiXML.layout.getTextDimensions = function(text, style, className) {
     var div;
-    if (LogiXML.layout.isRendererElementCreated) {
-        div = document.getElementById('textDimensionDivision');
+    if (LogiXML.layout.isRendererElementCreated && (div = document.getElementById('textDimensionDivision')) != null) {
         div.style.display = "block";
     }
     else{
@@ -109,6 +131,8 @@ LogiXML.layout.getTextDimensions = function(text, style, className) {
         if (style.width) {
             div.style.width = style.width;
         }
+    } else {
+        div.style = '';
     }
     div.style.position = "absolute";
     div.style.left = -1000;
@@ -116,6 +140,8 @@ LogiXML.layout.getTextDimensions = function(text, style, className) {
     div.innerHTML = text;
     if (className) {
         div.className = className;
+    } else {
+        div.className = '';
     }
 
     var result = {
@@ -124,6 +150,7 @@ LogiXML.layout.getTextDimensions = function(text, style, className) {
     };
     div.style.display = "none";
     div = null;
+
     return result;
 };
 
@@ -588,6 +615,25 @@ LogiXML.newIndex = function getRandomInt(min, max) {
     min = min || 0;
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
+LogiXML.fireEvent = function (ele, eventName) {
+    if (!ele || !eventName)
+        return false;
+
+    if (eventName.length > 2 && eventName.startsWith("on"))
+        eventName = eventName.substr(2);
+
+    var ret;
+
+    if (document.createEvent) {
+        var e = document.createEvent("HTMLEvents");
+        e.initEvent(eventName, false, true);
+        ret = ele.dispatchEvent(e);
+    } else {
+        ret = ele.fireEvent("on" + eventName);
+    }
+
+    return ret;
+};
 LogiXML.getRandomElements = function (array, count) {
     if (array.length <= count) {
         return array;
@@ -676,9 +722,9 @@ LogiXML.getTimestampWithoutClientOffset = function (dt) {
     return Date.UTC(dt.getFullYear(), dt.getMonth(), dt.getDate(), dt.getHours(), dt.getMinutes(), dt.getSeconds());
 }
 
-YUI().use('resize-base', 'rdResizer', function (Y) {
-        //it is a stub for loading resizer and necessary .css, see yui-config.js
-});
+//YUI().use('resize-base', 'rdResizer', function (Y) {
+//        //it is a stub for loading resizer and necessary .css, see yui-config.js
+//});
 
 YUI().use('node', 'event', function (Y) {
     LogiXML.EventBus = LogiXML.EventBus || {};
@@ -697,12 +743,470 @@ LogiXML.getGuid = function () {
     };
     return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
 };
-LogiXML.getObjectX = function(eleObject) { 
+LogiXML.getObjectX = function (eleObject) {
     return (eleObject.offsetParent ? (LogiXML.getObjectX(eleObject.offsetParent) + eleObject.offsetLeft) : eleObject.offsetLeft);
-}, 
+};
 LogiXML.getObjectY = function (eleObject) {
     return (eleObject.offsetParent ? (LogiXML.getObjectY(eleObject.offsetParent) + eleObject.offsetTop) : eleObject.offsetTop);
+};
+LogiXML.listeners = [];
+LogiXML.Listener = function (obj, eventName, func) {
+    this.obj = obj;
+    this.eventName = eventName;
+    this.func = func;
+
+    this.matches = function (obj, eventName) {
+        return (this.obj === obj && this.eventName === eventName);
+    }
+};
+LogiXML.addListener = function (ele, eventName, func) {
+    var listener = new LogiXML.Listener(ele, eventName, func);
+
+    if (ele.addEventListener)
+        ele.addEventListener(eventName, func);
+    else {
+        eventName = "on" + eventName;
+
+        if (ele.attachEvent)
+            ele.attachEvent(eventName, func);
+        else
+            ele[eventName] = func;
+    }
+
+    LogiXML.listeners.push(listener);
+
+    return listener;
+};
+LogiXML.clearListeners = function (obj) {
+    for (var i = LogiXML.listeners.length - 1; i >= 0; i--) {
+        listener = LogiXML.listeners[i];
+
+        if (listener && listener.obj === obj)
+            LogiXML.removeListener(listener);
+    }
 }
+LogiXML.removeListener = function (listener) {
+    if (!listener)
+        return;
+
+    var ele = listener.obj;
+    var func = listener.func;
+
+    if (ele.removeEventListener)
+        ele.removeEventListener(eventName, func);
+    else {
+        eventName = "on" + eventName;
+
+        if (ele.detachEvent)
+            ele.detachEvent(eventName, func);
+        else
+            ele[eventName] = null;
+    }
+
+    for (var i = LogiXML.listeners.length - 1; i >= 0; i--) {
+        if (LogiXML.listeners[i] === listener)
+            LogiXML.listeners.splice(i, 1);
+    }
+};
+LogiXML.trigger = function (ele, eventName, arg1) {
+    var listener;
+    var argsToPass = Array.prototype.slice.call(arguments, 2);
+
+    for (var i = 0; i < LogiXML.listeners.length; i++) {
+        listener = LogiXML.listeners[i];
+
+        if (listener && listener.matches(ele, eventName)) {
+            listener.func.apply(ele, argsToPass);
+        }
+    }
+};
+LogiXML.copyObject = function (source, target) {
+    if (!target)
+        target = {};
+
+    if (typeof source == "function")
+        source = source.prototype;
+
+    for (var propName in source) {
+        var value = source[propName];
+
+        if (typeof value == "function")
+            target[propName] = value.bind(target);
+        else if (typeof value == "object") {
+            var obj = target[propName];
+            target[propName] = LogiXML.copyObject(value, obj);
+        }
+        else if (!target.hasOwnProperty(propName))
+            target[propName] = value;
+    }
+
+    return target;
+};
+LogiXML.scriptsLoading = LogiXML.scriptsLoading || [];
+LogiXML.getScriptInfo = LogiXML.getScriptInfo || function (src) {
+    var scriptInfo;
+
+    var srcOrig = src;
+    src = LogiXML.resolveScriptSrc(src);
+
+    for (var i = 0; i < LogiXML.scriptsLoading.length; i++) {
+        scriptInfo = LogiXML.scriptsLoading[i];
+
+        if (src == scriptInfo.src)
+            return scriptInfo;
+    }
+
+    // script not tracked in this array - check document
+    scriptInfo = {
+        src: src,
+        srcOrig: srcOrig,
+        script: null,
+        onAfterLoad: [],
+        origArgs: [],
+        onFail: [],
+        loaded: false,
+        failed: false,
+        onAfterLoadAll: function () {
+            if (this.onFailTimeout) {
+                clearTimeout(this.onFailTimeout);
+                this.onFailTimeout = null;
+            }
+
+            this.loaded = true;
+
+            for (var i = 0; i < this.onAfterLoad.length; i++) {
+                var fx = this.onAfterLoad[i];
+
+                if (!fx)
+                    continue;
+
+                var oArgs = this.origArgs[i];
+                var dependencies = oArgs[0];
+
+                if (!Array.isArray(dependencies))
+                    dependencies = [dependencies];
+
+                // make sure all dependencies loaded
+                var failed = 0;
+                var notLoaded = 0;
+
+                for (var j = 0; j < dependencies.length; j++) {
+                    var depSrc = dependencies[j];
+                    var depSrcInfo = LogiXML.getScriptInfo(depSrc);
+
+                    if (depSrcInfo.failed)
+                        failed++;
+
+                    if (!depSrcInfo.loaded)
+                        notLoaded++;
+                }
+
+                if (failed) {
+                    var failFx = this.onFail[i];
+
+                    if (failFx)
+                        failFx(oArgs);
+
+                    continue;
+                }
+                
+                if (notLoaded)
+                    continue;
+
+                // all dependencies loaded
+                this.onAfterLoad[i](oArgs);
+            }
+        },
+        onFailAll: function () {
+            if (this.loaded)
+                return;
+
+            this.failed = true;
+
+            for (var i = 0; i < this.onFail.length; i++) {
+                var onfail = this.onFail[i];
+
+                if (onfail)
+                    onfail();
+            }
+        },
+        setEvents: function () {
+            if (this.onFailTimeout) {
+                clearTimeout(this.onFailTimeout);
+                this.onFailTimeout = null;
+            }
+
+            var scriptInfo = this;
+            var script = this.script;
+
+            if (script.readyState) {
+                script.onreadystatechange = function () {
+                    if (script.readyState === "loaded" || script.readyState === "complete") {
+                        script.onreadystatechange = null;
+                        setTimeout(scriptInfo.onAfterLoadAll.bind(scriptInfo), 10);
+                    }
+                };
+            }
+            else {
+                script.onload = function () {
+                    script.onload = null;
+                    setTimeout(scriptInfo.onAfterLoadAll.bind(scriptInfo), 10);
+                };
+            }
+
+            scriptInfo.onFailTimeout = setTimeout(scriptInfo.onFailAll.bind(scriptInfo), 4000);
+        }
+    };
+
+    var list = document.getElementsByTagName("SCRIPT");
+    var item, _src;
+
+    for (var i = 0; i < list.length; i++) {
+        item = list[i];
+        _src = item.getAttribute("src");
+
+        if (!_src)
+            _src = item.getAttribute("SRC");
+
+        if (src == _src) {
+            scriptInfo.script = item;
+            scriptInfo.loaded = true;
+
+            break;
+        }
+    }
+
+    LogiXML.scriptsLoading.push(scriptInfo);
+
+    return scriptInfo;
+};
+LogiXML.getUrlParameters = LogiXML.getUrlParameters || function (url) {
+    var params = [];
+
+    var i = url.indexOf("?");
+
+    var sParams;
+
+    if (i < 0)
+        sParams = url;
+    else
+        sParams = url.substr(i + 1);
+
+    var aParams = sParams.split("&");
+
+    for (i = 0; i < aParams.length; i++) {
+        var kvp = aParams[i].split("=");
+
+        if (aParams.length === 1 && kvp.length === 1)
+            return [];
+
+        if (kvp[0]) { //RD20049
+            kvp[0] = kvp[0].replace(/\+/g, "%20");
+        } else { // if undefined, ignore it.
+            continue;
+        }
+
+        if (kvp[1]) {
+            kvp[1] = kvp[1].replace(/\+/g, "%20");
+        }
+
+        params.push({
+            name: decodeURIComponent(kvp[0]),
+            value: decodeURIComponent(kvp[1])
+        });
+    }
+
+    return params;
+};
+LogiXML.getUrlParameter = LogiXML.getUrlParameter || function (url, name) {
+    var params = LogiXML.getUrlParameters(url);
+    var param;
+
+    for (var i = 0; i < params.length; i++) {
+        param = params[i];
+
+        if (param.name === name) {
+            return param.value;
+        }
+    }
+
+    return null;
+};
+LogiXML.setUrlParameter = LogiXML.setUrlParameter || function (url, name, value) {
+    var params = LogiXML.getUrlParameters(url);
+    var kvp, i;
+    var bFound = false;
+
+    for (i = 0; i < params.length; i++) {
+        kvp = params[i];
+
+        if (kvp.name == name) {
+            kvp.value = value;
+            bFound = true;
+            break;
+        }
+    }
+
+    if (!bFound)
+        params.push({
+            name: name,
+            value: value
+        });
+
+    i = url.indexOf("?");
+
+    kvp = params[0];
+
+    if (i > 0)
+        url = url.substr(0, i) + "?";
+    else if (url.indexOf("=") > 0)
+        url = "";
+    else if (url.length)
+        url += "?";
+
+    url += encodeURIComponent(kvp.name) + "=" + encodeURIComponent(kvp.value)
+
+    for (i = 1; i < params.length; i++) {
+        kvp = params[i];
+        url += "&" + encodeURIComponent(kvp.name) + "=" + encodeURIComponent(kvp.value);
+    }
+
+    return url;
+};
+
+LogiXML.version = "1.0.0.0";
+
+(function () {
+    var currentScript = document.currentScript || (function () {
+        var scripts = document.getElementsByTagName('script');
+        return scripts[scripts.length - 1];
+    })();
+
+    LogiXML.version = LogiXML.getUrlParameter(currentScript.src, "v");
+})();
+
+LogiXML.addScript = LogiXML.addScript || function (srcs, onAfterLoad, onFail) {
+    var src;
+    var addScript = [];
+
+    if (!Array.isArray(srcs))
+        srcs = srcs.split("|");
+
+    var toAdd = srcs.length;
+    var toWait = toAdd;
+    var scriptInfo, version;
+
+    for (var j = 0; j < srcs.length; j++) {
+        src = srcs[j];
+
+        scriptInfo = LogiXML.getScriptInfo(src);
+        addScript[j] = scriptInfo;
+
+        if (scriptInfo.script)
+            toAdd--;
+
+        if (scriptInfo.loaded)
+            toWait--;
+    }
+
+    if (toAdd <= 0 && toWait <= 0)
+        return false;
+
+    var head = document.getElementsByTagName("HEAD");
+
+    if (head && head.length)
+        head = head[0];
+    else
+        head = document.body;
+
+    for (i = 0; i < addScript.length; i++) {
+        var scriptInfo = addScript[i];
+        var doAppend = !scriptInfo.script;
+
+        if (doAppend) {
+            scriptInfo.script = document.createElement("SCRIPT");
+            scriptInfo.script.type = "text/javascript";
+            scriptInfo.script.src = srcs[i];
+            scriptInfo.script.async = false;
+        }
+
+        scriptInfo.onAfterLoad.push(onAfterLoad);
+        scriptInfo.onFail.push(onFail);
+        scriptInfo.origArgs.push(arguments);
+
+        scriptInfo.setEvents();
+
+        if (doAppend)
+            head.appendChild(scriptInfo.script);
+    }
+
+    return true;
+};
+LogiXML.addStylesheet = LogiXML.addStylesheet || function (href) {
+    var head = document.getElementsByTagName("HEAD");
+
+    if (head && head.length)
+        head = head[0];
+    else
+        head = document.body;
+
+    var item;
+
+    var list = head.getElementsByTagName("LINK");
+    var _href;
+    var gotIt = 0;
+    var added = false;
+    for (var i = 0; i < list.length; i++) {
+        item = list[i];
+        _href = item.getAttribute("href");
+        if (!_href)
+            _href = item.getAttribute("HREF");
+
+        if (_href == href) {
+            gotIt = 1;
+            break;
+        }
+    }
+
+    if (!gotIt) {
+        item = document.createElement("LINK");
+        item.setAttribute("rel", "stylesheet");
+        item.setAttribute("type", "text/css");
+        item.setAttribute("href", href);
+        head.appendChild(item);
+        added = true;
+    }
+
+    return added;
+};
+
+LogiXML.createElement = LogiXML.createElement || function (html) {
+    var div = document.createElement("DIV");
+    div.innerHTML = html;
+    return div.removeChild(div.firstChild);
+};
+
+LogiXML.resolveScriptSrc = LogiXML.resolveScriptSrc || function (src) {
+    if (src && (src.indexOf("rdTemplate/") == 0 || src.indexOf("/rdTemplate/") >= 0)) {
+        version = LogiXML.getUrlParameter(src, "v");
+        if (!version)
+            return LogiXML.setUrlParameter(src, "v", LogiXML.version);
+    }
+
+    return src;
+};
+LogiXML.xmlStringToDoc = LogiXML.xmlStringToDoc || function (xmlString) {
+    if (window.DOMParser) {
+        parser = new DOMParser();
+        return parser.parseFromString(xmlString, "text/xml");
+    }
+
+    // Internet Explorer
+    var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+    xmlDoc.async = false;
+    xmlDoc.loadXML(kml);
+    return xmlDoc;
+};
 
 function rdGetCookie(varName) {
     var name = varName + "=";
@@ -763,6 +1267,14 @@ function rdSetUndoRedoVisibility() {
 
 function rdSetCookie(name, value) {      
     var path = "/"
+    //Has user set a path in settings ?
+    try {        
+        if (rdCookiePath && rdCookiePath.length > -1) {
+            path = rdCookiePath;
+        }
+    } catch (e) {
+        
+    }
     document.cookie = name + "=" + value + "; path=" + path;
 }
 

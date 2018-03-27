@@ -336,10 +336,10 @@ var WIDGET       = 'widget',
                 if (isModal) {
                     maskNode.show();
                     Y.later(1, this, '_attachUIHandlesModal');
-                    this._focus();
+                    if (!this._isInIframe()) {
+                        this._focus();
+                    }
                 }
-
-
             } else {
 
                 index = Y.Array.indexOf(stack, this);
@@ -561,6 +561,19 @@ var WIDGET       = 'widget',
 
             if (this.get(VISIBLE)) {
                 this._attachUIHandlesModal();
+            }
+        },
+
+        /**
+         * Function to identify that page loaded inside an iframe
+         *
+         * @method _isInIframe
+         */
+        _isInIframe: function() {
+            try {
+                return window.self !== window.top;
+            } catch (e) {
+                return true;
             }
         }
     };

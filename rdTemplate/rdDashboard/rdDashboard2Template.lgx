@@ -17,7 +17,7 @@
       <InputHidden ID="rdUseGalleryFile" DefaultValue="False"/>
       <InputHidden ID="rdGlobalFilterVisible" DefaultValue="@Request.rdGlobalFilterVisible~"/>
       <Label Class="rdDashboardHidden" ID="rdDashboardAdjustable" Caption="True"/>
-			<Rows Width="100" WidthScale="%" CellSpacing="0" Class="rdDashboardPanelContainer">
+			<Rows ID="rdDashboardPanelContainer" Width="100" WidthScale="%" CellSpacing="0" Class="rdDashboardPanelContainer">
 				<Row ID="rdDashboardMenu">
 					<Column Class="rdDashboardMenu">
             <Division ID="rdAddTabCog" ShowModes="None">
@@ -240,7 +240,7 @@
 																		<InputText ID="rdDashboardPanelRenameID" Class="rdDashboardText panelTitleRename" Value="Caption" InputSize="60" >
 																			<EventHandler DhtmlEvent="onblur">
 																				<Action Type="Link" ID="actionRenamePanel">
-																					<Target Type="Link" Link="javascript: LogiXML.Dashboard.pageDashboard.rdSaveDashboardParams('rdDashboardPanelID', true);" />
+																					<Target Type="Link" Link="javascript: LogiXML.Dashboard.pageDashboard.rdSaveDashboardParams('rdDashboardPanelID', true, true);" />
 																				</Action>
 																			</EventHandler>
 																		</InputText>
@@ -302,7 +302,7 @@
 																		<InputText ID="rdDashboardPanelRenameID" Class="rdDashboardText" Value="Caption" InputSize="20" >
 																			<EventHandler DhtmlEvent="onblur">
 																				<Action Type="Link" ID="actionRenamePanel">
-																					<Target Type="Link" Link="javascript: LogiXML.Dashboard.pageDashboard.rdSaveDashboardParams('rdDashboardPanelID', true);" />
+																					<Target Type="Link" Link="javascript: LogiXML.Dashboard.pageDashboard.rdSaveDashboardParams('rdDashboardPanelID', true, true);" />
 																				</Action>
 																			</EventHandler>
 																		</InputText>
@@ -404,6 +404,21 @@
 				</Row>
 			</Rows>
 			<IncludeSharedElement ID="includeSharedAddPanelsGallery" DefinitionFile="rdDashboard/rdAddPanelsGallery.lgx" SharedElementID="AddPanelsGallery" />
+
+      <Division ShowModes="None" ID="rdDashboardHiddenWaitPage">
+        <Label ID="rdWaitCfg" Caption="" >
+          <Action Type="Report" >
+            <Target Type="Report" >
+              <WaitPage />
+            </Target>
+          </Action>
+        </Label>
+      </Division>
+      <Division ID="rdDivFreeFormLabel" ShowModes="None">
+        <Label Caption="Free-form" ID="rdLabelFreeForm" />
+      </Division>
+      
+      
 
       <ElementTemplate>
 

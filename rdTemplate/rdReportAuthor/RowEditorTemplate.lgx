@@ -35,7 +35,7 @@
         <Row ID="editorContainerRow_rdElementID">
           <Column ID="rdColumnID" Class="column-with-droppable rdDroppableContainer">
             <Division Class="rdDropPlaceholder" HtmlDiv="True" ShowModes="None" ID="divPlaceholder">
-              <Label Caption="DRAG CONTENT HERE" />
+              <Label ID="lblDragHere" Caption="DRAG CONTENT HERE" />
             </Division>
           </Column>
         </Row>

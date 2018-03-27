@@ -51,12 +51,14 @@
 			>
 			<Label
 				Caption="This label holds the message to display"
+        ID="lblAjaxResponse"
 			/>
 			<LineBreak
 				LineCount="2"
 			/>
 			<Button
 				Caption="OK"
+        ID="btnAjaxResponse"
 				>
 				<Action
 					ID="actPupAjaxResponse"
@@ -90,9 +92,10 @@
 				/>
 				<Button
 					Caption="OK"
+          ID="btnSqlSource"
 					>
 					<Action
-						ConfirmMessage="Click OK to load or refresh the columns for table @Request!Js.TableName~."
+						ConfirmMessage="Click OK to load or refresh the columns for table @Request.TableName~."
 						ID="jsMetadataUpdate"
 						Javascript="rdMetadataGetColumnsFromSource(&apos;pupAjaxResponse&apos;,false)"
 						Type="Javascript"
@@ -106,6 +109,7 @@
 		<Label
 			Caption="Metadata Columns"
 			Class="ThemeHeaderLarger"
+      ID="lblMetadataColumns"
 		/>
 		<LineBreak
 			LineCount="2"
@@ -113,6 +117,7 @@
 		<Label
 			Caption="Edit the properties of columns."
 			Format="Preserve Line Feeds"
+      ID="lblEditColumns"
 		/>
 		<LineBreak
 			LineCount="2"
@@ -125,6 +130,7 @@
 					<Label
 						Caption="Actions:"
 						Class="ThemeHeader"
+            ID="lblActions"
 					/>
 					<Spaces
 						Size="5"
@@ -135,9 +141,10 @@
 						<Label
 							Caption="Get Columns from Data Source, for table @Request.TableName~"
 							Class="ThemeLinkButton"
+              ID="lblGetTableColumns"
 							>
 							<Action
-								ConfirmMessage="Click OK to load or refresh the columns for table @Request!Js.TableName~."
+								ConfirmMessage="Click OK to load or refresh the columns for table @Request.TableName~."
 								ID="jsMetadataUpdate"
 								Javascript="rdMetadataGetColumnsFromSource(&apos;pupAjaxResponse&apos;,false);return false;"
 								Type="Javascript"
@@ -157,6 +164,7 @@
 							<Label
 								Caption="Get Columns from Data Source, for custom table @Request.TableName~"
 								Class="ThemeLinkButton"
+                ID="lblGetCustomColumns"
 								>
 								<Action
 									Javascript="rdMetadataShowGetColumnsDialog()"
@@ -171,9 +179,10 @@
 					<Label
 						Caption="Done"
 						Class="ThemeLinkButton"
+            ID="lblDone"
 						>
 						<Action
-							Javascript="history.go(-1);return false;"
+							Javascript="if(window.location.href.indexOf('rdForWizard=True') > -1){ if(window.external){ try { return window.external.CloseWizardWindow(); } catch(err) {return true;} } } else { history.go(-1);return false; }"
 							Type="Javascript"
 						/>
 					</Label>
@@ -198,6 +207,7 @@
 			<Label
 				Caption="Filter Columns"
 				Class="ThemeLinkButtonSmall"
+        ID="lblFilterColumns"
 			/>
 			<Spaces
 				Size="3"
@@ -345,6 +355,7 @@
 			AjaxPaging="True"
 			Caption="Columns"
 			ID="dt"
+			RememberSort="True"
 			SortArrows="True"
 			>
 			<InteractivePaging
@@ -1119,6 +1130,7 @@
 			>
 			<Label
 				Caption="Select the column&apos;s data type."
+        ID="lblSelectDataType"
 			/>
 			<LineBreak
 				LineCount="2"
@@ -1170,6 +1182,7 @@
 			>
 			<Label
 				Caption="Select the column&apos;s display format, or type a custom format."
+        ID="lblSelectDisplayFormat"
 			/>
 			<LineBreak
 				LineCount="2"
@@ -1261,6 +1274,7 @@
 			>
 			<Label
 				Caption="How should the column be aligned when viewed in a table?"
+        ID="lblAlignment"
 			/>
 			<LineBreak
 				LineCount="2"
@@ -1307,6 +1321,7 @@
 			>
 			<Label
 				Caption="When the user is filtering data, a popup can be shown making the value selection easier."
+        ID="lblShowPopup"
 			/>
 			<LineBreak
 				LineCount="2"
@@ -1357,10 +1372,12 @@
 						<Label
 							Caption="Make report values clickable by setting a dynamic Link URL. Use the following format, substituting your application, report name, request variable, table, and column names. The pattern &quot;@"
 							Format="Preserve Line Feeds"
+              ID="lblLinkInstruct1"
 						/>
 						<Label
 							Caption="Data.TABLENAME_COLUMNNAME~&quot; gets replaced with actual data values. You can also run JavaScript by beginning the URL with &quot;javascript:&quot;. For example: javascript:myScript(&apos;@"
 							Format="Preserve Line Feeds"
+              ID="lblLinkInstruct2"
 						/>
 						<Label
 							Caption="Data.Categories_CategoryName~&apos;);
@@ -1368,6 +1385,7 @@
 Example 1:
 	http://myServer/myApp/rdPage.aspx?rdReport=myOrdersReport&amp;OrderID=@"
 							Format="Preserve Line Feeds"
+              ID="lblLinkInstruct3"
 						/>
 						<Label
 							Caption="Data.myOrdersTable_OrderID~
@@ -1375,16 +1393,19 @@ Example 1:
 Example 2:
 	http://www.bing.com/search?q=@"
 							Format="Preserve Line Feeds"
+              ID="lblLinkInstruct4"
 						/>
 						<Label
 							Caption="Data.Categories_CategoryName~"
 							Format="Preserve Line Feeds"
+              ID="lblLinkInstruct5"
 						/>
 						<LineBreak
 							LineCount="2"
 						/>
 						<Label
 							Caption="Link URL"
+              ID="lblLinkUrl"
 						/>
 						<LineBreak/>
 						<InputTextArea
@@ -1407,6 +1428,7 @@ Example 2:
 						/>
 						<Label
 							Caption="Frame ID"
+              ID="lblLinkFrameID"
 						/>
 						<LineBreak/>
 						<Remark>

@@ -79,12 +79,14 @@ h3 {text-align:left;}
                    <tr id="rdCurrentPosition" style="display: none;"></tr>
              </table>
              </td></tr>
-             <tr><td class="SmallNote">* Generating this debugger information increases the overall elapsed time.</td></tr>
-             <tr><td>&#160;</td></tr>
+              <tr><td class="SmallNote">* Generating this debugger information increases the overall elapsed time.</td></tr>
+              <tr><td>&#160;</td></tr>
           </table>
           <table border="0" class="BodyTable">
              <tr><td><rdErrorReport /></td></tr>
           </table>
+          <br />
+          <a href="javascript:rdDebugDownloadTrace()">Download ZIPed Debugger Trace</a>
       </span>
         <script src="../rdTemplate/rdYui.min.js"></script>
         <script src="../rdTemplate/rdScript.min.js"></script>
@@ -206,6 +208,19 @@ h3 {text-align:left;}
                 eleMoreInfo.style.display=""
                 eleMoreInfo.parentNode.removeChild(eleMoreInfo.previousSibling)
             }
+
+            function rdDebugDownloadTrace() {
+                var sDebugUrl = document.body.getAttribute("rdDebugUrl")
+                sDebugGroupPrefix = sDebugUrl.substr(sDebugUrl.indexOf("/rdDownload") + 12)
+                sDebugGroupPrefix = sDebugGroupPrefix.replace("-rdDebug.htm", "")
+                var sUrl = sDebugUrl.substr(0, sDebugUrl.indexOf("/rdDownload")) + "./rdTemplate/rdDebugDownload.aspx?TracePrefix=" + sDebugGroupPrefix
+                if (window.location.href.indexOf("rdDownload") != -1) {
+                    //The URL is already in the rdDownload folder.
+                    sUrl = "." + sUrl  //Go up one folder.
+                }
+                window.location.href = sUrl
+            }
+
         </script>
     </body>
 </html>

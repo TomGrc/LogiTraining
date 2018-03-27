@@ -12,6 +12,7 @@
 		<Label
 			Caption="Metadata Join Details"
 			Class="ThemeHeaderLarger"
+      ID="lblTitle"
 		/>
 		<LineBreak
 			LineCount="2"
@@ -21,6 +22,7 @@
 				<Label
 					Caption="Actions:"
 					Class="ThemeHeader"
+          ID="lblActions"
 				/>
 			</Remark>
 			<Remark>
@@ -32,9 +34,11 @@
 				<Label
 					Caption="Add New Join"
 					Class="ThemeLinkButton"
+          ID="lblNewJoin"
 					>
 					<Action
 						ConfirmMessage="Add a new Join?"
+            ID="actNewJoin"
 						Javascript="rdMetadataAddNewJoin(&apos;MetadataID=@Request!Url.MetadataID~&amp;TableName=@Request!Url.TableName~&apos;);return false;"
 						Type="Javascript"
 					/>
@@ -58,6 +62,7 @@
 						>
 						<Label
 							Caption="From"
+              ID="lblFrom"
 						/>
 					</Column>
 					<Column>
@@ -70,6 +75,7 @@
 						>
 						<Label
 							Caption="To"
+              ID="lblTo"
 						/>
 					</Column>
 				</Row>
@@ -245,6 +251,7 @@
 			>
 			<Label
 				Caption="Select the relation&apos;s&apos;s join type."
+        ID="lblJoinType"
 			/>
 			<LineBreak
 				LineCount="2"
@@ -261,6 +268,7 @@
 			>
 			<Label
 				Caption="Select the join relation&apos;s From Column."
+        ID="lblFromColumn"
 			/>
 			<LineBreak
 				LineCount="2"
@@ -277,6 +285,7 @@
 			>
 			<Label
 				Caption="Select the join relation&apos;s To Column."
+        ID="lblToColumn"
 			/>
 			<LineBreak
 				LineCount="2"

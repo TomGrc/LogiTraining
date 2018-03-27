@@ -323,6 +323,12 @@ function _rdShowSingleElement(c,sAction,sId,sEffect) {
 	    rdResizeCurrentIFrame("OptionalParam");
 	else
 	    rdResizeCurrentIFrame();
+    
+	if (!(c.getAttribute("rdPopupPanel") == "True")) {
+	    Y.each(Y.one(c).all(".rdChartCanvas"), function (chartNode) {
+	        Y.LogiXML.ChartCanvas.reflowChart(chartNode);
+	    });
+	}	
 }
 
 function rdConvertRdIFrame(nodeFrame) {
@@ -371,7 +377,7 @@ function rdPostToIFrame(nodeFrame, sSrc) {
     if (i > 0) {
         form.action = sSrc.substr(0, i);
 
-        var qParams = rdAjaxGetUrlParameters(sSrc);
+        var qParams = LogiXML.getUrlParameters(sSrc);
 
         if (qParams && qParams.length) {
             for (i = 0; i < qParams.length; i++) {
@@ -395,6 +401,15 @@ function rdPostToIFrame(nodeFrame, sSrc) {
 }
 
 function rdIFrameChanged(nodeFrame, sSrc) {
+
+    //REPDEV-20467
+    var docFrame = nodeFrame._node.contentDocument || nodeFrame._node.contentWindow.document;
+    if (docFrame) {
+        if (!docFrame.body || docFrame.body.innerHTML == "") {
+            return true  //An IFrame ancestor has been RefreshElement'd, need to reload.
+        }
+    }
+
     var iFrameName = nodeFrame.getAttribute("name");
 
     var forms = document.getElementsByTagName("form");

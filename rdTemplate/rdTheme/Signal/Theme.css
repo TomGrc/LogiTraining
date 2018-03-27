@@ -14,7 +14,6 @@ body {
   min-height: 100%;
   text-decoration: none;
   text-transform: none;
-  text-rendering: optimizeLegibility;
 }
 h1, h2, h3, h4, h5, h6, .ThemeHeaderLargest, .ThemeHeaderLarger, .ThemeHeaderLarge, .ThemeHeader, .ThemeHeaderSmall, .ThemeHeaderSmaller, .ThemeHeaderSmallest {
   text-align: center;
@@ -104,10 +103,8 @@ blockquote {
   color: #B84026 /*TextNegativeFont*/ ;
 }
 .ThemeErrorText {
-  color: #FFFFFF /*ErrorFont*/ !important;
-  border: 1px solid !important;
-  border-color: #97351F /*ErrorBorder*/ !important;
-  background-color: #B84026 /*ErrorBackground*/ !important;
+  color: #B84026 /*ErrorColor*/ ;
+  font-weight: bold;
 }
 .ThemeNoWrap {
   white-space: nowrap;
@@ -256,7 +253,7 @@ a:hover.ThemeLinkButton, a:hover.ThemeLinkButtonSmall, a:link.ThemeLinkButton, a
 .ThemeLinkButton, .ThemeLinkButtonSmall, .rdAgCommand, .rdOgCommand, .rdAcCommand, span.rdCgCommand, .rdDashboardCommand, input[type="button"] {
   color: #FFFFFF /*ButtonFontColor*/ !important;
   background-image: none;
-  background-color: #172C42 /*ButtonBackgroundColor*/ !important;
+  background-color:  #37393d /*ButtonBackgroundColor*/ !important;
   border-radius: 5px;
   text-decoration: none;
   cursor: pointer;
@@ -280,7 +277,7 @@ input[type="button"] {
 }
 .ThemeLinkButtonSmall {
   font-size: 100%;
-  padding: 3px 7px 4px;
+  padding: 2px 5px 3px;
   margin-top: 3px !important;
   border-color: RGBA(255,255,255,0) /*ButtonBorderColor*/ !important;
   border: 1px solid;
@@ -425,7 +422,7 @@ td.rdThemeDataTableMoreInfoRow {
   background-color: transparent;
 }
 #rowsAnalysisGrid .ThemeLinkButton:hover, #rowsAnalysisGrid .ThemeLinkButtonSmall:hover, #rowsAnalysisGrid span:hover.rdAgCommand {
-  background-color: #172C42 /*ButtonBackgroundColor*/ ;
+  background-color: #37393d /*ButtonBackgroundColor*/ ;
 }
 #colSpacerCalculatedMeasure, #colSpacerDimension, #colSpacerMeasure, #colSpacerQueryBuilder, #colSpacerCalc, #colSpacerLayout, #colSpacerLayout, #colSpacerSort, #colSpacerFilter, #colSpacerGroup, #colSpacerAggr, #colSpacerChart, #colSpacerCrosstab {
   width: 0 !important;
@@ -473,7 +470,7 @@ td.rdThemeDataTableMoreInfoRow {
   background-color: #3FB0AC /*TabContainerUnselectedBackground*/ ;
 }
 .rdAgUnselectedTabOn:hover, .rdAgUnselectedTab:hover, .rdOgUnselectedTabOn:hover, .rdOgUnselectedTab:hover {
-  background-color: #172C42 /*ButtonBackgroundColor*/ !important;
+  background-color: #37393d /*ButtonBackgroundColor*/ !important;
   color: #FFFFFF /*TabContainerUnselectedFont*/ !important;
 }
 .PreviewSelectedFont, #rowQueryBuilder table, #rowPaging table, #rowCrosstab table, #rowAggr table, #rowGroup table, #rowFilter table, #rowSortOrder table, #rowLayout table, #rowCalc table {
@@ -854,7 +851,7 @@ table.rdThemePaging {
   color: #3FB0AC /*LinkColor*/ !important;
 }
 .rdThemePagingCurrent {
-  background-color: #172C42 /*ButtonBackgroundColor*/ ;
+  background-color: #37393d /*ButtonBackgroundColor*/ ;
   color: #FFFFFF /*ButtonFontColor*/ ;
   padding: 1px 3px;
   text-align: center;
@@ -1091,7 +1088,7 @@ td .rdDgPanelLine, td .rdDgPanelLine table {
   transition: color 0.20s ease-in-out 0s;
 }
 .yui-navset .yui-nav li:hover {
-  background-color: #172C42 /*InactiveHoverTabBackground*/ ;
+  background-color: #37393d /*InactiveHoverTabBackground*/ ;
 }
 .yui-navset div.yui-content {
   background-color: #E1E1E1 /*ActiveTabBackground*/ !important;
@@ -1235,6 +1232,46 @@ td.rdDashboardTitle {
   color: #19706D /*LinkHoverColor*/ ;
   text-decoration: underline;
 }
+
+/*rdElement: DataList | rdElement: ListItem*/
+
+.ThemeULNone {
+  list-style-type: none;
+}
+
+.ThemeULDisc {
+  list-style-type: disc;
+}
+
+.ThemeULCircle {
+  list-style-type: circle;
+}
+
+.ThemeULSquare {
+  list-style-type: square;
+}
+
+.ThemeOLDecimal {
+  list-style-type: decimal;
+}
+
+.ThemeOLLowerAlpha {
+  list-style-type: lower-alpha;
+}
+
+.ThemeOLUpperAlpha {
+  list-style-type: upper-alpha;
+}
+
+.ThemeOLLowerRoman {
+  list-style-type: lower-roman;
+}
+
+.ThemeOLUpperRoman {
+  list-style-type: upper-roman;
+}
+
+/*End Element*/
 
 /* Report Layout */
 #rdReportAuthor {
@@ -1387,14 +1424,14 @@ input#txtEditBookmarkDescription {
   line-height: 2;
 }
 .yuimenubaritemlabel-selected, .yuimenuitemlabel-selected, .yuimenubaritem-selected, .yuimenuitem-selected {
-  background-color: #172C42 /*MenuItemHoverBackgroundColor*/ ;
+  background-color: #37393d /*MenuItemHoverBackgroundColor*/ ;
   text-decoration: none;
 }
 .yuimenuitem-hassubmenu-selected > a span {
   color: #FFFFFF /*MenuItemHoverColor*/ ;
 }
 .first-of-type {
-  background-color: #172C42 /*MenuItemHoverBackgroundColor*/ ;
+  background-color: #37393d /*MenuItemHoverBackgroundColor*/ ;
   border: none;
   display: block;
   padding: 3px;
@@ -1402,11 +1439,11 @@ input#txtEditBookmarkDescription {
 }
 .first-of-type li a:hover {
   color: #FFFFFF /*MenuItemHoverColor*/ !important;
-  background-color: #172C42 /*MenuItemHoverBackgroundColor*/ !important;
+  background-color: #37393d /*MenuItemHoverBackgroundColor*/ !important;
   text-decoration: none;
 }
 .first-of-type:hover {
-  background-color: #172C42 /*MenuItemHoverBackgroundColor*/ ;
+  background-color: #37393d /*MenuItemHoverBackgroundColor*/ ;
   text-decoration: none;
 }
 

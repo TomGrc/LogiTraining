@@ -86,7 +86,7 @@
 						  <Image ID="imgAddRow" Caption="../rdTemplate/rdReportAuthor/addRow.png" />
 						</Division>
 						<Division Class="rd-toolbox-element-text rd-text-row">
-						  <Label Caption="New Split Row" />
+						  <Label ID="lblNewSplitRow" Caption="New Split Row" />
 						</Division>
 						<Division Class="clear-both" HtmlDiv="True" />
 					  </Division>
@@ -96,7 +96,7 @@
 							<Image ID="imgAddRow" Caption="../rdTemplate/rdReportAuthor/addRow.png" />
 						  </Division>
 						  <Division Class="rd-toolbox-element-text rd-text-row">
-							<Label Caption="Add Row" />
+                <Label ID="lblAddRow" Caption="Add Row" />
 						  </Division>
 						  <Division Class="clear-both" HtmlDiv="True" />
 						</Division>
@@ -112,7 +112,7 @@
 						  <Image ID="imgAddSpace" Caption="../rdTemplate/rdReportAuthor/addSpace.png" />
 						</Division>
 						<Division Class="rd-toolbox-element-text rd-text-element" IdeDisplayStatus="Collapsed">
-						  <Label Caption="Add Space" />
+              <Label ID="lblAddSpace" Caption="Add Space" />
 						</Division>
 						<Division Class="clear-both" HtmlDiv="True" />
 					  </Division>
@@ -122,7 +122,7 @@
 							<Image ID="imgAddSpace" Caption="../rdTemplate/rdReportAuthor/addSpace.png" />
 						  </Division>
 						  <Division Class="rd-toolbox-element-text rd-text-element" IdeDisplayStatus="Collapsed">
-							<Label Caption="Add Space" />
+                <Label ID="lblAddSpaceProxy" Caption="Add Space" />
 						  </Division>
 						  <Division Class="clear-both" HtmlDiv="True" />
 						</Division>
@@ -131,7 +131,7 @@
 					</DraggableDivision>
 					<DraggableDivision ID="dragVisualGallery" Class="rdReportAuthorToolboxItem" PreventCloneNode="True" IdeDisplayStatus="Collapsed" DropStubID="ReportAuthorDropStub" DragGroup="WorkArea">
 					  <Division HtmlDiv="True" Class="rd-toolbox-gallery-text" IdeDisplayStatus="Collapsed">
-						<Label Caption="New Visual" />
+              <Label ID="lblNewVisual" Caption="New Visual" />
 					  </Division>
 					  <Division Class="rd-toolbox-element-image rd-image-rowxsmall-newVisual">
 						<Image Caption="../rdTemplate/rdColumnDragHandle.png" />
@@ -141,7 +141,7 @@
 					  </Division>
 					  <ProxyDivision MoveOnEnd="False" ID="proxyDragVisualGallery" HideOnEnd="" Class="rdReportAuthorToolboxItemDraggableProxy rd-toolbox-element-proxy">
 						<Division HtmlDiv="True" Class="rd-toolbox-gallery-text" IdeDisplayStatus="Collapsed">
-						  <Label Caption="New Visual" />
+						  <Label ID="lblNewVisualProxy" Caption="New Visual" />
 						</Division>
 						<Division Class="rd-overflow-hidden" HtmlDiv="True" IdeDisplayStatus="Collapsed">
 						  <Image ID="imgAddVisualgallery" Caption="../rdTemplate/rdReportAuthor/visualGallery.png" Class="rd-toolbox-gallery-image" />
@@ -158,7 +158,7 @@
 						  <Image ID="imgAddLabel" Caption="../rdTemplate/rdReportAuthor/addLabel.png" />
 						</Division>
 						<Division Class="rd-toolbox-element-text rd-text-element" IdeDisplayStatus="Collapsed">
-						  <Label Caption="New Text" />
+              <Label ID="lblNewText" Caption="New Text" />
 						</Division>
 						<Division Class="clear-both" HtmlDiv="True" />
 					  </Division>
@@ -168,7 +168,7 @@
 							<Image ID="imgAddLabel" Caption="../rdTemplate/rdReportAuthor/addLabel.png" />
 						  </Division>
 						  <Division Class="rd-toolbox-element-text rd-text-element" IdeDisplayStatus="Collapsed">
-							<Label Caption="New Text" />
+                <Label ID="lblNewTextProxy" Caption="New Text" />
 						  </Division>
 						  <Division Class="clear-both" HtmlDiv="True" />
 						</Division>
@@ -184,7 +184,7 @@
 						  <Image ID="imgAddImage" Caption="../rdTemplate/rdReportAuthor/addImage.png" />
 						</Division>
 						<Division Class="rd-toolbox-element-text rd-text-element" IdeDisplayStatus="Collapsed">
-						  <Label Caption="New Image" />
+              <Label ID="lblNewImage" Caption="New Image" />
 						</Division>
 						<Division Class="clear-both" HtmlDiv="True" />
 					  </Division>
@@ -194,7 +194,7 @@
 							<Image ID="imgAddImage" Caption="../rdTemplate/rdReportAuthor/addImage.png" />
 						  </Division>
 						  <Division Class="rd-toolbox-element-text rd-text-element" IdeDisplayStatus="Collapsed">
-							<Label Caption="New Image" />
+                <Label ID="lblNewImageProxy" Caption="New Image" />
 						  </Division>
 						  <Division Class="clear-both" HtmlDiv="True" />
 						</Division>
@@ -210,7 +210,7 @@
 						  <Image ID="imgAddLink" Caption="../rdTemplate/rdReportAuthor/addLink.png" />
 						</Division>
 						<Division Class="rd-toolbox-element-text rd-text-element" IdeDisplayStatus="Collapsed">
-						  <Label Caption="New Link" />
+              <Label ID="lblNewLink" Caption="New Link" />
 						</Division>
 						<Division Class="clear-both" HtmlDiv="True" />
 					  </Division>
@@ -220,7 +220,7 @@
 							<Image ID="imgAddLink" Caption="../rdTemplate/rdReportAuthor/addLink.png" />
 						  </Division>
 						  <Division Class="rd-toolbox-element-text rd-text-element" IdeDisplayStatus="Collapsed">
-							<Label Caption="New Link" />
+                <Label ID="lblNewLinkProxy" Caption="New Link" />
 						  </Division>
 						  <Division Class="clear-both" HtmlDiv="True" />
 						</Division>
@@ -236,7 +236,7 @@
 						  <Image ID="imgPdfButton" Caption="../rdTemplate/rdReportAuthor/addPdfButton.png" />
 						</Division>
 						<Division Class="rd-toolbox-element-text rd-text-element" IdeDisplayStatus="Collapsed">
-						  <Label Caption="New PDF Link" />
+              <Label ID="lblNewPdf" Caption="New PDF Link" />
 						</Division>
 						<Division Class="clear-both" HtmlDiv="True" />
 					  </Division>
@@ -246,7 +246,7 @@
 							<Image ID="imgPdfButton" Caption="../rdTemplate/rdReportAuthor/addPdfButton.png" />
 						  </Division>
 						  <Division Class="rd-toolbox-element-text rd-text-element" IdeDisplayStatus="Collapsed">
-							<Label Caption="New PDF Link" />
+                <Label ID="lblNewPdfProxy" Caption="New PDF Link" />
 						  </Division>
 						  <Division Class="clear-both" HtmlDiv="True" />
 						</Division>
@@ -260,7 +260,7 @@
             <Division ID="rdWorkAreaWrapper">
               <DroppableDivision ID="divReportAuthorWorkContainer" Class="" DragGroup="WorkArea">
                 <Division Class="rdDropPlaceholder" HtmlDiv="True" ShowModes="None">
-                  <Label Caption="DRAG CONTENT HERE" />
+                  <Label ID="lblDragHere" Caption="DRAG CONTENT HERE" />
                 </Division>
               </DroppableDivision>
             </Division>

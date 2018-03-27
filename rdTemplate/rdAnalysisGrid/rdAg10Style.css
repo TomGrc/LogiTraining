@@ -258,6 +258,11 @@ TR.rdAgGroup4HeaderRow TD {background-color: #F0F0F0;}
 	border-left:0;
 }
 
+select.rdAgCalcInsert
+{
+    max-width: 152px;
+}
+
 .rdAgPaging
 {
 }

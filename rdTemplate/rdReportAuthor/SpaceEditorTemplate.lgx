@@ -35,7 +35,7 @@
           <Rows Width="100" WidthScale="%">
             <Row>
               <Column>
-                <Label Caption="Number of lines: " />
+                <Label ID="lblNumberOfLines" Caption="Number of lines: " />
                 <InputSelectList ID="slctNumberOfSpaces_rdElementID" OptionCaptionColumn="Caption" OptionValueColumn="Value" DefaultValue="1" Class="rdThemeInput" IdeDisplayStatus="Collapsed" ChangeFlagElementID="isChanged_rdElementID">
                   <DataLayer Type="Static">
                     <StaticDataRow Caption="1" Value="1" />
@@ -61,11 +61,11 @@
             </Row>
             <Row>
               <Column>
-                <FieldsetBox Caption="Border Settings" CaptionClass="ThemeTextNormal">
+                <FieldsetBox ID="fsBorderSettings" Caption="Border Settings" CaptionClass="ThemeTextNormal">
                   <Rows>
                     <Row>
                       <Column>
-                        <Label Caption="Thickness:" />
+                        <Label ID="lblThickness" Caption="Thickness:" />
                       </Column>
                       <Column>
                         <InputSelectList ID="slctBorderThickness_rdElementID" OptionCaptionColumn="Caption" OptionValueColumn="Value" DefaultValue="1px" IdeDisplayStatus="Collapsed" Class="rdThemeInput" ChangeFlagElementID="isChanged_rdElementID">
@@ -77,9 +77,9 @@
                         </InputSelectList>
                       </Column>
                     </Row>
-                    <Row Caption="Border Tckness:">
+                    <Row ID="lblBorderThickness" Caption="Border Thickness:">
                       <Column>
-                        <Label Caption="Color:" />
+                        <Label ID="lblColor" Caption="Color:" />
                       </Column>
                       <Column>
                         <InputColorPicker ID="slctBorderColor_rdElementID" >

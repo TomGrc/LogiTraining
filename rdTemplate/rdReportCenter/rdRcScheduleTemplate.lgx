@@ -27,11 +27,12 @@
 									<Label Caption="To " ID="lblTo" For="EmailTo"/>
 								</Column>
 								<Column>
-									<InputEmail InputSize="50" ID="EmailTo" SaveInLocalStorage="True" MultipleAddresses="True" DefaultValue="@Local.rdTo~" Tooltip="Enter email addresses.">
-										<Validation Type="Required" ErrorMsg="Missing a To email address." Class="ThemeErrorText" />
-										<Validation Type="Email" ErrorMsg="Invalid To email address." Class="ThemeErrorText" />
-									</InputEmail>
-								</Column>
+                  <InputEmail InputSize="50" ID="EmailTo" SaveInLocalStorage="True" MultipleAddresses="True" DefaultValue="@Local.rdTo~" Tooltip="Enter email addresses, separating each with a &quot;;&quot;.">
+                    <Validation Type="Required" ErrorMsg="Missing a To email address." Class="ThemeErrorText" />
+                    <Validation Type="Email" ErrorMsg="Invalid To email address." Class="ThemeErrorText" />
+                    <AutoComplete ColumnName="" InputValueDelimiter=";" MultiSelect="True" />
+                  </InputEmail>
+                </Column>
 								<Column>
 									<Label ID="lblAddCc" Caption="Add Cc" Class="rdNoWrap">
 										<Action Type="ShowElement" ID="actionAddCc" ElementID="lblAddCc, rowCc" />
@@ -49,7 +50,8 @@
 								<Column ColSpan="2">
 									<InputEmail InputSize="50" ID="EmailCc" MultipleAddresses="True" DefaultValue="@Local.rdCc~" Tooltip="Enter email addresses.">
 										<Validation Type="Email" ErrorMsg="Invalid Cc email address." Class="ThemeErrorText" />
-									</InputEmail>
+                    <AutoComplete ColumnName="" InputValueDelimiter=";" MultiSelect="True" />
+                  </InputEmail>
 								</Column>
 							</Row>
 							<Row ID="rowBcc" ShowModes="None">
@@ -59,7 +61,8 @@
 								<Column ColSpan="2">
 									<InputEmail InputSize="50" ID="EmailBcc" MultipleAddresses="True" DefaultValue="@Local.rdBcc~" Tooltip="Enter email addresses.">
 										<Validation Type="Email" ErrorMsg="Invalid Bcc email address." Class="ThemeErrorText" />
-									</InputEmail>
+                    <AutoComplete ColumnName="" InputValueDelimiter=";" MultiSelect="True" />
+                  </InputEmail>
 								</Column>
 							</Row>
 							<Row ID="rowSubject">

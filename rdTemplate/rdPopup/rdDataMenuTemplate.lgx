@@ -20,7 +20,7 @@
               <Label Caption="@Data.Caption~" ID="lblCaption" />
             </Column>
             <Column ID="rdDataMenuArrow" Width="20" WidthScale="px" Class="ThemeAlignRight ThemeTextLarger">
-              <Label Caption="&gt;" />
+              <Label ID="lblArrow" Caption="&gt;" />
             </Column>
           </Row>
           <Row Condition="&quot;@Data.Action~&quot; = &quot;actionReport&quot;" IdeDisplayStatus="Collapsed">

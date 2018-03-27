@@ -41,13 +41,8 @@
             }
         },
 
-        ping: function () {
-            var currReport = '';
-            if (window.location.href.indexOf("rdReport=") > -1) {
-                currReport = window.location.href.substring(window.location.href.indexOf("rdReport="));
-                currReport = '&' + currReport.split('&')[0]
-            }            
-            rdAjaxRequest('rdAjaxCommand=RefreshElement&rnd=' + ((1 + Math.random()) * 0x10000) + currReport, null, null, null, null, null);
+        ping: function () {            
+            rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=KeepSessionAlive&rnd=' + ((1 + Math.random()) * 0x10000), null, null, null, null, null);
             this.startup();
         },
 

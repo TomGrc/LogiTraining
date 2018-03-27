@@ -229,6 +229,8 @@ function SubmitSort(sPage, RowCnt, SortRowLimit, SortRowLimitMsg) {
 }
 
 function NavigateLink2(sUrl, sTarget, bValidate, sFeatures, sConfirm, waitCfg, bFromOnClick) {
+    if (LogiXML.isFalseBlur())
+        return false;
 
 	if (bValidate == "true") {
 		var sErrorMsg = rdValidateForm()
@@ -261,11 +263,15 @@ function NavigateLink2(sUrl, sTarget, bValidate, sFeatures, sConfirm, waitCfg, b
 	//var pattern = /\+/ig;
 	//sUrl = sUrl.replace(pattern,"%20");
 	//Replace # with %23.
-	var pattern = /\#/ig;
-	sUrl = sUrl.replace(pattern, "%23");
+	sUrl = replacePoundPatten(sUrl);
     
 	if (bFromOnClick) {
-	    sUrl = decodeURIComponent(sUrl)  //If called by a DHTML event, the url needs to be decoded.INFOGO385
+	    try {
+	        var sClickedUrl = decodeURIComponent(sUrl)  //If called by a DHTML event, the url needs to be decoded.INFOGO385
+	        sUrl = sClickedUrl;
+	    } catch (err) {
+
+	    }
 	}
 
 	if (typeof rdSaveInputCookies != 'undefined'){rdSaveInputCookies()}
@@ -323,12 +329,13 @@ function NavigateCrawlerFriendly(sUrl, sTarget, bValidate, sFeatures, sConfirm) 
 }
 
 
-function rdBodyPressEnter(sID) {
+function rdBodyPressEnter(sID, e) {
 	var ele = document.getElementById(sID);
 	if (ele) {
 	    if (ele.tagName == "INPUT") {  //button
 	        // was focus on the input with default action already, dont process it twice...RD19810
-	        var target = window.event.target || window.event.srcElement;
+	        if (!e) e = window.event; //RD20948
+	        var target = e.target || e.srcElement;
 	        var id ,
 	          bclick = true;
 	        if (target) {
@@ -346,4 +353,15 @@ function rdBodyPressEnter(sID) {
 		    window.location.assign(ele.parentNode.href);
 	    }
 	}
+}
+
+function replacePoundPatten(sUrl) {
+    if (sUrl.indexOf('rdAllowAnchor=True') < 0) {
+        var pattern = /\#/ig;
+        sUrl = sUrl.replace(pattern, "%23");
+    } else {
+        sUrl = sUrl.replace('?rdAllowAnchor=True', '').replace('rdAllowAnchor=True', '');
+    }
+
+    return sUrl
 }

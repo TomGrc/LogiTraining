@@ -20,9 +20,9 @@
                 <Column Width="100" WidthScale="%">
                   <Division>
                     <Division ID="Background" Class="rdPreviewColorBox Body" HtmlDiv="True">
-                      <Label Caption="Page Background" Class="ThemeBold" />
+                      <Label ID="lblPageBackground" Caption="Page Background" Class="ThemeBold" />
                       <LineBreak />
-                      <Label Caption="Sample text paragraph..." />
+                      <Label ID="lblSampleText" Caption="Sample text paragraph..." />
                       <LineBreak LineCount="2" />
                     </Division>
                   </Division>
@@ -33,11 +33,11 @@
                 <Column Width="100" WidthScale="%">
                   <Division>
                     <Division ID="Modal" Class="rdPreviewColorBox rdPopupPanel" HtmlDiv="True">
-                      <Label Caption="Modal Background" Class="ModalTitlePreview" />
+                      <Label ID="lblModalBackground" Caption="Modal Background" Class="ModalTitlePreview" />
                       <LineBreak />
-                      <Label Caption="Sample text paragraph..."  Class="ModalPreviewFont"/>
+                      <Label ID="lblSampleTextModalBackground" Caption="Sample text paragraph..."  Class="ModalPreviewFont"/>
                       <LineBreak />
-                      <Label Caption="(Click to view modal)" Class="ThemeBold">
+                      <Label ID="lblClickViewModalBackground" Caption="(Click to view modal)" Class="ThemeBold">
                         <Action Type="ShowElement" ElementID="panelModal" ID="actionShowPanel1" Display="Toggle" />
                       </Label>
                       <PopupPanel ID="panelModal" PopupPanelLocation="Mouse" Draggable="True" PopupModal="True" Width="60" WidthScale="%" Caption="Modal Sample" PopupLocation="Mouse">
@@ -55,9 +55,9 @@
                 <Column Width="100" WidthScale="%">
                   <Division>
                     <Division ID="Menu" Class="rdPreviewColorBox yuimenu rdPopupMenu rdPreviewMenu" HtmlDiv="True">
-                      <Label Caption="Menu Background" Class="ThemeBold" />
+                      <Label ID="lblMenuBackground" Caption="Menu Background" Class="ThemeBold" />
                       <LineBreak />
-                      <Label Caption="(Click to test menu)" Class="ThemeBold">
+                      <Label ID="lblClickMenuBackground" Caption="(Click to test menu)" Class="ThemeBold">
                         <Action Type="Popup" ID="actPopup1">
                           <PopupOption Caption="Option 001" ID="opt14">
                             <Action Type="ShowElement" ElementID="divPopup" ID="actShowElement" />
@@ -89,9 +89,9 @@
                 <Column Width="100" WidthScale="%">
                   <Division>
                     <Division ID="ThemeContainerBordered" Class="rdPreviewColorBox ThemeContainerBordered" HtmlDiv="True">
-                      <Label Caption="Container Bordered (CB)" Class="ThemeBold" />
+                      <Label ID="lblContainerBordered" Caption="Container Bordered (CB)" Class="ThemeBold" />
                       <LineBreak />
-                      <Label Caption="Sample text paragraph..." />
+                      <Label ID="lblSampleContainerBordered" Caption="Sample text paragraph..." />
                     </Division>
                   </Division>
                   <LineBreak LineCount="1" />
@@ -101,9 +101,9 @@
                 <Column Width="100" WidthScale="%">
                   <Division>
                     <Division ID="ThemeContainerShaded" Class="rdPreviewColorBox ThemeContainerShaded" HtmlDiv="True">
-                      <Label Caption="Container Shaded (CS)" Class="ThemeBold" />
+                      <Label ID="lblContainerShaded" Caption="Container Shaded (CS)" Class="ThemeBold" />
                       <LineBreak />
-                      <Label Caption="Sample text paragraph..." />
+                      <Label ID="lblSampleContainerShaded" Caption="Sample text paragraph..." />
                     </Division>
                   </Division>
                   <LineBreak LineCount="1" />
@@ -113,9 +113,9 @@
                 <Column Width="100" WidthScale="%">
                   <Division>
                     <Division ID="ThemeContainerShadedAndBordered" Class="rdPreviewColorBox ThemeContainerShadedAndBordered" HtmlDiv="True">
-                      <Label Caption="Container Shaded &amp; Bordered (CSB)" Class="ThemeBold" />
+                      <Label ID="lblContainerShadedBordered" Caption="Container Shaded &amp; Bordered (CSB)" Class="ThemeBold" />
                       <LineBreak />
-                      <Label Caption="Sample text paragraph..." />
+                      <Label ID="lblContainerShadedBorderedSample" Caption="Sample text paragraph..." />
                       <Spaces Size="1" />
                     </Division>
                   </Division>
@@ -133,11 +133,11 @@
               <Row>
                 <Column Class="ThemeMasterReportTopFrame" ID="TopFrame" ColSpan="100">
                   <Spaces Size="1" />
-                  <Image Caption="rdTemplate/rdHamburger.png" Height="30" Tooltip="Close Side Bar">
+                  <Image  ID="lblHamburger" Caption="rdTemplate/rdHamburger.png" Height="30" Tooltip="Close Side Bar">
                     <Action Type="ShowElement" Display="Toggle" ElementID="LeftFrame" ID="Hide/ShowSidebarMenu" />
                   </Image>
                   <Spaces Size="1" />
-                  <Label Caption="Header Caption" Class="ThemeHeaderLarge ThemeMasterReportTopFont" />
+                  <Label ID="lblHeaderCaption" Caption="Header Caption" Class="ThemeHeaderLarge ThemeMasterReportTopFont" />
                   <Spaces Size="5" />
                   <MenuTree xxClass="ThemeLinkButtonSmall" ID="menuTree" LevelIndent="8" MenuMode="HorizontalPopup" xBranchCollapsedImage="" xBranchExpandedImage="back_talk.gif" xDisableRememberExpansion="True">
                     <ConditionalClass  Condition="false" />
@@ -170,7 +170,7 @@
                 </Column>
                 <Column ID="ContentFrame" Class="ThemeAlignCenter">
                   <LineBreak LineCount="1" />
-                  <Label Caption="Report Content" Class="ThemeHeaderLarge" />
+                  <Label ID="lblReportContent" Caption="Report Content" Class="ThemeHeaderLarge" />
                   <LineBreak LineCount="2" />
                 </Column>
               </Row>
@@ -179,7 +179,7 @@
                   <ResponsiveRow ID="Footer">
                     <ResponsiveColumn>
                       <Spaces Size="3" />
-                      <Label Caption="Copyright © 2015 Logi Analytics" />
+                      <Label ID="lblCopyright" Caption="Copyright © 2017 Logi Analytics" />
                     </ResponsiveColumn>
                   </ResponsiveRow>
                 </Column>
@@ -377,17 +377,17 @@
                   <Rows TableBorder="0" Class="PreviewUnselected" Width="100" WidthScale="%">
                     <Row>
                       <Column Class="rdAgSelectedTab  rdAgTabHeading">
-                        <Label Caption="Selected" />
+                        <Label ID="lblPreviewSelected" Caption="Selected" />
                       </Column>
                       <Column Class="rdAgUnselectedTab rdAgTabHeading">
-                        <Label Caption="UnSelected" />
+                        <Label ID="lblPreviewUnselected" Caption="UnSelected" />
                       </Column>
                     </Row>
                     <Row Class="PreviewMenuBG" Width="100" WidthScale="%">
                       <Column ColSpan="4">
                         <LineBreak LineCount="1" />
                         <Spaces Size="5" />
-                        <Label Caption="Selected Tab Content" Class="ThemeHeaderSmall  PreviewSelectedFont" />
+                        <Label ID="lblSelectedTabContent" Caption="Selected Tab Content" Class="ThemeHeaderSmall  PreviewSelectedFont" />
                         <LineBreak LineCount="1" />
                         <Spaces Size="5" />
                         <InputText ID="txt1" Caption="Caption" CaptionClass="PreviewSelectedFont" />
@@ -577,18 +577,18 @@
             <Rows Width="100" WidthScale="%">
               <Row Class="ThemeAlignTopLeft">
                 <Column Width="100" WidthScale="%">
-                  <Gauge Type="Arc" Value="60" ChartHeight="290" ArcInnerRadius="50%" Caption="Arc Gauge" />
+                  <Gauge Type="Arc" ID="gaugeArc" Value="60" ChartHeight="290" ArcInnerRadius="50%" Caption="Arc Gauge" />
                 </Column>
               </Row>
               <Row Class="ThemeAlignTopLeft">
                 <Column Width="100" WidthScale="%">
-                  <Gauge Type="BalloonBar" Value="60" ChartHeight="150" Caption="Balloon Gauge">
+                  <Gauge Type="BalloonBar" ID="gaugeBaloon" Value="60" ChartHeight="150" Caption="Balloon Gauge">
                   </Gauge>
                 </Column>
               </Row>
               <Row Class="ThemeAlignTopLeft">
                 <Column Width="100" WidthScale="%">
-                  <Gauge Type="BulletBar" Value="30" Caption="Bullet Gauge" MarkerValue="20">
+                  <Gauge Type="BulletBar" ID="GaugeBullet" Value="30" Caption="Bullet Gauge" MarkerValue="20">
                   </Gauge>
                 </Column>
               </Row>
@@ -644,10 +644,10 @@
               </DataLayer>
               <HeaderRow>
                 <Column>
-                  <Label Caption="Header Row" />
+                  <Label ID="lblHeaderRow" Caption="Header Row" />
                 </Column>
                 <Column>
-                  <Label Caption="Count: @Data.aggOrderDate~" />
+                  <Label ID="lblHeaderRowCount" Caption="Count: @Data.aggOrderDate~" />
                 </Column>
                 <Column >
                   <Label />
@@ -688,10 +688,10 @@
               </DataTableColumn>
               <GroupHeaderRow GroupFilterID="grpCountry">
                 <Column>
-                  <Label Caption="Group Header Row" />
+                  <Label ID="lblGroupHeaderRow" Caption="Group Header Row" />
                 </Column>
                 <Column>
-                  <Label Caption="Count: @Data.aggOrderDate~" />
+                  <Label ID="lblGroupHeaderRowCount" Caption="Count: @Data.aggOrderDate~" />
                 </Column>
                 <Column >
                   <Label />

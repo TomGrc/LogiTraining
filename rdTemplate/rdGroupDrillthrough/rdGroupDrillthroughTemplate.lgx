@@ -57,11 +57,10 @@
 						<InteractivePaging ShowPageNumber="Numbered" IDnotSupportedHere="pagingTableNumbered" HideShowPrevNextCaptions="False" PageRowCount="1000" HideWhenOnePage="True" Location="Top" CaptionType="Image" />
 					</DataTable>
 					<Division ID="rdNoIrrelevanceDrillthrough" ShowModes="None">
-						<Label Caption="Drillthrough is not available for this selection." />
+						<Label ID="lblNotAvailable" Caption="Drillthrough is not available for this selection." />
 					</Division>
 				</Column>
 			</Row>
 		</Rows>
-	</Body>
-	<StyleSheet Theme="ProfessionalBlue" ID="rdTemplateStyle" />
+	</Body>	
 </Report>

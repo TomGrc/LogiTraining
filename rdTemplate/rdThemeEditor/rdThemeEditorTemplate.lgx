@@ -121,7 +121,7 @@
           </Division>
         </ResponsiveColumn>
         <ResponsiveColumn ColspanLargeScreen="8" ColspanExtraSmallScreen="8" ColspanMediumScreen="8" ColspanSmallScreen="8" Class="rdPreviewBorder">
-		      <Label Caption="Theme Preview" Class="rdPreviewTitle ThemeAlignCenter ThemeHeaderSmall" />
+          <Label ID="lblThemePreview" Caption="Theme Preview" Class="rdPreviewTitle ThemeAlignCenter ThemeHeaderSmall" />
           <LineBreak />
           <IncludeFrame ID="ifPreview" SubReportMode="IncludeFrame" Width="100" WidthScale="%" Scrolling="False" FrameBorder="0">
             <Target Type="IncludeFrameReport" Report="rdTemplate/rdThemeEditor/rdThemeEditorPreviewTemplate.lgx" ID="trPreview" RequestForwarding="True" />

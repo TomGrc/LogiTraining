@@ -114,15 +114,24 @@ LogiXML.rdAnalysisCrosstab = {
         }
 
         if (dataColumnDetailsDictionary[sDataColumn] != "Number") {
-            selectControl.get('children').each(function (node) {
-                if (node.get('value').indexOf('Count') == -1) {
-                    node.remove();
-                }
-            });
+            var extraOptionsEnabled = document.getElementById('rdEnableAnyForTextCrosstabs'); //RD21323
+            if (extraOptionsEnabled) {
+                selectControl.get('children').each(function (node) {
+                    if ((node.get('value').indexOf('Count') == -1) && (node.get('value').indexOf('Max') == -1) && (node.get('value').indexOf('Min') == -1)) {
+                        node.remove();
+                    }
+                });
+            } else {
+                selectControl.get('children').each(function (node) {
+                    if (node.get('value').indexOf('Count') == -1) {
+                        node.remove();
+                    }
+                });
 
-            if (selectedValue.indexOf('Count') == -1) {
-                selectControl.set('value', 'Count');
-            }
+                if (selectedValue.indexOf('Count') == -1) {
+                    selectControl.set('value', 'Count');
+                }
+            }           
         } else if (selectControl.get('children').size() < 3) {
             selectControl.get('childNodes').remove();
             selectControl.set('innerHTML', allOptions);

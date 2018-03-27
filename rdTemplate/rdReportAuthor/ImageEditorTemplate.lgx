@@ -51,7 +51,7 @@
                 <Rows Width="100" WidthScale="%">
                   <Row>
                     <Column>
-                      <Label Caption="Image Alignment:" />
+                      <Label ID="lblImageAlignment" Caption="Image Alignment:" />
                     </Column>
                     <Column>
                       <Division ID="divAlignment_rdElementID" IdeDisplayStatus="Collapsed">
@@ -105,7 +105,7 @@
                   </Row>
                   <Row ID="Image_URLRow_rdElementID" ShowModes="None" IdeDisplayStatus="Collapsed">
                     <Column>
-                      <Label Caption="Image URL:" />
+                      <Label ID="lblImageUrl" Caption="Image URL:" />
                     </Column>
                     <Column Width="200">
                       <InputText ID="txtImagePath_rdElementID" Class="rdThemeInput" InputSize="30" ChangeFlagElementID="isChanged_rdElementID">
@@ -115,7 +115,7 @@
                   </Row>
                   <Row ID="Upload_imageRow_rdElementID" IdeDisplayStatus="Collapsed">
                     <Column>
-                      <Label Caption="Image Path:" />
+                      <Label ID="lblImagePath" Caption="Image Path:" />
                     </Column>
                     <Column Width="200">
                       <InputFileUpload ID="txtImageUploadFile_rdElementID" Class="rd-input-file rdThemeInput" accept="image/*" AjaxUpload="True" ChangeFlagElementID="isChanged_rdElementID" />
@@ -123,7 +123,7 @@
                   </Row>
                   <Row ID="Choose_uploadedRow_rdElementID" ShowModes="None" IdeDisplayStatus="Collapsed">
                     <Column>
-                      <Label Caption="Image Name:" />
+                      <Label ID="ImageName" Caption="Image Name:" />
                     </Column>
                     <Column Width="200">
                       <Division ID="chooseImageWrapper_rdElementID" Class="imagePreviewItem" HtmlDiv="True">
@@ -132,6 +132,20 @@
                           <DataLayer Type="Directory" DirectoryFolder="@Function.AppPhysicalPath~\_SupportFiles" DirectoryType="FilesOnly" ID="ImageFolder_rdElementID">
                             <RegExFilter DataColumn="Name" RegularExpression="^.*\.(jpg|JPG|gif|GIF|png|PNG|bmp|BMP)$" IncludeCondition="True" />
                             <SequenceColumn ID="colRowNumber" />
+                            <CalculatedColumn Formula="&quot;radio_selectedImage_@Data.colRowNumber~&quot;" ID="radioId" />
+                            <CalculatedColumn Formula="&quot;[SelectedImage]&quot;" ID="colSelectedImage" />
+                            <CalculatedColumn ID="colChecked" Formula="IIF(&quot;@Data.Name~&quot; = &quot;@Data.colSelectedImage~&quot;, &quot;checked='checked' &quot;, &quot;&quot;)" />
+                          </DataLayer>
+                          <DataLayer ConnectionID="" Source="select Id from {0}" Type="ActiveSQL" ID="ImageFolderDB_rdElementID">
+                            <SqlConditionFilter SqlExpression="@Compare.sql_comp_directory_path~">
+                              <SqlCompareFilter CompareType="Contains" CompareValue="" DataColumn="Id" DataType="Text" ID="sql_comp_directory_path"/>
+                            </SqlConditionFilter>
+                            <RegExFilter DataColumn="Id" RegularExpression="^.*\.(jpg|JPG|gif|GIF|png|PNG|bmp|BMP)$" IncludeCondition="True" />
+                            <SequenceColumn ID="colRowNumber" />
+                            	<SqlCalculatedColumn
+					                    ID="Name"
+					                    SqlFormula="RIGHT(Id, CHARINDEX(&apos;\&apos;, REVERSE(Id)) -1)"
+				                    />
                             <CalculatedColumn Formula="&quot;radio_selectedImage_@Data.colRowNumber~&quot;" ID="radioId" />
                             <CalculatedColumn Formula="&quot;[SelectedImage]&quot;" ID="colSelectedImage" />
                             <CalculatedColumn ID="colChecked" Formula="IIF(&quot;@Data.Name~&quot; = &quot;@Data.colSelectedImage~&quot;, &quot;checked='checked' &quot;, &quot;&quot;)" />
@@ -154,11 +168,11 @@
             </Row>
             <Row>
               <Column>
-                <FieldsetBox Caption="Border Settings" CaptionClass="ThemeTextNormal">
+                <FieldsetBox ID="fsBorderSettings" Caption="Border Settings" CaptionClass="ThemeTextNormal">
                   <Rows>
                     <Row IdeDisplayStatus="Collapsed">
                       <Column>
-                        <Label Caption="Thickness:" />
+                        <Label ID="lblThickness" Caption="Thickness:" />
                       </Column>
                       <Column>
                         <InputSelectList ID="slctBorderThickness_rdElementID" OptionCaptionColumn="Caption" OptionValueColumn="Value" Class="rdThemeInput" ChangeFlagElementID="isChanged_rdElementID">
@@ -172,7 +186,7 @@
                     </Row>
                     <Row IdeDisplayStatus="Collapsed">
                       <Column>
-                        <Label Caption="Color:" />
+                        <Label ID="lblColor" Caption="Color:" />
                       </Column>
                       <Column>
                         <InputColorPicker ID="slctBorderColor_rdElementID" >

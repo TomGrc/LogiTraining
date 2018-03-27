@@ -5,12 +5,14 @@
 	<Label
 		Caption="Optional Session Variables in SQL Queries"
 		Class="ThemeHeader"
+		ID="lblTitle"
 	/>
 	<LineBreak/>
 	<Label
 		Caption="Session tokens may be included in the SQL Query&apos;s WHERE clause and will be resolved at runtime.
 For example: “SELECT * FROM Orders WHERE EmployeeID = &apos;@"
 		Format="Preserve Line Feeds"
+		ID="lblInstruct"
 	/>
 	<Label
 		Caption="Session.EmployeeID~&apos; &quot;.
@@ -21,6 +23,7 @@ For example: “SELECT * FROM Orders WHERE EmployeeID = &apos;@"
 	<Label
 		Caption="Working Values for @Session Tokens"
 		Class="ThemeHeaderSmaller"
+		ID="lblValues"
 	/>
 	<Spaces
 		Size="3"
@@ -28,6 +31,7 @@ For example: “SELECT * FROM Orders WHERE EmployeeID = &apos;@"
 	<Label
 		Caption="When @Session tokens are included in the SQL Query, supply working values to be used when testing the query and getting the columns.  Add names and values for each @Session token. The tokens then get replaced by the working values."
 		Format="Preserve Line Feeds"
+		ID="lblInstruct2"
 	/>
 	<LineBreak/>
 	<Division
@@ -37,14 +41,16 @@ For example: “SELECT * FROM Orders WHERE EmployeeID = &apos;@"
 			ID="dtTestParameters"
 			>
 			<DataLayer
-				ID="StaticDataLayer1"
-				Type="Static"
+				Type="XMLFile"
+				XMLFile="@Function.AppPhysicalPath~\_Metadata\@Request.MetadataID~.lgx"
 				>
-				<StaticDataRow
-					Name=""
-					Remove=""
-					Value=""
-				/>
+				<XslTransform
+					XSLFile="@Function.AppPhysicalPath~\rdTemplate\rdMetadata\TestParametersTransform.xslt"
+					>
+					<XslArgumentParams
+						TableName="@Request.TableName~"
+					/>
+				</XslTransform>
 			</DataLayer>
 			<DataTableColumn
 				Class="ThemeAlignCenter"
@@ -53,7 +59,9 @@ For example: “SELECT * FROM Orders WHERE EmployeeID = &apos;@"
 				>
 				<Image
 					Caption="rdTemplate/rdDelete2.png"
+          Height="20"
 					ID="btnDelete"
+          Width="20"
 					>
 					<Action
 						ID="actDelete"
@@ -67,18 +75,40 @@ For example: “SELECT * FROM Orders WHERE EmployeeID = &apos;@"
 				ID="colName"
 				>
 				<InputText
+					DefaultValue="@Data.name~"
 					ID="txtTestParamName"
 					InputSize="50"
-				/>
+					>
+					<EventHandler
+						DhtmlEvent="onchange"
+						>
+						<Action
+							ID="changeParamName"
+							Javascript="rdMetadataSaveTestParameters()"
+							Type="Javascript"
+						/>
+					</EventHandler>
+				</InputText>
 			</DataTableColumn>
 			<DataTableColumn
 				Header="Working Value"
 				ID="colValue"
 				>
 				<InputText
+					DefaultValue="@Data.value~"
 					ID="txtTestParamValue"
 					InputSize="50"
-				/>
+					>
+					<EventHandler
+						DhtmlEvent="onchange"
+						>
+						<Action
+							ID="changeParamValue"
+							Javascript="rdMetadataSaveTestParameters()"
+							Type="Javascript"
+						/>
+					</EventHandler>
+				</InputText>
 			</DataTableColumn>
 		</DataTable>
 		<Division
@@ -86,6 +116,7 @@ For example: “SELECT * FROM Orders WHERE EmployeeID = &apos;@"
 			>
 			<Label
 				Caption="Add another @Session Token Working Value"
+				ID="lblAddToken"
 				>
 				<Action
 					ID="actAddParams"
@@ -95,5 +126,8 @@ For example: “SELECT * FROM Orders WHERE EmployeeID = &apos;@"
 			</Label>
 		</Division>
 	</Division>
-	<ideTestParams/>
+	<ideTestParams
+		MetadataID=""
+		TableName=""
+	/>
 </SharedElement>

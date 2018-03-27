@@ -90,7 +90,7 @@ s=second"/>
 							<StaticDataRow Name="Day" Description="Returns the day of the month.  Possible return values are from 1-31." Syntax="Day(date)" Notes=""/>
 							<StaticDataRow Name="Exp" Description="Returns &quot;e&quot; raised to a power.  &quot;e&quot; is the base of natural logarithms, called the antilogarithm." Syntax="Exp(number)" Notes=""/>
 							<StaticDataRow Name="Hour" Description="Returns the hour of the day.  Possible return values are 0-23." Syntax="Hour(time)" Notes=""/>
-							<StaticDataRow Name="IIF" Description="Returns one value or another, depending on if the expression is evaluates to True or False." Syntax="IIF(expression,true-value,false-value)" Notes="Expression is a formula that returns True or False.  
+							<StaticDataRow Name="IIF" Description="Returns one value or another, depending on if the expression evaluates to True or False." Syntax="IIF(expression,true-value,false-value)" Notes="Expression is a formula that returns True or False.  
 For example, this would return &quot;Blue&quot;, because 1 does not equal 2.  
 IIF(1=2,&quot;Red&quot;,&quot;Blue&quot;)"/>
 							<StaticDataRow Name="InStr" Description="Returns the character location where one string is found within another string." Syntax="InStr([start, ]string1, string2[, compare])" Notes="The first characters is at position 1.  Instr() returns 0 when the string is not found.  
@@ -181,9 +181,8 @@ Formulas are evaluated through VBScript."/>
 							<StaticDataRow Operator="/" Description="Division"/>
 							<StaticDataRow Operator="\" Description="Integer Division"/>
 							<StaticDataRow Operator="Mod" Description="Modulus (Remainder)"/>
-							<StaticDataRow Operator="+" Description="Addition"/>
+							<StaticDataRow Operator="+" Description="Addition and string concatenation"/>
 							<StaticDataRow Operator="-" Description="Subtraction"/>
-							<StaticDataRow Operator="+" Description="String Concatenation"/>
 							<StaticDataRow Operator="=" Description="Equals"/>
 							<StaticDataRow Operator="&lt;&gt;" Description="Not Equals"/>
 							<StaticDataRow Operator="&lt;" Description="Less Than"/>

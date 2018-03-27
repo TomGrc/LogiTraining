@@ -541,61 +541,80 @@ Y.use('rdResize', function(Y) {
 		});		
 	};
 	
-	LogiXML.Resize._rdInitGoogleMapsResizer = function(GoogleMapID, eleGoogleMapObj) {
+	LogiXML.Resize.rdInitMapResizer = function(mapId, map) {
 		// Function runs onLoad to wrap the Yui handles around the Div enclosing the Google Map.
-		if(eleGoogleMapObj == undefined)
-			return; 
-		var eleGoogleMap = document.getElementById(GoogleMapID);    // This is a Div. But the Google Map sits on top of this Div
-		if(!eleGoogleMap) return;
-		var width = parseInt(eleGoogleMap.offsetWidth == 0 ? eleGoogleMap.style.pixelWidth : eleGoogleMap.offsetWidth) // To handle issue under DataTable.
-		var height = parseInt(eleGoogleMap.offsetHeight == 0 ? eleGoogleMap.style.pixelHeight : eleGoogleMap.offsetHeight)
-		var eleGoogleMapContentHolder = document.createElement("Div");  // Add a Div around the Google Map.
-		eleGoogleMapContentHolder.setAttribute("id", "rdGoogleMap" + GoogleMapID);
-		var eleContentParent = eleGoogleMap.parentNode;
-		var eleNextSibling = eleGoogleMap.nextSibling;
-		eleGoogleMap.parentNode.removeChild(eleGoogleMap);
-		if (eleNextSibling != null)
-			eleContentParent.insertBefore(eleGoogleMapContentHolder,eleNextSibling);
-		else
-			eleContentParent.appendChild(eleGoogleMapContentHolder);
-		eleGoogleMapContentHolder.appendChild(eleGoogleMap);    
-		eleGoogleMapContentHolder.src = 'javascript:void(0)';
-		var center = eleGoogleMapObj.getCenter();
+		if (typeof map == "undefined" || !map)
+		    return;
 
-		var eleAttrs = document.getElementById("rdResizerAttrs_" + GoogleMapID);
+		var containerId = "rdMapContainer_" + mapId;
+		var eleMap = document.getElementById(mapId);    // This is a Div. But the Google Map sits on top of this Div
+
+		if (!eleMap)
+		    return;
+
+		var eleContainer = document.getElementById(containerId);
+
+		if (!eleContainer)
+		    return;
+
+		var eleAttrs = document.getElementById("rdResizerAttrs_" + mapId);
+
 		if (!Y.Lang.isValue(eleAttrs))
-			return;
-		
-		try{    
-			var sReportID = document.getElementById(GoogleMapID + '-Hidden').value;  
+		    return;
+
+		if (eleContainer.className.indexOf('yui3-resize') == 0)
+		    return; // already initialized
+
+		var pcsLegendIds = eleMap.getAttribute("data-pcslegends");
+		if (pcsLegendIds)
+		    pcsLegendIds = pcsLegendIds.split(",");
+		else
+		    pcsLegendIds = [];
+
+		var pcsLegends = [];
+
+		for (var i = 0; i < pcsLegendIds.length; i++) {
+		    var pcsLegend = document.getElementById("rdLegendSpectrum_rdColorSpectrumLegend_" + pcsLegendIds[i]);
+
+		    if (pcsLegend)
+		        pcsLegends.push(pcsLegend);
 		}
-		catch(e){   // Under a DataTable.
-			if(!sReportID){
-				var sRowIdentifier = eleGoogleMapContentHolder.parentNode.id.substring(eleGoogleMapContentHolder.parentNode.id.lastIndexOf('_'),eleGoogleMapContentHolder.parentNode.id.length);
-				
-				var sReportID = document.getElementById(GoogleMapID + '-Hidden').value;				
-			}   
-		}
-		
-		if (eleGoogleMapContentHolder.className.indexOf('yui3-resize') == 0)
-				return;
-				
-		var yuiResize = Y.rdResize.AddYUIResizerHandles(GoogleMapID, eleAttrs);    		
+
+		var eleLegend = document.getElementById("rdLegendSpectrum_rdColorSpectrumLegend_spectrumPopulation");
+
+		var sReportID = document.getElementById(mapId + '-Hidden').value;
+
+		var yuiResize = Y.rdResize.AddYUIResizerHandles(containerId, eleAttrs);
 		
 		yuiResize.on('resize:end', function() {
-			if((eleGoogleMapContentHolder.offsetWidth != eleGoogleMap.offsetWidth)|(eleGoogleMapContentHolder.offsetHeight != eleGoogleMap.offsetHeight)){
-				rdAjaxRequest('rdAjaxCommand=RefreshElement&rdRefreshElementID=' + GoogleMapID + ',' + eleGoogleMapContentHolder.id + '&rdGoogleMapCurrentWidth=' + eleGoogleMap.offsetWidth + '&rdGoogleMapCurrentHeight=' + eleGoogleMap.offsetHeight +  '&rdGoogleMapId=' + GoogleMapID + '&rdReport=' + sReportID + '&rdGoogleMapResizerRefresh=True&rdRequestForwarding=Form');                      
+			if((eleContainer.offsetWidth != eleMap.offsetWidth) || (eleContainer.offsetHeight != eleMap.offsetHeight)){
+			    rdAjaxRequest('rdAjaxCommand=RefreshElement'
+                    + '&rdRefreshElementID=' + encodeURIComponent(mapId + ',' + containerId)
+                    + '&rdGoogleMapCurrentWidth=' + eleMap.offsetWidth
+                    + '&rdGoogleMapCurrentHeight=' + eleMap.offsetHeight
+                    + '&rdGoogleMapId=' + encodeURIComponent(mapId)
+                    + '&rdReport=' + encodeURIComponent(sReportID)
+                    + '&rdGoogleMapResizerRefresh=True'
+                    + '&rdRequestForwarding=Form');
 				//eleGoogleMapObj.setCenter(center, zoom, type);   // Set the Center of the Map.          
 			}
 		});
 		yuiResize.on('resize:start', function() { 
-			center = eleGoogleMapObj.getCenter();   // Get the values at the beginning of the Resize.
+			center = map.getCenter();   // Get the values at the beginning of the Resize.
 		});     
-		yuiResize.on('resize:resize', function() {
-			eleGoogleMap.style.width = parseInt(eleGoogleMapContentHolder.offsetWidth) - 5 
-			eleGoogleMap.style.height = parseInt(eleGoogleMapContentHolder.offsetHeight) - 5   
-			eleGoogleMapObj.setCenter(center);   // Set the Center of the Map. 
-			google.maps.event.trigger(eleGoogleMapObj, 'resize');  // Resize the Map.
+		yuiResize.on('resize:resize', function () {
+		    var width = parseInt(eleContainer.offsetWidth);
+		    var height = parseInt(eleContainer.offsetHeight);
+
+		    eleMap.style.width = (width - 5) + "px";
+		    eleMap.style.height = (height - 5) + "px";
+
+		    for (var i = 0; i < pcsLegends.length; i++) {
+		        pcsLegends[i].style.width = (width - 7) + "px";
+		    }
+
+		    map.setCenter(center);   // Set the Center of the Map.
+		    map.resized();
 		});	
 	};	
 

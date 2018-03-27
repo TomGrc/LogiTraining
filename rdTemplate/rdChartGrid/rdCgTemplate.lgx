@@ -237,7 +237,7 @@
                       <Rows>
                         <Row ID="rdShowAggregate" Condition="False">
                           <Column>
-                            <Label Caption="Aggregate " For="rdAggregate"/>
+                            <Label ID="lblAggregate" Caption="Aggregate " For="rdAggregate"/>
                           </Column>
                           <Column>
                             <InputSelectList ID="rdAggregate" DefaultValue="Sum" OptionValueColumn="Aggregate" IncludeBlank="False" OptionCaptionColumn="AggregateCaption">
@@ -259,7 +259,7 @@
                         </Row>
                         <Row ID="rdShowChartType" Condition="False">
                           <Column>
-                            <Label Caption="Chart Type " For="rdChartType"  />
+                            <Label ID="lblChartType" Caption="Chart Type " For="rdChartType"  />
                           </Column>
                           <Column>
                            <InputSelectList ID="rdChartType" DefaultValue="Line" OptionValueColumn="ChartType" IncludeBlank="False" OptionCaptionColumn="ChartTypeCaption">
@@ -279,7 +279,7 @@
                         </Row>
                         <Row ID="rdShowBubbleSize" Condition="False">
                           <Column>
-                            <Label Caption="Bubble Size " For="rdBubbleSize"/>
+                            <Label ID="lblBubbleSize" Caption="Bubble Size " For="rdBubbleSize"/>
                           </Column>
                           <Column>
                             <InputSelectList ID="rdBubbleSize" DefaultValue="" OptionValueColumn="ColumnID" IncludeBlank="True" OptionCaptionColumn="Caption">
@@ -296,7 +296,7 @@
                         </Row>
                         <Row ID="rdShowTrendLine" Condition="False">
                           <Column>
-                            <Label Caption="Trend Line " For="rdTrendLine"/>
+                            <Label ID="lblTrendLind" Caption="Trend Line " For="rdTrendLine"/>
                           </Column>
                           <Column>
                             <InputCheckbox ID="rdTrendLine" DefaultValue="" CheckedValue="True">
@@ -349,7 +349,7 @@
                   <Row>
                     <Column>
                       <TrellisChart ID="tcChartGrid" Class="rdCgTable">
-                        <ZeroRowsMessage Caption="There is no data." FontColor="DarkRed" />
+                        <ZeroRowsMessage ID="lblZeroRowsMessage" Caption="There is no data." FontColor="DarkRed" />
                       </TrellisChart>
                     </Column>
                   </Row>

@@ -51,12 +51,14 @@
 			>
 			<Label
 				Caption="This label holds the message to display"
+				ID="lblAjaxMessage"
 			/>
 			<LineBreak
 				LineCount="2"
 			/>
 			<Button
 				Caption="OK"
+				ID="btnOkRefresh"
 				>
 				<Action
 					ID="actPupAjaxResponse"
@@ -74,12 +76,14 @@
 			>
 			<Label
 				Caption="This label holds the message to display"
+				ID="lblLocalMessage"
 			/>
 			<LineBreak
 				LineCount="2"
 			/>
 			<Button
 				Caption="OK"
+				ID="lblOkShowResponse"
 				>
 				<Action
 					Display="Hide"
@@ -91,6 +95,7 @@
 		<Label
 			Caption="Metadata Definition Editor"
 			Class="ThemeHeaderLarger"
+			ID="lblTitle"
 		/>
 		<LineBreak
 			LineCount="2"
@@ -104,6 +109,7 @@ Tables contain columns. The column properties can be viewed and updated.
 
 Tables may be joined together. These join relations may also be edited."
 			Format="Preserve Line Feeds"
+			ID="lblInstruct"
 		/>
 		<LineBreak
 			LineCount="2"
@@ -114,6 +120,7 @@ Tables may be joined together. These join relations may also be edited."
 					<Label
 						Caption="Metadata ID"
 						Class="ThemeHeader"
+						ID="lblMetadataID"
 					/>
 				</Column>
 				<Column>
@@ -153,6 +160,7 @@ rdMetadataSetValue(this,&apos;MetadataSetValue&apos;,&apos;MetadataID=&apos; + s
 					<Label
 						Caption="Name"
 						Class="ThemeHeader"
+						ID="lblName"
 					/>
 				</Column>
 				<Column>
@@ -185,6 +193,7 @@ rdMetadataSetValue(this,&apos;MetadataSetValue&apos;,&apos;MetadataID=&apos; + d
 					<Label
 						Caption="Description"
 						Class="ThemeHeader"
+						ID="lblDescription"
 					/>
 				</Column>
 				<Column>
@@ -214,6 +223,7 @@ rdMetadataSetValue(this,&apos;MetadataSetValue&apos;,&apos;MetadataID=&apos; + d
 					<Label
 						Caption="Security Right ID"
 						Class="ThemeHeader"
+						ID="lblSecurityRightID"
 					/>
 				</Column>
 				<Column>
@@ -247,6 +257,7 @@ rdMetadataSetValue(this,&apos;MetadataSetValue&apos;,&apos;MetadataID=&apos;+doc
 					<Label
 						Caption="Actions:"
 						Class="ThemeHeader"
+						ID="lblActions"
 					/>
 					<Spaces
 						Size="5"
@@ -259,6 +270,7 @@ rdMetadataSetValue(this,&apos;MetadataSetValue&apos;,&apos;MetadataID=&apos;+doc
 					<Label
 						Caption="Get Tables and Joins from Data Source"
 						Class="ThemeLinkButton"
+						ID="lblGetTables"
 						>
 						<Action
 							ConfirmMessage="Click OK to load or refresh the table list from the data source."
@@ -274,9 +286,11 @@ rdMetadataSetValue(this,&apos;MetadataSetValue&apos;,&apos;MetadataID=&apos;+doc
 					<Label
 						Caption="Add a Custom Table with a SQL Query"
 						Class="ThemeLinkButton"
+						ID="lblAddCustomTable"
 						>
 						<Action
 							ConfirmMessage="Add a new Table?"
+							ID="jsNewTable"
 							Javascript="rdMetadataSetBackButtonRefresh(&quot;Tables&quot;);
 rdMetadataAddNewTable(&apos;@Request.MetadataID~&apos;,&apos;@Request.ConnectionID~&apos;);
 return false;"
@@ -289,6 +303,7 @@ return false;"
 					<Label
 						Caption="Compact Metadata"
 						Class="ThemeLinkButton"
+						ID="lblCompact"
 						Tooltip="Compact the Metadata, removing tables which aren&apos;t visible."
 						>
 						<Action
@@ -303,9 +318,10 @@ return false;"
 					<Label
 						Caption="Done"
 						Class="ThemeLinkButton"
+						ID="lblDone"
 						>
 						<Action
-							Javascript="history.go(-1);return false;"
+							Javascript="if(window.location.href.indexOf('rdForWizard=True') > -1){ if(window.external){ try { return window.external.CloseWizardWindow(); } catch(err) {return true;} } } else { history.go(-1);return false; }"
 							Type="Javascript"
 						/>
 					</Label>
@@ -330,6 +346,7 @@ return false;"
 			<Label
 				Caption="Filter Tables"
 				Class="ThemeLinkButtonSmall"
+				ID="lblFilterTables"
 			/>
 			<Spaces
 				Size="3"
@@ -407,6 +424,7 @@ return false;"
 			AjaxPaging="True"
 			Caption="Tables"
 			ID="dt"
+			RememberSort="True"
 			SortArrows="True"
 			>
 			<InteractivePaging
@@ -607,6 +625,7 @@ return false;"
 							>
 							<Image
 								Caption="rdTemplate/rdMetadata/EditColumns.png"
+								ID="imgEditColumns"
 								Tooltip="Edit Columns"
 								>
 								<Action
@@ -620,6 +639,7 @@ return false;"
 							/>
 							<Image
 								Caption="rdTemplate/rdMetadata/EditJoins.png"
+								ID="imgEditJoins"
 								Tooltip="Edit Joins"
 								>
 								<Action
@@ -637,7 +657,10 @@ return false;"
 								>
 								<Image
 									Caption="rdTemplate/rdDelete2.png"
+                  Height="20"
+									ID="imgRemoveTable"
 									Tooltip="Remove..."
+                  Width="20"
 									>
 									<Action
 										ConfirmMessage="Remove?"
@@ -654,6 +677,7 @@ return false;"
 								<Image
 									Caption="rdTemplate/rd1x1Trans.gif"
 									Height="24"
+									ID="imgRemoveTable"
 									Tooltip="Remove..."
 									Width="24"
 								/>
@@ -740,6 +764,7 @@ return false;"
 					>
 					<Image
 						Caption="rdTemplate/rdMetadata/Edit.png"
+						ID="imgEditSqlSource"
 						Tooltip="Edit SQL Source"
 					/>
 					<Label
@@ -775,6 +800,7 @@ Compacting removes all tables not set to &quot;Visible&quot;. (Removed from the 
 
 Removed tables may be re-added later with the action &quot;Get Tables and Joins from Data Source&quot; ."
 				Format="Preserve Line Feeds"
+				ID="lblInstructCompact"
 			/>
 			<LineBreak
 				LineCount="3"
@@ -782,6 +808,7 @@ Removed tables may be re-added later with the action &quot;Get Tables and Joins 
 			<Label
 				Caption="Compact Metadata Now"
 				Class="ThemeLinkButton"
+				ID="lblCompact"
 				>
 				<Action
 					Javascript="rdMetadataCompact();return false;"

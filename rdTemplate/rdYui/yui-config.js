@@ -83,6 +83,10 @@ var YUI_config = {
                     path: 'rdDashboard/rdDashboard2.js',
                     requires: ['dd-drop-plugin', 'dd-plugin', 'dd-scroll', 'dashboard-freeform']
                 },
+               'olap-grid': {
+                    path: 'rdOlapGrid/rdOgScript.js',
+                    requires: ['dd-drop-plugin', 'dd-plugin', 'dd-scroll', 'dd-constrain']
+                },
                 'zoomchart': {
                     path: 'rdZoomChart/rdZoomChart.js',
                     requires: ['base', 'event', 'node-custom-destroy']
@@ -116,7 +120,7 @@ var YUI_config = {
                     requires: ['base', 'plugin', 'json']
                 },
                 'rd-script-full': {
-                    path: 'rdScript.min.js',
+                    path: 'rdScript.min.js?v=12.12.12',
                     requires: []
                 },
                 'rd-chartcanvas-full': {
@@ -276,6 +280,11 @@ var YUI_config = {
 
                 'rdResizer': {
                     path: '../rdResizer.js',
+                    requires: []
+                },
+
+                'rdDashboardResizer': {
+                    path: '../rdYui/rdDashboardResizer.js',
                     requires: []
                 },
 
